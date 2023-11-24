@@ -1,0 +1,209 @@
+body {
+  margin: 10% auto;
+  width: 50%;
+  font-family: Arial,Helvetica,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fffae9 !important;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.GameZone {
+  max-width: 485px;
+  margin: 167px auto 60px;
+}
+
+.password-box {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.password-box-inner {
+  position: relative;
+  min-height: 64px;
+}
+
+.password-label {
+  text-align: left;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.password-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  padding: 15px;
+  font-size: 28px;
+  border-radius: 10px;
+  font-family: monospace;
+  background: #fff;
+  color: transparent;
+  border: 1px solid transparent;
+  pointer-events: none;
+  user-select: none;
+  word-break: break-all;
+  white-space: break-spaces;
+  word-wrap: break-word;
+  font-variant-ligatures: none;
+}
+
+.ProseMirror {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  white-space: break-spaces;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0;
+  position: relative;
+  width: 100%;
+  padding: 15px;
+  font-size: 28px;
+  border: 1px solid #9d9d9d;
+  border-radius: 10px;
+  resize: none;
+  overflow: hidden;
+  word-break: break-all;
+  font-family: monospace;
+  min-height: 64px;
+  outline: 0;
+  background: #fff;
+  transition: border-color .15s ease-in-out, border-radius .1s ease-in-out;
+  contain: layout;
+}
+
+.ProseMirror:focus {
+  border-color: #000;
+}
+
+.ProseMirror [contenteditable="false"] {
+  white-space: normal;
+}
+
+.ProseMirror [contenteditable="false"] [contenteditable="true"] {
+  white-space: pre-wrap;
+}
+
+.ProseMirror pre {
+  white-space: pre-wrap;
+}
+
+@keyframes ProseMirror-cursor-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+.ProseMirror-hideselection *::selection {
+  background: transparent;
+}
+
+.ProseMirror-hideselection *::-moz-selection {
+  background: transparent;
+}
+
+.ProseMirror-hideselection * {
+  caret-color: transparent;
+}
+
+.ProseMirror-focused .ProseMirror-gapcursor {
+  display: block;
+}
+
+.error-highlight {
+  background: #ffd9d9;
+}
+
+.password-length {
+  position: absolute;
+  top: 50%;
+  right: -15px;
+  font-size: 18px;
+  transform: translate(100%, -50%);
+  opacity: 0;
+  transition: opacity .5s ease-in-out
+}
+
+.rule {
+  box-shadow: 3px 3px 5px 2px rgba(60, 155, 71, .2);
+  color: #000;
+  padding: 0;
+  width: 100%;
+  line-height: 1.53em;
+  text-align: left;
+  margin: 22px auto;
+  border-radius: 10px;
+  font-size: 18px;
+  position: relative;
+  word-spacing: 0;
+  overflow: hidden;
+  animation: fadeIn .5s ease-in-out forwards;
+}
+
+.rule-error {
+  background-color: #ffecec;
+  border: 1px solid red;
+  color: #000;
+  box-shadow: 2px 2px 5px 2px rgba(255, 0, 0, .12);
+}
+
+.rule-correct {
+  background-color: #e3ffe3;
+  border: 1px solid #267b30;
+}
+
+.rule-top {
+  display: block;
+  padding: 8px 16px 5px;
+  transition: background-color .7s ease-in-out;
+}
+
+.rule-top-correct {
+  background-color: #aef3ae;
+}
+
+.rule-top-error {
+  background-color: #ffc7c7;
+}
+
+.rule-icon {
+  position: relative;
+  width: 19px;
+  height: 19px;
+  top: 3px;
+  left: -1px;
+  pointer-events: none;
+  margin-right: 5px;
+}
+
+.rule-desc {
+  padding: 11px 17px 15px;
+}
+
+.sponsors {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 5%;
+}
+
+.sponsor {
+  margin-left: 17px;
+  margin-right: 17px;
+  pointer-events: none;
+  height: 85px;
+}
