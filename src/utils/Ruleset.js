@@ -7,15 +7,20 @@ import { Rule6 } from './rules/Rule6';
 import { Rule7 } from './rules/Rule7';
 import { Rule8 } from './rules/Rule8';
 import { Rule9 } from './rules/Rule9';
+import { Rule10 } from './rules/Rule10';
+import { Rule11 } from './rules/Rule11';
 
 export class Ruleset {
     constructor(text, rules) {
         if (rules) {
             this.rules = rules;
         } else {
-            this.rules = [new Rule1(text), new Rule2(text), new Rule3(text),
-            new Rule4(text), new Rule5(text), new Rule6(text),
-            new Rule7(text), new Rule8(text), new Rule9(text)];
+            this.rules = [
+                Rule1.getInstance(), Rule2.getInstance(), Rule3.getInstance(),
+                Rule4.getInstance(), Rule5.getInstance(), Rule6.getInstance(),
+                Rule7.getInstance(), Rule8.getInstance(), Rule9.getInstance(), 
+                Rule10.getInstance(), Rule11.getInstance()
+            ];
         }
     }
 

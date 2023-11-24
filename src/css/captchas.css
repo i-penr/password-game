@@ -1,0 +1,29 @@
+.captcha-img {
+    width: 200px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    display: block;
+    pointer-events: none
+}
+
+.captcha-wrapper {
+    display: grid;
+    grid-template-columns: auto 40px;
+    width: 250px;
+    justify-items: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.captcha-refresh {
+    display: block;
+    width: 25px;
+    cursor: pointer;
+    touch-action: manipulation
+}
+
+.captcha-refresh:hover {
+    transform: scale(1.06)
+}

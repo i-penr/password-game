@@ -1,10 +1,21 @@
 import { GenericRule } from '../GenericRule'
 
 export class Rule8 extends GenericRule {
+    static instance = new Rule8(this.text);
+    
+    static getInstance() {
+        if (this.instance) {
+            return this.instance;
+        }
+    }
     constructor(text) {
         super(text);
         this.number = 8;
         this.desc = "Your password must include one of our sponsors:";
+    }
+
+    getClass() {
+        return Rule8;
     }
 
     checkRule() {
@@ -12,7 +23,7 @@ export class Rule8 extends GenericRule {
         this.fulfilled = lowercase.includes('pepsi') || lowercase.includes('starbucks') || lowercase.includes('shell');
     }
 
-    addAdditionalHtml() {
+    render() {
         return (
             <div className='sponsors'>
                 <img className='sponsor pepsi' src='./sponsors/pepsi.svg' alt='pepsi'/>

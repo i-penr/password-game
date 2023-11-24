@@ -11,10 +11,22 @@ const romanNumerals = {
 };
 
 export class Rule9 extends GenericRule {
+    static instance = new Rule9(this.text);
+    
+    static getInstance() {
+        if (this.instance) {
+            return this.instance;
+        }
+    }
+
     constructor(text) {
         super(text);
         this.number = 9;
         this.desc = "The roman numerals in your password should multiply to 35.";
+    }
+
+    getClass() {
+        return Rule9;
     }
 
     /*

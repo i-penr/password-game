@@ -1,5 +1,8 @@
-export class GenericRule {
+import React from "react";
+
+export class GenericRule extends React.Component {
     constructor(text) {
+        super();
         this.text = text;
         this.fulfilled = false;
     }
@@ -8,7 +11,7 @@ export class GenericRule {
         return new RegExp(/^$/);
     }
 
-    addAdditionalHtml() {
-        return '';
+    render() {
+        return;
     }
 }

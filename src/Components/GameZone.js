@@ -47,7 +47,7 @@ function GameZone() {
 
     function addTestPassword() {
         setText("55555@Pepsidecember");
-        handleOnChange({ target: { value: "55555@Pepsidecember" } })
+        handleOnChange({ target: { value: "55555@PepsidecemberXXXV" } })
     }
 
     return (
@@ -68,8 +68,8 @@ function GameZone() {
                         /* onBlur={sanitize} */
                         style={{ fontFamily: "Monospace", fontSize: "28px" }}
                     />
-                    <div className="password-length show-password-length" style={{opacity: text.length === 0 ? 0 : 1 }} >
-                         { text.length }
+                    <div className="password-length show-password-length" style={{ opacity: text.length === 0 ? 0 : 1 }} >
+                        {text.length}
                     </div>
                 </div>
             </div>
