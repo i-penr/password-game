@@ -9,6 +9,7 @@ import { Rule8 } from './rules/Rule8';
 import { Rule9 } from './rules/Rule9';
 import { Rule10 } from './rules/Rule10';
 import { Rule11 } from './rules/Rule11';
+import { Rule12 } from './rules/Rule12';
 
 export class Ruleset {
     constructor(rules) {
@@ -19,7 +20,7 @@ export class Ruleset {
                 Rule1.getInstance(), Rule2.getInstance(), Rule3.getInstance(),
                 Rule4.getInstance(), Rule5.getInstance(), Rule6.getInstance(),
                 Rule7.getInstance(), Rule8.getInstance(), Rule9.getInstance(), 
-                Rule10.getInstance(), Rule11.getInstance()
+                Rule10.getInstance(), Rule11.getInstance(), Rule12.getInstance()
             ];
         }
     }
