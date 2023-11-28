@@ -11,7 +11,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/api/data', async (req, res) => {
+app.get('/wordle', async (req, res) => {
   try {
     const apiUrl = `https://www.nytimes.com/svc/wordle/v2/${req.query.date}.json`;
     const response = await fetch(apiUrl);

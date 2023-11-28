@@ -18,7 +18,7 @@ export class Rule11 extends GenericRule {
         const month = now.getMonth() + 1;
         const year = now.getFullYear();
 
-        await fetch(`http://localhost:3001/api/data?date=${year}-${month}-${day}`)
+        await fetch(`http://localhost:3001/wordle?date=${year}-${month}-${day}`)
             .then(res => {
                 if (!res.ok) {
                     throw Error('could not fetch the data for that resource');
