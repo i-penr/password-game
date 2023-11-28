@@ -9,8 +9,9 @@ test.each([
     ['@a', true],
     ['@@@', true],
 ])('checkRule4(%s)', (s, expected) => {
-    const rule = new Rule4(s);
+    const rule = Rule4.getInstance();
+    rule.text = s;
     rule.checkRule();
 
-    expect(rule.fulfilled).toBe(expected);
+    expect(Rule4.fulfilled).toBe(expected);
 });

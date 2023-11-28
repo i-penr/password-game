@@ -10,8 +10,9 @@ test.each([
     ['555555', false],
     ['5555500000000000000000', true]
 ])('checkRule5(%s)', (s, expected) => {
-    const rule = new Rule5(s);
+    const rule = Rule5.getInstance();
+    rule.text = s;
     rule.checkRule();
 
-    expect(rule.fulfilled).toBe(expected);
+    expect(Rule5.fulfilled).toBe(expected);
 });

@@ -11,8 +11,9 @@ test.each([
     ['DECEMBER', true],
     ['dec321ember', false]
 ])('checkRule6(%s)', (s, expected) => {
-    const rule = new Rule6(s);
+    const rule = Rule6.getInstance();
+    rule.text = s;
     rule.checkRule();
 
-    expect(rule.fulfilled).toBe(expected);
+    expect(Rule6.fulfilled).toBe(expected);
 });

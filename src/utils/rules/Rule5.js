@@ -2,12 +2,6 @@ import { GenericRule } from "../GenericRule";
 
 export class Rule5 extends GenericRule {
     static instance = new Rule5(this.text);
-    
-    static getInstance() {
-        if (this.instance) {
-            return this.instance;
-        }
-    }
 
     constructor(text) {
         super(text);
@@ -23,7 +17,7 @@ export class Rule5 extends GenericRule {
         const digits = this.text.replace(/\D/g, '').split('').map(Number);
         const sum = digits.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
-        this.fulfilled = sum === 25;
+        this.getClass().fulfilled = sum === 25;
     }
 
     highlightLetters() {

@@ -12,12 +12,6 @@ const romanNumerals = {
 
 export class Rule9 extends GenericRule {
     static instance = new Rule9(this.text);
-    
-    static getInstance() {
-        if (this.instance) {
-            return this.instance;
-        }
-    }
 
     constructor(text) {
         super(text);
@@ -36,7 +30,7 @@ export class Rule9 extends GenericRule {
     checkRule() {
         const numeralList = this.findNumeralsInText();
 
-        this.fulfilled = multiplyArrayContent(numeralList) === 35;
+        this.getClass().fulfilled = multiplyArrayContent(numeralList) === 35;
     }
     
     findNumeralsInText() {

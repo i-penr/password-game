@@ -2,12 +2,6 @@ import { GenericRule } from "../GenericRule";
 
 export class Rule3 extends GenericRule {
     static instance = new Rule3(this.text);
-    
-    static getInstance() {
-        if (this.instance) {
-            return this.instance;
-        }
-    }
 
     constructor(text) {
         super(text);
@@ -20,6 +14,6 @@ export class Rule3 extends GenericRule {
     }
 
     checkRule() {
-        this.fulfilled =  /[A-Z]/.test(this.text);
+        this.getClass().fulfilled =  /[A-Z]/.test(this.text);
     }
 }

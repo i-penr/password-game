@@ -11,7 +11,7 @@ import { Rule10 } from './rules/Rule10';
 import { Rule11 } from './rules/Rule11';
 
 export class Ruleset {
-    constructor(text, rules) {
+    constructor(rules) {
         if (rules) {
             this.rules = rules;
         } else {
@@ -38,17 +38,17 @@ export class Ruleset {
 
     checkAllRules() {
         this.rules.forEach((rule) => rule.checkRule())
-        return this.rules.every((rule) => rule.fulfilled);
+        return this.rules.every((rule) => rule.getClass().fulfilled);
     }
 
     // Order: non fulfilled first, highest rule first
     sort() {
         this.rules.sort((a, b) => {
-            if (a.fulfilled === b.fulfilled) {
+            if (a.getClass().fulfilled === b.getClass().fulfilled) {
                 return a.number < b.number;
             } 
                 
-            return a.fulfilled > b.fulfilled;
+            return a.getClass().fulfilled > b.getClass().fulfilled;
         });
     }
 }

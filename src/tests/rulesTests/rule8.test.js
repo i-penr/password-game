@@ -10,8 +10,9 @@ test.each([
     ['starbucks', true],
     ['starfdsfasdfbucks', false],
 ])('checkRule8(%s)', (s, expected) => {
-    const rule = new Rule8(s);
+    const rule = Rule8.getInstance();
+    rule.text = s;
     rule.checkRule();
 
-    expect(rule.fulfilled).toBe(expected);
+    expect(Rule8.fulfilled).toBe(expected);
 });

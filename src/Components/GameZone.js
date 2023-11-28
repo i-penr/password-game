@@ -4,19 +4,20 @@ import { Ruleset } from "../utils/Ruleset";
 import sanitizeHtml from "sanitize-html";
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import Rule from "./Rule";
+import { Rule11 } from "../utils/rules/Rule11";
 
 function GameZone() {
     const [text, setText] = useState('');
-    const [displayedRules, setDisplayedRules] = useState(new Ruleset(text, []));
-    const [hiddenRules, setHiddenRules] = useState(new Ruleset(text));
+    const [displayedRules, setDisplayedRules] = useState(new Ruleset([]));
+    const [hiddenRules, setHiddenRules] = useState(new Ruleset());
 
     function handleOnChange(e) {
         const newText = e.target.value;
         setText(newText);
         hiddenRules.setText(newText);
         displayedRules.setText(newText);
-        let newDisplayed = new Ruleset(newText, displayedRules.rules);
-        let newHidden = new Ruleset(newText, hiddenRules.rules);
+        let newDisplayed = new Ruleset(displayedRules.rules);
+        let newHidden = new Ruleset(hiddenRules.rules);
 
         while (newDisplayed.checkAllRules() && hiddenRules.rules.length > 0) {
             const rule = newHidden.rules[0];
@@ -39,7 +40,14 @@ function GameZone() {
         setText(sanitizeHtml(text, sanitizeConf));
     };
  */
+
+    function preLoadNecessaryAssets() {
+        Rule11.getWordleAnswer();
+    }
+
     useEffect(() => {
+        preLoadNecessaryAssets();
+
         return () => {
             setText('');
         };

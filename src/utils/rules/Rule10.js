@@ -15,12 +15,6 @@ export class Rule10 extends GenericRule {
 
     static instance = new Rule10(this.text);
 
-    static getInstance() {
-        if (this.instance) {
-            return this.instance;
-        }
-    }
-
     constructor(text) {
         super(text);
         this.number = 10;
@@ -36,7 +30,7 @@ export class Rule10 extends GenericRule {
 
     checkRule() {
         const answer = this.state.randomCaptcha.substring(0, this.state.randomCaptcha.indexOf("."));
-        this.fulfilled = this.text.includes(answer);
+        this.getClass().fulfilled = this.text.includes(answer);
     }
 
     render() {

@@ -7,8 +7,9 @@ test.each([
     ["", false],
     ["aaaaaa", true]
 ])("checkRule1(%s)", (s, expected) => {
-    const rule = new Rule1(s);
+    const rule = Rule1.getInstance();
+    rule.text = s;
     rule.checkRule();
     
-    expect(rule.fulfilled).toBe(expected);
+    expect(Rule1.fulfilled).toBe(expected);
 });

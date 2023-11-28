@@ -6,47 +6,33 @@ export class Rule11 extends GenericRule {
     static wordleAnswer = null;
 
     constructor(text) {
-        super(text);
+        super();
         this.number = 11;
         this.desc = 'Your password must include today\'s Wordle answer.';
+        this.text = text;
     }
 
-    static getInstance() {
-        if (this.instance) {
-            return this.instance;
-        }
-    }
-
-    componentDidMount() {
+    static async getWordleAnswer() {
         const now = new Date();
         const day = now.getDate();
         const month = now.getMonth() + 1;
         const year = now.getFullYear();
 
-        const abortCont = new AbortController();
-
-        fetch(`http://localhost:3001/api/data?date=${year}-${month}-${day}`, {
-        })
+        await fetch(`http://localhost:3001/api/data?date=${year}-${month}-${day}`)
             .then(res => {
-                if (!res.ok) { // error coming back from server
+                if (!res.ok) {
                     throw Error('could not fetch the data for that resource');
                 }
                 return res.json();
             })
             .then(data => {
-                this.getClass().isPending = false;
-                this.getClass().wordleAnswer = data.solution;
-                this.getClass().checkRule();
+                Rule11.isPending = false;
+                Rule11.wordleAnswer = data.solution;
             })
             .catch(err => {
-                if (err.name === 'AbortError') {
-                    console.log('fetch aborted')
-                } else {
-                    this.getClass().isPending = false;
-                }
+                console.error(`There was an error in the wordle API ${err}`)
+                Rule11.isPending = false;
             });
-        return () => abortCont.abort();
-
     }
 
     getClass() {
@@ -54,7 +40,6 @@ export class Rule11 extends GenericRule {
     }
 
     checkRule() {
-        console.log(this.getClass().wordleAnswer)
-        this.fulfilled = !this.getClass().isPending && this.getClass().getInstance().text.includes(this.getClass().wordleAnswer);
+        this.getClass().fulfilled = !this.getClass().isPending && this.getClass().getInstance().text.includes(this.getClass().wordleAnswer);
     }
 }

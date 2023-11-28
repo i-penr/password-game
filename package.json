@@ -8,7 +8,6 @@
     "@testing-library/user-event": "^13.5.0",
     "babel-plugin-require-context-hook": "^1.0.0",
     "express": "^4.18.2",
-    "happy-dom": "^12.10.3",
     "react": "^18.2.0",
     "react-contenteditable": "^3.3.7",
     "react-dom": "^18.2.0",

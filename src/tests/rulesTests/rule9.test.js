@@ -20,8 +20,9 @@ test.each([
     ['XXXXV', false],
     ['VaaaaVIII', false],
 ])('checkRule9(%s)', (s, expected) => {
-    const rule = new Rule9(s);
+    const rule = Rule9.getInstance();
+    rule.text = s;
     rule.checkRule();
 
-    expect(rule.fulfilled).toBe(expected);
+    expect(Rule9.fulfilled).toBe(expected);
 });
