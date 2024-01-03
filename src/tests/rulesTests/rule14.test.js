@@ -1,14 +1,15 @@
 import { expect, test } from "bun:test";
 import { Rule14 } from "../../utils/rules/Rule14";
 
-// TODO
+const rule = Rule14.getInstance();
 
 test.each([
     ["a", false],
     ["aaaaa", false],
-    ["", false]
+    ["", false],
+    [`aa${Rule14.randomPlace.title}aa`, true],
+    [`aaBosnia and Herzegovina${Rule14.randomPlace.title}aa`, true]
 ])("checkRule14(%s)", (s, expected) => {
-    const rule = Rule14.getInstance();
     rule.text = s;
     rule.checkRule();
     
