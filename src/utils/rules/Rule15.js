@@ -22,7 +22,6 @@ export class Rule15 extends GenericRule {
 
     checkRule() {
         const digits = extractNumbersFromString(this.text);
-        console.log(digits);
 
         this.getClass().fulfilled = digits && digits.some((elem) => isLeapYear(Number(elem)));
     }

@@ -14,11 +14,8 @@ export class Rule11 extends GenericRule {
 
     static async getWordleAnswer() {
         const now = new Date();
-        const day = now.getDate();
-        const month = now.getMonth() + 1;
-        const year = now.getFullYear();
 
-        await fetch(`http://localhost:3001/wordle?date=${year}-${month}-${day}`)
+        await fetch(`http://localhost:3001/wordle?date=${now.toISOString().substring(0, now.toISOString().indexOf("T"))}`)
             .then(res => {
                 if (!res.ok) {
                     throw Error('could not fetch the data for that resource');
