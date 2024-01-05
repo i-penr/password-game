@@ -9,6 +9,7 @@ function Rule({ rule, flippedProps }) {
             </span>
             <div className="rule-desc">
                 {rule.desc}
+                {rule.renderEmbededDesc === undefined ? null: rule.renderEmbededDesc()}
                 {React.createElement(rule.getClass())}
             </div>
 

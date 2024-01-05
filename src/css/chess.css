@@ -1,0 +1,33 @@
+.chess-wrapper {
+    margin-top: 10px
+}
+
+.move {
+    text-align: center;
+    font-style: italic
+}
+
+.chess-img {
+    border-radius: 15px;
+    pointer-events: none
+}
+
+.guesses {
+    display: flex;
+    grid-gap: 0 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    display: none;
+    margin-bottom: 15px
+}
+
+.rule-error .guesses {
+    display: flex
+}
+
+.guess-icon {
+    width: 20px;
+    margin-right: 3px;
+    position: relative;
+    top: 4px
+}
