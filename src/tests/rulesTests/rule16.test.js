@@ -9,9 +9,9 @@ test.each([
     ["a", false],
     ["aaaaa", false],
     ["", false],
-    [`aa${solutions[randomPuzzleNumber]}aa`, true],
-    [`${solutions[randomPuzzleNumber]}`, true],
-    [`${solutions[randomPuzzleNumber]} ${solutions[randomPuzzleNumber+1]}`, true]
+    [`aa${solutions[randomPuzzleNumber].move}aa`, true],
+    [`${solutions[randomPuzzleNumber].move}`, true],
+    [`${solutions[randomPuzzleNumber].move} ${solutions[randomPuzzleNumber+1].move}`, true]
 ])("checkRule16(%s)", (s, expected) => {
     rule.text = s;
     rule.checkRule();
