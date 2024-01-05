@@ -1,11 +1,14 @@
 version: '3'
 services:
   react-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     ports:
       - '3000:3000'
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    environment:
+      - CHOCKIDAR_USEPOLLING=true
     depends_on:
       - express-server
 
