@@ -37,8 +37,8 @@ export class Rule14 extends GenericRule {
                     this.getClass().foundCountries && this.getClass().foundCountries.length > 0 && !this.fulfilled &&
                     <div className='guesses'>
                         {
-                            this.getClass().foundCountries.map((elem) => (
-                                <div>
+                            this.getClass().foundCountries.map((elem, index) => (
+                                <div key={index}>
                                     <img className='guess-icon' src='/error.svg' />
                                     {elem}
                                 </div>
