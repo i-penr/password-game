@@ -12,6 +12,6 @@ services:
   express-server:
     build:
       context: .
-      dockerfile: src/proxy/Dockerfile
+      dockerfile: ./src/proxy/Dockerfile
     ports:
       - '3001:3001'
