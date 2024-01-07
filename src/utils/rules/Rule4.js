@@ -14,6 +14,6 @@ export class Rule4 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().fulfilled =  /[!@#$%^&*()_+{}[\]:;<>,.?~\\|]/.test(this.text);
+        this.getClass().fulfilled =  /[!@#$%^&*()_+{}[\]:;<>,.?~"'|]/.test(this.text);
     }
 }
