@@ -14,6 +14,8 @@ import { Rule13 } from './rules/Rule13';
 import { Rule14 } from './rules/Rule14';
 import { Rule15 } from './rules/Rule15';
 import { Rule16 } from './rules/Rule16';
+import { Rule17 } from './rules/Rule17';
+import { Rule18 } from './rules/Rule18';
 
 export class Ruleset {
     constructor(rules) {
@@ -25,8 +27,8 @@ export class Ruleset {
                 Rule4.getInstance(), Rule5.getInstance(), Rule6.getInstance(),
                 Rule7.getInstance(), Rule8.getInstance(), Rule9.getInstance(), 
                 Rule10.getInstance(), Rule11.getInstance(), Rule12.getInstance(), 
-                Rule13.getInstance(),  Rule14.getInstance(),  Rule15.getInstance(), */
-                Rule16.getInstance()
+                Rule13.getInstance(),  Rule14.getInstance(),  Rule15.getInstance(),
+                Rule16.getInstance(), Rule17.getInstance(), */ Rule18.getInstance()
             ];
         }
     }
