@@ -39,7 +39,7 @@ export class Rule14 extends GenericRule {
                         {
                             this.getClass().foundCountries.map((elem, index) => (
                                 <div key={index}>
-                                    <img className='guess-icon' src='/error.svg' />
+                                    <img className='guess-icon' src='/error.svg' alt='guess-icon' />
                                     {elem}
                                 </div>
 
@@ -53,6 +53,7 @@ export class Rule14 extends GenericRule {
                         width="100%"
                         height="100%"
                         className='geo'
+                        title='geo'
                     />
                 </div>
             </div>

@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "^12.10.3"
+    "@happy-dom/global-registrator": "^12.10.3",
+    "@babel/plugin-transform-private-property-in-object": "^7.23.4"
   }
 }

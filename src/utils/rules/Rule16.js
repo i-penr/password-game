@@ -14,7 +14,7 @@ export class Rule16 extends GenericRule {
 
     renderEmbededDesc() {
         return (
-            <a style={{ color: "#ff0000" }} target="_blank" href="https://en.wikipedia.org/wiki/Algebraic_notation_(chess)">algebraic chess notation.</a>
+            <a style={{ color: "#ff0000" }} target="_blank" rel="noreferrer" href="https://en.wikipedia.org/wiki/Algebraic_notation_(chess)">algebraic chess notation.</a>
         );
     }
 
@@ -37,7 +37,7 @@ export class Rule16 extends GenericRule {
                         {
                             this.getClass().foundChessNotations.map((elem, index) => (
                                 <div key={index}>
-                                    <img className='guess-icon' src='/error.svg' />
+                                    <img className='guess-icon' src='/error.svg' alt='guess-icon' />
                                     {elem}
                                 </div>
 
@@ -45,7 +45,7 @@ export class Rule16 extends GenericRule {
                         }
                     </div>
                 }
-                <img src={`./chess/puzzle${this.getClass().randomPuzzleNumber}.svg`} className="chess-img" />
+                <img src={`./chess/puzzle${this.getClass().randomPuzzleNumber}.svg`} className="chess-img" alt='chess-img' />
                 <div className="move">{solutions[this.getClass().randomPuzzleNumber].color} to move</div>
             </div>
         )
