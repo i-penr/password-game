@@ -20,7 +20,7 @@ export class Rule5 extends GenericRule {
         this.getClass().fulfilled = sum === 25;
     }
 
-    highlightLetters() {
+    getHighlightRule() {
         return new RegExp(/[0-9]/, "g");
     }
 }
