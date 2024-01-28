@@ -1,4 +1,13 @@
-import { GenericRule } from '../GenericRule'
+import { GenericRule } from '../GenericRule';
+import { getAllRegexMatches } from '../functions';
+
+/*
+ * Rule 19 is special, because here we need the HTML text, not the clear text in order
+ * to check if the bowels are bolded. So we will use another attribute for it: htmlText
+ * 
+ * Btw, for me the letter "y" IS NOT a vowel. So I am not going to put it here. My spanish
+ * brain will hurt if I do that.
+ */
 
 export class Rule19 extends GenericRule {
     static instance = new Rule19(this.text);
@@ -6,6 +15,7 @@ export class Rule19 extends GenericRule {
     constructor(text) {
         super(text);
         this.number = 19;
+        this.htmlText = '';
         this.desc = 'All the vowels in your password must be bolded.';
     }
 
@@ -13,6 +23,25 @@ export class Rule19 extends GenericRule {
         return Rule19;
     }
 
-    checkRule() {
+    getHighlightRule() {
+        return new RegExp(/[aeiou]/, 'g');
     }
+
+    checkRule() {
+        this.getClass().fulfilled = checkIfAllVowelsAreBolded(this.htmlText);
+    }
+}
+
+function checkIfAllVowelsAreBolded(str) {
+    let boldZones = str.split("<b>").filter((elem) => elem.includes("</b>"));
+    const totalNumOfVowels = getAllRegexMatches(str, /[aeiou]/g).length;
+    let sum = 0;
+
+    boldZones.forEach((bold) => {
+        const boldedArea = bold.split("</b>")[0]; // left part of </b>
+
+        sum += getAllRegexMatches(boldedArea, /[aeiou]/g).length;
+    });
+
+    return sum === totalNumOfVowels;
 }
