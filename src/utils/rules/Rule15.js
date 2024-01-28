@@ -1,4 +1,5 @@
 import { GenericRule } from '../GenericRule'
+import { getAllRegexMatches } from '../functions';
 
 /*
  * I think this follows the same logic as Rule 9, where the roman numerals are considered as one unit when joined.
@@ -21,7 +22,7 @@ export class Rule15 extends GenericRule {
     }
 
     checkRule() {
-        const digits = extractNumbersFromString(this.text);
+        const digits = getAllRegexMatches(this.text, /\d+/g);
 
         this.getClass().fulfilled = digits && digits.some((elem) => isLeapYear(Number(elem)));
     }
@@ -29,12 +30,4 @@ export class Rule15 extends GenericRule {
 
 function isLeapYear(year) {
   return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
-}
-
-function extractNumbersFromString(str) {
-    const matches = str.match(/\d+/g);
-    if (matches) {
-        return matches;
-    }
-    return [];
 }

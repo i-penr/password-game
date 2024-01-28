@@ -1,5 +1,6 @@
 import { GenericRule } from '../GenericRule'
 import solutions from '../chess-solutions.json';
+import { getAllRegexMatches } from '../functions';
 
 export class Rule16 extends GenericRule {
     static instance = new Rule16(this.text);
@@ -23,7 +24,7 @@ export class Rule16 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().foundChessNotations = extractChessNotationFromString(this.text);
+        this.getClass().foundChessNotations = getAllRegexMatches(this.text, /[NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?[+#]?/g);
 
         this.getClass().fulfilled = this.text.includes(solutions[this.getClass().randomPuzzleNumber].move);
     }
@@ -50,12 +51,4 @@ export class Rule16 extends GenericRule {
             </div>
         )
     }
-}
-
-function extractChessNotationFromString(str) {
-    const matches = str.match(/[NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?[+#]?/g);
-    if (matches) {
-        return matches;
-    }
-    return [];
 }

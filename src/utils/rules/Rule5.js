@@ -1,4 +1,5 @@
 import { GenericRule } from "../GenericRule";
+import { getAllRegexMatches } from "../functions";
 
 export class Rule5 extends GenericRule {
     static instance = new Rule5(this.text);
@@ -14,13 +15,13 @@ export class Rule5 extends GenericRule {
     }
 
     checkRule() {
-        const digits = this.text.replace(/\D/g, '').split('').map(Number);
-        const sum = digits.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+        const digits = getAllRegexMatches(this.text, /\d/g);
+        const sum = digits.reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0);
 
         this.getClass().fulfilled = sum === 25;
     }
 
     getHighlightRule() {
-        return new RegExp(/[0-9]/, "g");
+        return new RegExp(/\d/, "g");
     }
 }

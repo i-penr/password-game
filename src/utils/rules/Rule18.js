@@ -1,5 +1,6 @@
 import { GenericRule } from '../GenericRule';
 import elements from '../atomic-numbers.json';
+import { getAllRegexMatches } from '../functions';
 
 export class Rule18 extends GenericRule {
     static instance = new Rule18(this.text);
@@ -21,19 +22,11 @@ export class Rule18 extends GenericRule {
 
 
     checkRule() {
-        const elementsOnText = extractElementsFromString(this.text, this.getHighlightRule());
+        const elementsOnText = getAllRegexMatches(this.text, this.getHighlightRule());
         const sum = sumElems(elementsOnText);
 
         this.getClass().fulfilled = sum === 200;
     }
-}
-
-function extractElementsFromString(str, regex) {
-    const matches = str.match(regex);
-    if (matches) {
-        return matches;
-    }
-    return [];
 }
 
 function sumElems(arr) {
