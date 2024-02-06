@@ -1,11 +1,19 @@
 import { useEffect, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
 import { Ruleset } from '../utils/Ruleset';
-import sanitizeHtml from 'sanitize-html';
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import Rule from './Rule';
 import { Rule11 } from '../utils/rules/Rule11';
 import HighlightedText from './HighlightedText';
+import { TextController } from '../utils/TextController';
+
+/*
+ * TODO: Reduce coupling, specially with Rule19 and Rule20. 
+ * 
+ * Maybe this whole code needs to be refactored for this. The
+ * problem is when the rule needs to interact directly with 
+ * the elements on this component. The solution? I don't know yet.
+ */
 
 function GameZone() {
     const [htmlText, setHtmlText] = useState('');
@@ -14,10 +22,12 @@ function GameZone() {
     const [hiddenRules, setHiddenRules] = useState(new Ruleset());
     const [highlight, setHighlight] = useState('');
 
-    function handleOnChange(e) {
-        const newText = e.target.value;
+    const tc = new TextController('', handleTextChange);
 
-        updateText(newText);
+    function handleOnChange(e) {
+        tc.updateText(e.target.value);
+
+        updateTextStates();
 
         let newDisplayed = new Ruleset(displayedRules.rules);
         let newHidden = new Ruleset(hiddenRules.rules);
@@ -34,18 +44,20 @@ function GameZone() {
 
         setDisplayedRules(() => newDisplayed);
         setHiddenRules(() => newHidden);
+
+        if (isRuleXDisplayed(displayedRules, 20) && !TextController.hasFireAlreadyBeenTriggered) {
+            TextController.hasFireAlreadyBeenTriggered = true;
+            tc.spreadFire();
+        }
     }
 
-    function updateText(text) {
-        const sanitizedText = sanitize(text, []);
+    function updateTextStates() {
+        displayedRules.setText(tc.getClear());
+        hiddenRules.setText(tc.getClear());
 
-        setHtmlText(() => sanitize(text, ['b']));
-        setClearText(() => sanitizedText);
-
-        hiddenRules.setText(sanitizedText);
-        displayedRules.setText(sanitizedText);
-
-        setRule19Text(text);
+        setHtmlText(tc.getHtml());
+        setRule19Text(tc.getHtml());
+        setClearText(tc.getClear());
     }
 
     function setRule19Text(text) {
@@ -54,10 +66,6 @@ function GameZone() {
         if (rule19) {
             rule19.htmlText = text;
         }
-    }
-
-    function sanitize(text, allowedTags) {
-        return sanitizeHtml(text, { allowedTags: allowedTags });
     }
 
     function preLoadNecessaryAssets() {
@@ -69,41 +77,42 @@ function GameZone() {
         document.execCommand('bold', false, null);
     }
 
+    function handleTextChange() {
+        setClearText(tc.getClear());
+        setHtmlText(tc.getHtml());
+    }
+
     useEffect(() => {
         preLoadNecessaryAssets();
 
         return () => {
             setHtmlText('');
+            setClearText('');
         };
     }, []);
 
-    function addTestPassword() {
-        setHtmlText('55555@PepsidecemberXXXV');
-        handleOnChange({ target: { value: '55555@PepsidecemberXXXV' } })
-    }
-
     return (
-        <div className={`password-wrapper ${isRule19Displayed(displayedRules) ? 'has-toolbar' : ''}`}>
+        <div className={`password-wrapper ${isRuleXDisplayed(displayedRules, 19) ? 'has-toolbar' : ''}`}>
             <div className='password-box'>
                 <div className='password-label'>
                     Please choose a password
                 </div>
-                <button onClick={addTestPassword}>
-                    Test
-                </button>
                 <div className='password-box-inner'>
                     <HighlightedText rawText={clearText} highlight={highlight} />
                     <div>
                         <ContentEditable
-                            className='ProseMirror'
+                            className="ProseMirror"
                             html={htmlText}
                             onChange={handleOnChange}
+                            spellCheck="false"
+                            translate="no"
+                            tabIndex={0}
                         />
                     </div>
                     <div className='password-length show-password-length' style={{ opacity: clearText.length === 0 ? 0 : 1 }} >
                         {clearText.length}
                     </div>
-                    <div className='toolbar' style={{ display: isRule19Displayed(displayedRules) ? 'inherit' : 'none' }}>
+                    <div className='toolbar' style={{ display: isRuleXDisplayed(displayedRules, 19) ? 'inherit' : 'none' }}>
                         <button onClick={boldSelected} >
                             Bold
                         </button>
@@ -111,7 +120,7 @@ function GameZone() {
                 </div>
             </div>
             <div className='Rules'>
-                <h1>{clearText}</h1>
+                <h1>{htmlText}</h1>
                 <Flipper flipKey={htmlText}>
                     {displayedRules.rules.map((rule) => (
                         <Flipped key={rule.number} flipId={rule.number}>
@@ -124,8 +133,9 @@ function GameZone() {
     )
 }
 
-function isRule19Displayed(ruleset) {
-    return ruleset.rules.filter((rule) => rule.number === 19).length > 0;
+
+function isRuleXDisplayed(ruleset, x) {
+    return ruleset.rules.filter((rule) => rule.number === x).length > 0;
 }
 
 export default GameZone;
