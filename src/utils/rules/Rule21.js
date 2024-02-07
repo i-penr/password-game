@@ -1,4 +1,5 @@
 import { GenericRule } from '../GenericRule'
+import { getAllRegexMatches } from '../functions';
 
 export class Rule21 extends GenericRule {
     static instance = new Rule21(this.text);
@@ -13,20 +14,20 @@ export class Rule21 extends GenericRule {
         return Rule21;
     }
 
-    checkRule() {
-        this.getClass().fulfilled = this.text.length >= 5;
+    checkRule() {    
+        this.getClass().fulfilled = getAllRegexMatches(this.text, /🏋️‍♂️/g).length === 3;
     }
 
     render() {
-        <div data-v-c15cedce="" data-v-520e375b="" class="strength">
-            <div data-v-c15cedce="" class="bars">
-                <div data-v-c15cedce="" class="bar bar-red active">
+        <div class="strength">
+            <div class="bars">
+                <div class="bar bar-red active">
                 </div>
-                <div data-v-c15cedce="" class="bar bar-orange">
+                <div class="bar bar-orange">
                 </div>
-                <div data-v-c15cedce="" class="bar bar-yellow">
+                <div class="bar bar-yellow">
                 </div>
-                <div data-v-c15cedce="" class="bar bar-green">
+                <div class="bar bar-green">
                 </div>
             </div>
         </div>
