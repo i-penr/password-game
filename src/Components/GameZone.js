@@ -22,13 +22,24 @@ function GameZone() {
     const [hiddenRules, setHiddenRules] = useState(new Ruleset());
     const [highlight, setHighlight] = useState('');
 
-    const tc = new TextController('', handleTextChange);
+    const tc = new TextController(updateTextStates);
 
     function handleOnChange(e) {
         tc.updateText(e.target.value);
 
         updateTextStates();
+        recheckRules();
 
+        displayedRules.sort();
+        setHighlight(displayedRules.rules[0].getHighlightRule());
+
+        if (isRuleXDisplayed(displayedRules, 20) && !TextController.hasFireAlreadyBeenTriggered) {
+            TextController.hasFireAlreadyBeenTriggered = true;
+            tc.spreadFire();
+        }
+    }
+
+    function recheckRules() {
         let newDisplayed = new Ruleset(displayedRules.rules);
         let newHidden = new Ruleset(hiddenRules.rules);
 
@@ -38,26 +49,8 @@ function GameZone() {
             newHidden.removeRule(rule);
         }
 
-        displayedRules.sort();
-
-        setHighlight(displayedRules.rules[0].getHighlightRule());
-
         setDisplayedRules(() => newDisplayed);
         setHiddenRules(() => newHidden);
-
-        if (isRuleXDisplayed(displayedRules, 20) && !TextController.hasFireAlreadyBeenTriggered) {
-            TextController.hasFireAlreadyBeenTriggered = true;
-            tc.spreadFire();
-        }
-    }
-
-    function updateTextStates() {
-        displayedRules.setText(tc.getClear());
-        hiddenRules.setText(tc.getClear());
-
-        setHtmlText(tc.getHtml());
-        setRule19Text(tc.getHtml());
-        setClearText(tc.getClear());
     }
 
     function setRule19Text(text) {
@@ -77,8 +70,12 @@ function GameZone() {
         document.execCommand('bold', false, null);
     }
 
-    function handleTextChange() {
+    function updateTextStates() {
+        displayedRules.setText(tc.getClear());
+        hiddenRules.setText(tc.getClear());
+
         setClearText(tc.getClear());
+        setRule19Text(tc.getHtml());
         setHtmlText(tc.getHtml());
     }
 

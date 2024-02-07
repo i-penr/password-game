@@ -1,23 +1,26 @@
 import sanitizeHtml from 'sanitize-html';
 
 export class TextController {
-    static rawText;
+    static rawText = "hola";
     static hasFireAlreadyBeenTriggered = false;
 
-    constructor(text, textUpdateFunction) {
-        TextController.rawText = text;
-        this.textUpdateFunction = textUpdateFunction;
+    constructor(textUpdateFunction) {
+        if (textUpdateFunction) {
+            this.textUpdateFunction = textUpdateFunction;
+        }
     }
 
     updateText(text) {
         TextController.rawText = text;
         this.clearText = sanitizeHtml(TextController.rawText, { allowedTags: [] });
         this.htmlText = sanitizeHtml(TextController.rawText, { allowedTags: ['b', 'br'] });
-        this.hasFireAlreadyBeenTriggered = false;
 
         this.textUpdateFunction();
     }
 
+
+    // This fire simulates the real effect. Of course, it probably does not behave the same way, but it is close enough
+    // and it servers its purpose.
     spreadFire() {
         const fireStartingIndex = Math.ceil(Math.random() * TextController.rawText.length);
         let text = stringReplaceAtWithFire(TextController.rawText, fireStartingIndex);
@@ -27,26 +30,29 @@ export class TextController {
         let isNextFinished = false; 
 
         const fireInterval = setInterval(() => {
-            if (prev >= 0) {
-                text = stringReplaceAtWithFire(text, prev);
-                prev--;
+            new TextController();
+            text = TextController.rawText;
+
+            prev = text.indexOf('🔥');
+
+            if (prev > 0) {
+                text = stringReplaceAtWithFire(text, prev-1);
             }
 
-            // The right spread is a little bit special, because the size keeps changing with the left size growing at the same time
-            // (the fire emoji takes up two spaces). That is why, when we reach the end in the right part, we don't want to keep going,
-            // even if the string keeps growing. For that, we set the flag isNextFinished.
-
-            // If it is already true, it will always be true
-            isNextFinished =  isNextFinished || next >= text.length;
+            next = text.lastIndexOf('🔥');
+            isNextFinished = next === text.length-2;
 
             if (next <= text.length-1 && !isNextFinished) {
+                // prev is still going? Then next +3, 2 (fire emoji size) + 1 (fire emoji inserted by prev)
+                prev === -1 ? next+=1 : next+=2;
+
                 text = stringReplaceAtWithFire(text, next);
-                prev === -1 ? next+=2 : next+=3;
             }
 
             this.updateText(text);
 
-            if ((prev === -1 && isNextFinished) || stringHasNoFire(text)) {
+            if ((prev === 0 && isNextFinished) || stringHasNoFire(text)) {
+                console.log("Burn finished!")
                 clearInterval(fireInterval);
             }
 
