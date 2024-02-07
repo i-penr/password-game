@@ -1,30 +1,31 @@
 import sanitizeHtml from 'sanitize-html';
 
 export class TextController {
-    static rawText = "hola";
-    static hasFireAlreadyBeenTriggered = false;
+    static rawText;
+    static textUpdateFunction;
+    static htmlText;
+    static clearText;
 
     constructor(textUpdateFunction) {
         if (textUpdateFunction) {
-            this.textUpdateFunction = textUpdateFunction;
+            TextController.textUpdateFunction = textUpdateFunction;
         }
     }
 
-    updateText(text) {
+    static updateText(text) {
         TextController.rawText = text;
-        this.clearText = sanitizeHtml(TextController.rawText, { allowedTags: [] });
-        this.htmlText = sanitizeHtml(TextController.rawText, { allowedTags: ['b', 'br'] });
-
-        this.textUpdateFunction();
+        TextController.clearText = sanitizeHtml(TextController.rawText, { allowedTags: [] });
+        TextController.htmlText = sanitizeHtml(TextController.rawText, { allowedTags: ['b', 'br'] });
+        TextController.textUpdateFunction();
     }
 
 
     // This fire simulates the real effect. Of course, it probably does not behave the same way, but it is close enough
     // and it servers its purpose.
-    spreadFire() {
+    static startFire() {
         const fireStartingIndex = Math.ceil(Math.random() * TextController.rawText.length);
         let text = stringReplaceAtWithFire(TextController.rawText, fireStartingIndex);
-        this.updateText(text);
+        TextController.updateText(text);
         let prev = fireStartingIndex-1;
         let next = fireStartingIndex+3;
         let isNextFinished = false; 
@@ -49,7 +50,7 @@ export class TextController {
                 text = stringReplaceAtWithFire(text, next);
             }
 
-            this.updateText(text);
+            TextController.updateText(text);
 
             if ((prev === 0 && isNextFinished) || stringHasNoFire(text)) {
                 console.log("Burn finished!")
@@ -60,12 +61,12 @@ export class TextController {
     }
 
     getClear() {
-        return this.clearText;
+        return TextController.clearText;
     }
 
     getHtml() {
-        return this.htmlText;
-    }
+        return TextController.htmlText;
+    }   
 }
 
 function stringReplaceAtWithFire(s, index) {

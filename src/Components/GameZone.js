@@ -25,18 +25,13 @@ function GameZone() {
     const tc = new TextController(updateTextStates);
 
     function handleOnChange(e) {
-        tc.updateText(e.target.value);
+        TextController.updateText(e.target.value);
 
         updateTextStates();
         recheckRules();
 
         displayedRules.sort();
         setHighlight(displayedRules.rules[0].getHighlightRule());
-
-        if (isRuleXDisplayed(displayedRules, 20) && !TextController.hasFireAlreadyBeenTriggered) {
-            TextController.hasFireAlreadyBeenTriggered = true;
-            tc.spreadFire();
-        }
     }
 
     function recheckRules() {
