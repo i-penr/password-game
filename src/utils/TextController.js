@@ -34,6 +34,12 @@ export class TextController {
             new TextController();
             text = TextController.rawText;
 
+            if ((prev === 0 && isNextFinished) || stringHasNoFire(text)) {
+                console.log("Burn finished!")
+                clearInterval(fireInterval);
+            }
+
+
             prev = text.indexOf('🔥');
 
             if (prev > 0) {
@@ -51,12 +57,6 @@ export class TextController {
             }
 
             TextController.updateText(text);
-
-            if ((prev === 0 && isNextFinished) || stringHasNoFire(text)) {
-                console.log("Burn finished!")
-                clearInterval(fireInterval);
-            }
-
         }, 1000);
     }
 

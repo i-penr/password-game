@@ -18,10 +18,6 @@ export class Rule20 extends GenericRule {
         }
     }
 
-    componentWillUnmount() {
-        console.log("adios")
-    }
-
     getClass() {
         return Rule20;
     }

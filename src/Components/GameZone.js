@@ -72,6 +72,8 @@ function GameZone() {
         setClearText(tc.getClear());
         setRule19Text(tc.getHtml());
         setHtmlText(tc.getHtml());
+
+        displayedRules.checkAllRules();
     }
 
     useEffect(() => {
