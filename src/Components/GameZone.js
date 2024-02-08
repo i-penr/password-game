@@ -84,7 +84,14 @@ function GameZone() {
     }, []);
 
     return (
-        <div className={`password-wrapper ${isRuleXDisplayed(displayedRules, 19) ? 'has-toolbar' : ''}`}>
+        <div className={`password-wrapper ${displayedRules.includesRuleNum(19) ? 'has-toolbar' : ''}`}>
+            {
+                displayedRules.includesRuleNum(17) && !clearText.includes("🥚") && <div className='death-screen'>
+                    <div className='death-screen-strip'>
+                        Paul has been slain
+                    </div>
+                </div>
+            }
             <div className='password-box'>
                 <div className='password-label'>
                     Please choose a password
@@ -104,7 +111,7 @@ function GameZone() {
                     <div className='password-length show-password-length' style={{ opacity: clearText.length === 0 ? 0 : 1 }} >
                         {clearText.length}
                     </div>
-                    <div className='toolbar' style={{ display: isRuleXDisplayed(displayedRules, 19) ? 'inherit' : 'none' }}>
+                    <div className='toolbar' style={{ display: displayedRules.includesRuleNum(19) ? 'inherit' : 'none' }}>
                         <button onClick={boldSelected} >
                             Bold
                         </button>
@@ -112,7 +119,6 @@ function GameZone() {
                 </div>
             </div>
             <div className='Rules'>
-                <h1>{htmlText}</h1>
                 <Flipper flipKey={htmlText}>
                     {displayedRules.rules.map((rule) => (
                         <Flipped key={rule.number} flipId={rule.number}>
@@ -123,11 +129,6 @@ function GameZone() {
             </div>
         </div >
     )
-}
-
-
-function isRuleXDisplayed(ruleset, x) {
-    return ruleset.rules.filter((rule) => rule.number === x).length > 0;
 }
 
 export default GameZone;

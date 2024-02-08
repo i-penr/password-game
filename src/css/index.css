@@ -148,7 +148,7 @@ body {
 
 @keyframes showToolbar-56b284df {
   to {
-    transform:none
+    transform: none
   }
 }
 
@@ -175,7 +175,7 @@ body {
 
 @keyframes showButton-56b284df {
   to {
-    opacity:1
+    opacity: 1
   }
 }
 
@@ -186,7 +186,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
   border: 1px solid #b3b3b3;
-  box-shadow: 2px 2px 2px 0 rgba(0,0,0,.05);
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .05);
   transition: background .15s linear;
   color: #000;
   opacity: 0;
@@ -195,28 +195,28 @@ body {
 }
 
 .toolbar button.is-active {
-  background:#000;
-  border-color:#000;
-  color:#fff;
-  box-shadow:none
+  background: #000;
+  border-color: #000;
+  color: #fff;
+  box-shadow: none
 }
 
 .toolbar select {
-  color:#000;
-  background:#fff;
-  font-size:16px;
-  padding:5px 35px 5px 12px;
-  border-radius:5px;
-  cursor:pointer;
-  border:1px solid #b3b3b3;
-  box-shadow:2px 2px 2px 0 rgba(0,0,0,.05);
-  -webkit-appearance:none;
-  -moz-appearance:none;
-  appearance:none;
-/*   background-image:url(/password-game/chevron.svg); */
-  background-size:12px 12px;
-  background-repeat:no-repeat;
-  background-position:calc(100% - 10px) 9px
+  color: #000;
+  background: #fff;
+  font-size: 16px;
+  padding: 5px 35px 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #b3b3b3;
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .05);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /*   background-image:url(/password-game/chevron.svg); */
+  background-size: 12px 12px;
+  background-repeat: no-repeat;
+  background-position: calc(100% - 10px) 9px
 }
 
 .rule {
@@ -287,4 +287,43 @@ body {
   margin-right: 17px;
   pointer-events: none;
   height: 85px;
+}
+
+@keyframes fadeInDeath-56b284df {
+  to {
+    opacity:1
+  }
+}
+
+.death-screen {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,.8);
+  -webkit-backdrop-filter:saturate(0);
+  backdrop-filter:saturate(0);
+  z-index:100;
+  animation:fadeInDeath-56b284df .5s ease-in-out forwards;
+  opacity:0;
+  text-align:center
+}
+
+.death-screen-strip {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: rgba(0, 0, 0, .95);
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  font-family: Georgia, Times, serif;
+  text-transform: uppercase;
+  box-shadow: 0 0 80px 50px rgba(0, 0, 0, .7)
 }

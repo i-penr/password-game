@@ -22,15 +22,15 @@ export class Rule21 extends GenericRule {
 
     render() {
         return (
-            <div class="strength">
-                <div class="bars">
-                    <div class={`bar bar-red ${this.getClass().strength >= 0  ? "active" : ""}`}>
+            <div className="strength">
+                <div className="bars">
+                    <div className={`bar bar-red ${this.getClass().strength >= 0  ? "active" : ""}`}>
                     </div>
-                    <div class={`bar bar-orange ${this.getClass().strength >= 1 ? "active" : ""}`}>
+                    <div className={`bar bar-orange ${this.getClass().strength >= 1 ? "active" : ""}`}>
                     </div>
-                    <div class={`bar bar-yellow ${this.getClass().strength >= 2 ? "active" : ""}`}>
+                    <div className={`bar bar-yellow ${this.getClass().strength >= 2 ? "active" : ""}`}>
                     </div>
-                    <div class={`bar bar-green ${this.getClass().strength >= 3  ? "active" : ""}`}>
+                    <div className={`bar bar-green ${this.getClass().strength >= 3  ? "active" : ""}`}>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import { GenericRule } from '../GenericRule';
 const affirmations = ["iamloved", "iamworthy", "iamenough"];
 
 export class Rule22 extends GenericRule {
-    static instance = new Rule1(this.text);
+    static instance = new Rule22(this.text);
 
     constructor(text) {
         super(text);
@@ -12,10 +12,23 @@ export class Rule22 extends GenericRule {
     }
 
     getClass() {
-        return Rule1;
+        return Rule22;
     }
 
     checkRule() {
-        this.getClass().fulfilled =  this.text.length >= 5;
+        this.getClass().fulfilled =  affirmations.some((aff) => this.text.toLowerCase().replace(/\s/g, '').includes(aff));
+    }
+
+    render() {
+        return (
+            <div className='affirmation-list'>
+                <ul>
+                    <li>I am loved</li>
+                    <li>I am worthy</li>
+                    <li>I am enough</li>
+                </ul>
+            </div>
+        )
     }
 }
+
