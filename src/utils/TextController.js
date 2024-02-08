@@ -21,7 +21,7 @@ export class TextController {
 
 
     // This fire simulates the real effect. Of course, it probably does not behave the same way, but it is close enough
-    // and it servers its purpose.
+    // and it serves its purpose.
     static startFire() {
         const fireStartingIndex = Math.ceil(Math.random() * TextController.rawText.length);
         let text = stringReplaceAtWithFire(TextController.rawText, fireStartingIndex);
