@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import ContentEditable from 'react-contenteditable';
 import { Ruleset } from '../utils/Ruleset';
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import Rule from './Rule';
 import { Rule11 } from '../utils/rules/Rule11';
 import HighlightedText from './HighlightedText';
 import { TextController } from '../utils/TextController';
+import ContentEditable from './ContentEditable';
 
 /*
  * TODO: Reduce coupling, specially with Rule19 and Rule20. 
@@ -25,7 +25,7 @@ function GameZone() {
     const tc = new TextController(updateTextStates);
 
     function handleOnChange(e) {
-        TextController.updateText(e.target.value);
+        TextController.updateText(e.target.innerHTML);
 
         updateTextStates();
         recheckRules();
@@ -72,8 +72,6 @@ function GameZone() {
         setClearText(tc.getClear());
         setRule19Text(tc.getHtml());
         setHtmlText(tc.getHtml());
-
-        displayedRules.checkAllRules();
     }
 
     useEffect(() => {
@@ -101,14 +99,7 @@ function GameZone() {
                 <div className='password-box-inner'>
                     <HighlightedText rawText={clearText} highlight={highlight} />
                     <div>
-                        <ContentEditable
-                            className="ProseMirror"
-                            html={htmlText}
-                            onChange={handleOnChange}
-                            spellCheck="false"
-                            translate="no"
-                            tabIndex={0}
-                        />
+                        <ContentEditable text={htmlText} onChange={handleOnChange} />
                     </div>
                     <div className='password-length show-password-length' style={{ opacity: clearText.length === 0 ? 0 : 1 }} >
                         {clearText.length}

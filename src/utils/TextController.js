@@ -33,6 +33,7 @@ export class TextController {
         const fireInterval = setInterval(() => {
             new TextController();
             text = TextController.rawText;
+            console.log(text)
 
             if ((prev === 0 && isNextFinished) || stringHasNoFire(text)) {
                 console.log("Burn finished!")
