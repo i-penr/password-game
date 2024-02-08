@@ -1,0 +1,40 @@
+.strength {
+    width:100%;
+    margin-top:10px
+  }
+  .bars {
+    width:100%;
+    height:22px;
+    border-radius:100%;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border-radius:15px;
+    overflow:hidden;
+    background:#fff;
+    border:1px solid #464646
+  }
+  .bar {
+    width:100%;
+    height:100%;
+    transform:scaleX(0);
+    transform-origin:center left;
+    transition:transform .4s ease-in-out;
+    border-right:1px solid #464646
+  }
+  .bar.active {
+    transform:scaleX(1)
+  }
+  .bar-red {
+    background:#ff4141
+  }
+  .bar-orange {
+    background:#ffa54c
+  }
+  .bar-yellow {
+    background:#ffff59
+  }
+  .bar-green {
+    background:#5aff5a;
+    border-right:none
+  }
+  

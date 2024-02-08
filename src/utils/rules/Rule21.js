@@ -3,6 +3,7 @@ import { getAllRegexMatches } from '../functions';
 
 export class Rule21 extends GenericRule {
     static instance = new Rule21(this.text);
+    static strength;
 
     constructor(text) {
         super(text);
@@ -14,22 +15,25 @@ export class Rule21 extends GenericRule {
         return Rule21;
     }
 
-    checkRule() {    
-        this.getClass().fulfilled = getAllRegexMatches(this.text, /🏋️‍♂️/g).length === 3;
+    checkRule() {
+        this.getClass().strength = getAllRegexMatches(this.text, /🏋️‍♂️/g).length;
+        this.getClass().fulfilled = this.getClass().strength === 3;
     }
 
     render() {
-        <div class="strength">
-            <div class="bars">
-                <div class="bar bar-red active">
-                </div>
-                <div class="bar bar-orange">
-                </div>
-                <div class="bar bar-yellow">
-                </div>
-                <div class="bar bar-green">
+        return (
+            <div class="strength">
+                <div class="bars">
+                    <div class={`bar bar-red ${this.getClass().strength >= 0  ? "active" : ""}`}>
+                    </div>
+                    <div class={`bar bar-orange ${this.getClass().strength >= 1 ? "active" : ""}`}>
+                    </div>
+                    <div class={`bar bar-yellow ${this.getClass().strength >= 2 ? "active" : ""}`}>
+                    </div>
+                    <div class={`bar bar-green ${this.getClass().strength >= 3  ? "active" : ""}`}>
+                    </div>
                 </div>
             </div>
-        </div>
+        )
     }
 }
