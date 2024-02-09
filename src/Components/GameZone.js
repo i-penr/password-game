@@ -25,7 +25,7 @@ function GameZone() {
     const tc = new TextController(updateTextStates);
 
     function handleOnChange(e) {
-        TextController.updateText(e.target.innerHTML);
+        TextController.updateText(e);
 
         updateTextStates();
         recheckRules();
@@ -86,7 +86,7 @@ function GameZone() {
     return (
         <div className={`password-wrapper ${displayedRules.includesRuleNum(19) ? 'has-toolbar' : ''}`}>
             {
-                displayedRules.includesRuleNum(17) && !clearText.includes("🥚") && <div className='death-screen'>
+                displayedRules.includesRuleNum(18) && !clearText.includes("🥚") && <div className='death-screen'>
                     <div className='death-screen-strip'>
                         Paul has been slain
                     </div>
