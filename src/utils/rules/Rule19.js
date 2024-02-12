@@ -1,5 +1,6 @@
 import { GenericRule } from '../GenericRule';
 import { getAllRegexMatches } from '../functions';
+import { TextController } from '../TextController';
 
 /*
  * Rule 19 is special, because here we need the HTML text, not the clear text in order
@@ -11,11 +12,11 @@ import { getAllRegexMatches } from '../functions';
 
 export class Rule19 extends GenericRule {
     static instance = new Rule19(this.text);
+    static htmlText = '';
 
     constructor(text) {
         super(text);
         this.number = 19;
-        this.htmlText = '';
         this.desc = 'All the vowels in your password must be bolded.';
     }
 
@@ -24,23 +25,26 @@ export class Rule19 extends GenericRule {
     }
 
     getHighlightRule() {
-        return new RegExp(/[aeiou]/, 'g');
+        return new RegExp(/[aeiouAEIOU]/, 'g');
     }
 
     checkRule() {
-        this.getClass().fulfilled = checkIfAllVowelsAreBolded(this.htmlText);
+        new TextController();
+        this.getClass().htmlText = TextController.htmlText;
+
+        this.getClass().fulfilled = checkIfAllVowelsAreBolded(this.getClass().htmlText);
     }
 }
 
 function checkIfAllVowelsAreBolded(str) {
     let boldZones = str.split("<b>").filter((elem) => elem.includes("</b>"));
-    const totalNumOfVowels = getAllRegexMatches(str, /[aeiou]/g).length;
+    const totalNumOfVowels = getAllRegexMatches(str, Rule19.getInstance().getHighlightRule()).length;
     let sum = 0;
 
     boldZones.forEach((bold) => {
         const boldedArea = bold.split("</b>")[0]; // left part of </b>
 
-        sum += getAllRegexMatches(boldedArea, /[aeiou]/g).length;
+        sum += getAllRegexMatches(boldedArea, Rule19.getInstance().getHighlightRule()).length;
     });
 
     return sum === totalNumOfVowels;

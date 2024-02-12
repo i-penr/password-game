@@ -7,14 +7,6 @@ import HighlightedText from './HighlightedText';
 import { TextController } from '../utils/TextController';
 import ContentEditable from './ContentEditable';
 
-/*
- * TODO: Reduce coupling, specially with Rule19 and Rule20. 
- * 
- * Maybe this whole code needs to be refactored for this. The
- * problem is when the rule needs to interact directly with 
- * the elements on this component. The solution? I don't know yet.
- */
-
 function GameZone() {
     const [htmlText, setHtmlText] = useState('');
     const [clearText, setClearText] = useState('');
@@ -25,7 +17,7 @@ function GameZone() {
     const tc = new TextController(updateTextStates);
 
     function handleOnChange(e) {
-        TextController.updateText(e);
+        TextController.updateText(e);   
 
         updateTextStates();
         recheckRules();
@@ -42,18 +34,12 @@ function GameZone() {
             const rule = newHidden.rules[0];
             newDisplayed.addRule(rule);
             newHidden.removeRule(rule);
+            console.log("display "+newDisplayed.rules.length)
+            console.log("hidden "+newHidden.rules.length)
         }
 
         setDisplayedRules(() => newDisplayed);
         setHiddenRules(() => newHidden);
-    }
-
-    function setRule19Text(text) {
-        const rule19 = displayedRules.rules.filter((rule) => rule.number === 19)[0];
-
-        if (rule19) {
-            rule19.htmlText = text;
-        }
     }
 
     function preLoadNecessaryAssets() {
@@ -70,7 +56,6 @@ function GameZone() {
         hiddenRules.setText(tc.getClear());
 
         setClearText(tc.getClear());
-        setRule19Text(tc.getHtml());
         setHtmlText(tc.getHtml());
     }
 
@@ -98,18 +83,16 @@ function GameZone() {
                 </div>
                 <div className='password-box-inner'>
                     <HighlightedText rawText={clearText} highlight={highlight} />
-                    <div>
-                        <ContentEditable text={htmlText} onChange={handleOnChange} />
-                    </div>
+                    <ContentEditable text={htmlText} onChange={handleOnChange} />
                     <div className='password-length show-password-length' style={{ opacity: clearText.length === 0 ? 0 : 1 }} >
                         {clearText.length}
                     </div>
-                    <div className='toolbar' style={{ display: displayedRules.includesRuleNum(19) ? 'inherit' : 'none' }}>
-                        <button onClick={boldSelected} >
-                            Bold
-                        </button>
-                    </div>
                 </div>
+            </div>
+            <div className='toolbar' style={{ display: displayedRules.includesRuleNum(19) ? 'inherit' : 'none' }}>
+                <button onClick={boldSelected} >
+                    Bold
+                </button>
             </div>
             <div className='Rules'>
                 <Flipper flipKey={htmlText}>

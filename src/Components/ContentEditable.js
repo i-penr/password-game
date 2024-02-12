@@ -5,19 +5,30 @@ function ContentEditable({ text, onChange }) {
     const cursorPosition = useRef(0);
 
     const restoreCursorPosition = () => {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        const textNode = contentRef.current.childNodes[0];
-        if (textNode && cursorPosition.current <= textNode.length) {
-            range.setStart(textNode, cursorPosition.current);
-            range.collapse(true);
-            selection.removeAllRanges();
-            selection.addRange(range);
+        const target = document.createTextNode('');
+        contentRef.current.appendChild(target);
+        const isTargetFocused = document.activeElement === contentRef.current;
+    
+        if (target !== null && target.nodeValue !== null && isTargetFocused) {
+            const sel = window.getSelection();
+    
+            if (sel !== null) {
+                const range = document.createRange();
+                const position = Math.min(cursorPosition.current, target.nodeValue.length);
+                range.setStart(target, position);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+    
+            if (contentRef.current instanceof HTMLElement) contentRef.current.focus();
         }
     };
+    
 
     const saveCursorPosition = () => {
         const selection = window.getSelection();
+
         if (selection.rangeCount > 0) {
             const range = selection.getRangeAt(0);
             cursorPosition.current = range.startOffset;
@@ -30,6 +41,7 @@ function ContentEditable({ text, onChange }) {
     };
 
     useEffect(() => {
+        console.log(text)
         restoreCursorPosition();
     }, [text]);
 

@@ -23,8 +23,8 @@ export class TextController {
     // This fire simulates the real effect. Of course, it probably does not behave the same way, but it is close enough
     // and it serves its purpose.
     static startFire() {
-        const fireStartingIndex = Math.ceil(Math.random() * TextController.rawText.length);
-        let text = stringReplaceAtWithFire(TextController.rawText, fireStartingIndex);
+        const fireStartingIndex = Math.ceil(Math.random() * TextController.clearText.length);
+        let text = stringReplaceAtWithFire(TextController.clearText, fireStartingIndex);
         TextController.updateText(text);
         let prev = fireStartingIndex-1;
         let next = fireStartingIndex+3;
@@ -32,8 +32,7 @@ export class TextController {
 
         const fireInterval = setInterval(() => {
             new TextController();
-            text = TextController.rawText;
-            console.log(text)
+            text = TextController.clearText;
 
             if ((prev === 0 && isNextFinished) || stringHasNoFire(text)) {
                 console.log("Burn finished!")

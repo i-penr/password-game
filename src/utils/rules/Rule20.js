@@ -23,6 +23,6 @@ export class Rule20 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().fulfilled = !this.text.includes('🔥');
+        this.getClass().fulfilled = !this.text.includes('🔥') && this.getClass().hasFireAlreadyStarted;
     }
 }
