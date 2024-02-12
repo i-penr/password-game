@@ -33,7 +33,7 @@ export class Ruleset {
                 Rule10.getInstance(), Rule11.getInstance(), Rule12.getInstance(), 
                 Rule13.getInstance(), Rule14.getInstance(), Rule15.getInstance(),
                 Rule16.getInstance(), Rule17.getInstance(), Rule18.getInstance(),
-                 */Rule1.getInstance(), Rule2.getInstance(), Rule21.getInstance(),
+                 */Rule19.getInstance(), Rule20.getInstance(), Rule21.getInstance(),
                 Rule22.getInstance()
             ];
         }

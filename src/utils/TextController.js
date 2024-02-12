@@ -15,7 +15,7 @@ export class TextController {
     static updateText(text) {
         TextController.rawText = text;
         TextController.clearText = sanitizeHtml(TextController.rawText, { allowedTags: [] });
-        TextController.htmlText = sanitizeHtml(TextController.rawText, { allowedTags: ['b', 'br'] });
+        TextController.htmlText = sanitizeHtml(TextController.rawText, { allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'h1', 'br', 'div'], allowedAttributes: { a: ['href'] }});
         TextController.textUpdateFunction();
     }
 
