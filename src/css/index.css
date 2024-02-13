@@ -39,6 +39,7 @@ body {
   background: #fff;
   position: relative;
   min-height: 64px;
+  border-radius: 10px;
 }
 
 .password-label {
