@@ -11,9 +11,7 @@ function normalizeHtml(str: string): string {
 }
 
 function replaceCaret(el: HTMLElement, cursorPosition: number) {
-    // Place the caret at the end of the element
-    const target = document.createTextNode('');
-    el.appendChild(target);
+    const target = el.firstChild;
     const isTargetFocused = document.activeElement === el;
 
     if (target !== null && target.nodeValue !== null && isTargetFocused) {
@@ -21,11 +19,16 @@ function replaceCaret(el: HTMLElement, cursorPosition: number) {
 
         if (sel !== null) {
             const range = document.createRange();
+            range.setStart(target, cursorPosition);
             range.collapse(true);
-            const position = Math.min(cursorPosition, target.nodeValue.length);
-            range.setStart(target, position);
-            sel.removeAllRanges();
-            sel.addRange(range);
+            const currentRange = sel.getRangeAt(0);
+            if (
+                currentRange.startContainer !== range.startContainer ||
+                currentRange.startOffset !== range.startOffset
+            ) {
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
         }
 
         if (el instanceof HTMLElement) el.focus();
@@ -41,7 +44,7 @@ export default class ContentEditable extends React.Component<Props> {
     cursorPosition: any = React.createRef<number>();
 
     getEl = () => (this.props.innerRef && typeof this.props.innerRef !== 'function' ? this.props.innerRef : this.el).current;
-    
+
 
     saveCursorPosition = () => {
         const selection = window.getSelection();
@@ -49,7 +52,7 @@ export default class ContentEditable extends React.Component<Props> {
             const range = selection.getRangeAt(0);
             this.cursorPosition.current = range.startOffset;
         }
-    };    
+    }
 
     render() {
         const { tagName, html, innerRef, ...props } = this.props;
@@ -108,6 +111,7 @@ export default class ContentEditable extends React.Component<Props> {
         if (this.props.html !== el.innerHTML) {
             el.innerHTML = this.props.html;
         }
+
         this.lastHtml = this.props.html;
         replaceCaret(el, this.cursorPosition.current);
     }

@@ -94,6 +94,7 @@ function GameZone() {
                     Bold
                 </button>
             </div>
+            {htmlText}
             <div className='Rules'>
                 <Flipper flipKey={htmlText}>
                     {displayedRules.rules.map((rule) => (

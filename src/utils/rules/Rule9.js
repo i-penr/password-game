@@ -28,8 +28,8 @@ export class Rule9 extends GenericRule {
     }
 
     /*
-      I know that I could have accomplish this by just checking if the text contains XXXV and no other numerals except I or 
-      if it contains V, VII and no other numerals, but this way is more epic and fulfilling. 
+     *  I know that I could have accomplish this by just checking if the text contains XXXV and no other numerals except I or 
+     *  if it contains V, VII and no other numerals, but this way is more epic and fulfilling. 
      */
     checkRule() {
         const numeralList = this.findNumeralsInText();
