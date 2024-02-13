@@ -5,7 +5,8 @@ import Rule from './Rule';
 import { Rule11 } from '../utils/rules/Rule11';
 import HighlightedText from './HighlightedText';
 import { TextController } from '../utils/TextController';
-import ContentEditable from './ContentEditable';
+import ContentEditable from './ContentEditable.tsx'; 
+/* import ContentEditable from 'react-contenteditable'; */
 
 function GameZone() {
     const [htmlText, setHtmlText] = useState('');
@@ -83,7 +84,8 @@ function GameZone() {
                 </div>
                 <div className='password-box-inner'>
                     <HighlightedText rawText={clearText} highlight={highlight} />
-                    <ContentEditable text={htmlText} onChange={handleOnChange} />
+                    {/* <ContentEditable text={htmlText} onChange={handleOnChange} /> */}
+                    <ContentEditable html={htmlText} onChange={(e) => handleOnChange(e.target.value)} className='ProseMirror' />
                     <div className='password-length show-password-length' style={{ opacity: clearText.length === 0 ? 0 : 1 }} >
                         {clearText.length}
                     </div>
@@ -94,6 +96,7 @@ function GameZone() {
                     Bold
                 </button>
             </div>
+            {htmlText}
             <div className='Rules'>
                 <Flipper flipKey={htmlText}>
                     {displayedRules.rules.map((rule) => (

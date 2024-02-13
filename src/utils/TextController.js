@@ -14,8 +14,8 @@ export class TextController {
 
     static updateText(text) {
         TextController.rawText = text;
-        TextController.clearText = sanitizeHtml(TextController.rawText, { allowedTags: [] });
-        TextController.htmlText = sanitizeHtml(TextController.rawText, { allowedTags: ['b', 'br'] });
+        TextController.clearText = decodeHTML(sanitizeHtml(TextController.rawText, { allowedTags: [] }));
+        TextController.htmlText = sanitizeHtml(TextController.rawText, { allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'h1', 'br', 'div'], allowedAttributes: { a: ['href'] }});
         TextController.textUpdateFunction();
     }
 
@@ -75,4 +75,9 @@ function stringReplaceAtWithFire(s, index) {
 
 function stringHasNoFire(s) {
     return !s.includes('🔥');
+}
+
+// We don't need the escaped chars in clearText
+function decodeHTML(s) {
+    return s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 }
