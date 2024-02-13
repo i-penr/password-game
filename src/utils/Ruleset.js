@@ -17,6 +17,9 @@ import { Rule16 } from './rules/Rule16';
 import { Rule17 } from './rules/Rule17';
 import { Rule18 } from './rules/Rule18';
 import { Rule19 } from './rules/Rule19';
+import { Rule20 } from './rules/Rule20';
+import { Rule21 } from './rules/Rule21';
+import { Rule22 } from './rules/Rule22';
 
 export class Ruleset {
     constructor(rules) {
@@ -28,9 +31,10 @@ export class Ruleset {
                 Rule4.getInstance(), Rule5.getInstance(), Rule6.getInstance(),
                 Rule7.getInstance(), Rule8.getInstance(), Rule9.getInstance(), 
                 Rule10.getInstance(), Rule11.getInstance(), Rule12.getInstance(), 
-                Rule13.getInstance(),  Rule14.getInstance(),  Rule15.getInstance(),
-                Rule16.getInstance(), Rule17.getInstance(), Rule18.getInstance(),*/
-                Rule19.getInstance() 
+                Rule13.getInstance(), Rule14.getInstance(), Rule15.getInstance(),
+                Rule16.getInstance(), Rule17.getInstance(), Rule18.getInstance(),
+                 */Rule19.getInstance(), Rule20.getInstance(), Rule21.getInstance(),
+                Rule22.getInstance()
             ];
         }
     }
@@ -65,5 +69,9 @@ export class Ruleset {
                 
             return a.getClass().fulfilled > b.getClass().fulfilled;
         });
+    }
+
+    includesRuleNum(num) {
+        return this.rules.some((rule) => rule.number === num);
     }
 }
