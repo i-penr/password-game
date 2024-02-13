@@ -234,6 +234,7 @@ body {
   word-spacing: 0;
   overflow: hidden;
   animation: fadeIn .5s ease-in-out forwards;
+  will-change: transform;
 }
 
 .rule-error {
