@@ -1,39 +1,50 @@
 import sanitizeHtml from 'sanitize-html';
 
 export class TextController {
-    static rawText;
-    static textUpdateFunction;
-    static htmlText;
-    static clearText;
+    static instance = new TextController();
+    rawText;
+    textUpdateFunction;
+    htmlText;
+    clearText;
 
-    constructor(textUpdateFunction) {
-        if (textUpdateFunction) {
-            TextController.textUpdateFunction = textUpdateFunction;
+    constructor() {
+        this.rawText = "";
+        this.htmlText = "";
+        this.clearText = "";
+        this.textUpdateFunction = null;
+    }
+
+    static getInstance() {
+        if (this.instance) {
+            return this.instance;
         }
     }
 
-    static updateText(text) {
-        TextController.rawText = text;
-        TextController.clearText = decodeHTML(sanitizeHtml(TextController.rawText, { allowedTags: [] }));
-        TextController.htmlText = sanitizeHtml(TextController.rawText, { allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'h1', 'br', 'div'], allowedAttributes: { a: ['href'] }});
-        TextController.textUpdateFunction();
+    setTextUpdateFunction(textUpdateFunction) {
+        this.textUpdateFunction = textUpdateFunction;
+    }
+
+    updateText(text) {
+        this.rawText = text;
+        this.clearText = decodeHTML(sanitizeHtml(this.rawText, { allowedTags: [] }));
+        this.htmlText = sanitizeHtml(this.rawText, { allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'h1', 'br', 'div'], allowedAttributes: { a: ['href'] }});
+        if (this.textUpdateFunction) this.textUpdateFunction();
     }
 
     /*
      *  This fire simulates the real effect. Of course, it probably does not behave the same way, but it is close enough
      *  and it serves its purpose.
      */ 
-    static startFire() {
-        const fireStartingIndex = Math.ceil(Math.random() * TextController.clearText.length);
-        let text = stringReplaceAtWithFire(TextController.clearText, fireStartingIndex);
-        TextController.updateText(text);
+    startFire() {
+        const fireStartingIndex = Math.ceil(Math.random() * this.clearText.length);
+        let text = stringReplaceAtWithFire(this.clearText, fireStartingIndex);
+        this.updateText(text);
         let prev = fireStartingIndex-1;
         let next = fireStartingIndex+3;
         let isNextFinished = false; 
 
         const fireInterval = setInterval(() => {
-            new TextController();
-            text = TextController.clearText;
+            text = this.clearText;
 
             if ((prev === 0 && isNextFinished) || stringHasNoFire(text)) {
                 console.log("Burn finished!")
@@ -57,16 +68,16 @@ export class TextController {
                 text = stringReplaceAtWithFire(text, next);
             }
 
-            TextController.updateText(text);
+            this.updateText(text);
         }, 1000);
     }
 
     getClear() {
-        return TextController.clearText;
+        return this.clearText;
     }
 
     getHtml() {
-        return TextController.htmlText;
+        return this.htmlText;
     }   
 }
 

@@ -1,6 +1,5 @@
 import { GenericRule } from '../GenericRule';
 import { getAllRegexMatches } from '../functions';
-import { TextController } from '../TextController';
 import sanitizeHtml from 'sanitize-html';
 
 /*
@@ -12,11 +11,10 @@ import sanitizeHtml from 'sanitize-html';
  */
 
 export class Rule19 extends GenericRule {
-    static instance = new Rule19(this.text);
-    static htmlText = '';
+    static instance = new Rule19();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 19;
         this.desc = 'All the vowels in your password must be bolded.';
     }
@@ -30,12 +28,10 @@ export class Rule19 extends GenericRule {
     }
 
     checkRule() {
-        new TextController();
-
         // Tags like <div> include vowels, which messes up the fulfill condition
-        this.getClass().htmlText = sanitizeHtml(TextController.rawText, { allowedTags: ['b'] });
+        const text = sanitizeHtml(this.textController.getHtml(), { allowedTags: ['b'] });
 
-        this.getClass().fulfilled = checkIfAllVowelsAreBolded(this.getClass().htmlText);
+        this.getClass().fulfilled = checkIfAllVowelsAreBolded(text);
     }
 }
 

@@ -2,10 +2,10 @@ import { GenericRule } from "../GenericRule";
 import { getAllRegexMatches } from "../functions";
 
 export class Rule5 extends GenericRule {
-    static instance = new Rule5(this.text);
+    static instance = new Rule5();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 5;
         this.desc = "The digits in your password must add up to 25.";
     }
@@ -15,7 +15,8 @@ export class Rule5 extends GenericRule {
     }
 
     checkRule() {
-        const digits = getAllRegexMatches(this.text, /\d/g);
+        const text = this.textController.getClear();
+        const digits = getAllRegexMatches(text, /\d/g);
         const sum = digits.reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue), 0);
 
         this.getClass().fulfilled = sum === 25;

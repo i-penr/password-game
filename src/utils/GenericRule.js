@@ -1,4 +1,5 @@
 import React from "react";
+import { TextController } from "./TextController";
 
 export class GenericRule extends React.Component {
     static fulfilled = false;
@@ -9,9 +10,10 @@ export class GenericRule extends React.Component {
         }
     }
 
-    constructor(text) {
+    constructor() {
         super();
-        this.text = text;
+        this.textController = TextController.getInstance();
+        this.text = this.textController.getClear();
     }
 
     getHighlightRule() {

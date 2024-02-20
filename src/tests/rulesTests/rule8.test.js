@@ -11,7 +11,7 @@ test.each([
     ['starfdsfasdfbucks', false],
 ])('checkRule8(%s)', (s, expected) => {
     const rule = Rule8.getInstance();
-    rule.text = s;
+    rule.textController.updateText(s);
     rule.checkRule();
 
     expect(Rule8.fulfilled).toBe(expected);

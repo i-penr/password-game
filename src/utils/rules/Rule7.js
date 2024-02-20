@@ -1,10 +1,10 @@
 import { GenericRule } from '../GenericRule'
 
 export class Rule7 extends GenericRule {
-    static instance = new Rule7(this.text);
+    static instance = new Rule7();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 7;
         this.desc = "Your password must include a roman numeral.";
     }
@@ -14,6 +14,8 @@ export class Rule7 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().fulfilled = this.text.search(/I|V|X|L|C|D|M/) !== -1;
+        const text = this.textController.getClear();
+
+        this.getClass().fulfilled = text.search(/I|V|X|L|C|D|M/) !== -1;
     }
 }

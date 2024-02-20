@@ -11,7 +11,7 @@ test.each([
     ["IAM LOVeD", true],
 ])("checkRule22(%s)", (s, expected) => {
     const rule = Rule22.getInstance();
-    rule.text = s;
+    rule.textController.updateText(s);
     rule.checkRule();
     
     expect(Rule22.fulfilled).toBe(expected);

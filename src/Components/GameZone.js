@@ -14,10 +14,11 @@ function GameZone() {
     const [hiddenRules, setHiddenRules] = useState(new Ruleset());
     const [highlight, setHighlight] = useState('');
 
-    const tc = new TextController(updateTextStates);
+    const tc = TextController.getInstance();
+    tc.setTextUpdateFunction(updateTextStates);
 
     function handleOnChange(e) {
-        TextController.updateText(e);   
+        tc.updateText(e);  
 
         updateTextStates();
         recheckRules();
@@ -50,9 +51,6 @@ function GameZone() {
     }
 
     function updateTextStates() {
-        displayedRules.setText(tc.getClear());
-        hiddenRules.setText(tc.getClear());
-
         setClearText(tc.getClear());
         setHtmlText(tc.getHtml());
     }

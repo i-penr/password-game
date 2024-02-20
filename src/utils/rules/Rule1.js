@@ -1,10 +1,10 @@
 import { GenericRule } from '../GenericRule'
 
 export class Rule1 extends GenericRule {
-    static instance = new Rule1(this.text);
+    static instance = new Rule1();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 1;
         this.desc = 'Your password must be at least 5 characters.';
     }
@@ -14,6 +14,8 @@ export class Rule1 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().fulfilled =  this.text.length >= 5;
+        const text = this.textController.getClear();
+
+        this.getClass().fulfilled =  text.length >= 5;
     }
 }

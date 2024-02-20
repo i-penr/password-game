@@ -16,7 +16,9 @@ export class Rule22 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().fulfilled =  affirmations.some((aff) => this.text.toLowerCase().replace(/\s/g, '').includes(aff));
+        const text = this.textController.getClear();
+
+        this.getClass().fulfilled =  affirmations.some((aff) => text.toLowerCase().replace(/\s/g, '').includes(aff));
     }
 
     render() {

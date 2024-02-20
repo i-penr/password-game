@@ -1,10 +1,10 @@
 import { GenericRule } from '../GenericRule'
 
 export class Rule17 extends GenericRule {
-    static instance = new Rule17(this.text);
+    static instance = new Rule17();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 17;
         this.desc = "🥚 ← This is my chicken Paul. He hasn't hatched yet, please put him in your password and keep him safe.";
     }
@@ -14,6 +14,8 @@ export class Rule17 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().fulfilled =  this.text.includes("🥚");
+        const text = this.textController.getClear();
+
+        this.getClass().fulfilled =  text.includes("🥚");
     }
 }

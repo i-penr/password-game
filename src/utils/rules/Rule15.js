@@ -9,10 +9,10 @@ import { getAllRegexMatches } from '../functions';
  */ 
 
 export class Rule15 extends GenericRule {
-    static instance = new Rule15(this.text);
+    static instance = new Rule15();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 15;
         this.desc = 'Your password must include a leap year.';
     }
@@ -22,7 +22,8 @@ export class Rule15 extends GenericRule {
     }
 
     checkRule() {
-        const digits = getAllRegexMatches(this.text, /\d+/g);
+        const text = this.textController.getClear();
+        const digits = getAllRegexMatches(text, /\d+/g);
 
         this.getClass().fulfilled = digits && digits.some((elem) => isLeapYear(Number(elem)));
     }

@@ -10,7 +10,7 @@ test.each([
     [`aa${Rule14.randomPlace.title}aa`, true],
     [`aaBosnia and Herzegovina${Rule14.randomPlace.title}aa`, true]
 ])("checkRule14(%s)", (s, expected) => {
-    rule.text = s;
+    rule.textController.updateText(s);
     rule.checkRule();
     
     expect(Rule14.fulfilled).toBe(expected);

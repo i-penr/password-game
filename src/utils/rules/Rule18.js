@@ -3,10 +3,10 @@ import elements from '../atomic-numbers.json';
 import { getAllRegexMatches } from '../functions';
 
 export class Rule18 extends GenericRule {
-    static instance = new Rule18(this.text);
+    static instance = new Rule18();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 18;
         this.desc = 'The elements in your password must have atomic numbers that add up to 200.';
     }
@@ -22,7 +22,8 @@ export class Rule18 extends GenericRule {
 
 
     checkRule() {
-        const elementsOnText = getAllRegexMatches(this.text, this.getHighlightRule());
+        const text = this.textController.getClear();
+        const elementsOnText = getAllRegexMatches(text, this.getHighlightRule());
         const sum = sumElems(elementsOnText);
 
         this.getClass().fulfilled = sum === 200;

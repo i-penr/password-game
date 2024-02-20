@@ -1,12 +1,11 @@
 import { GenericRule } from '../GenericRule'
-import { TextController } from '../TextController';
 
 export class Rule20 extends GenericRule {
-    static instance = new Rule20(this.text);
+    static instance = new Rule20();
     static hasFireAlreadyStarted = false;
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 20;
         this.desc = 'Oh no! Your password is on fire. Quick, put it out!';
     }
@@ -14,7 +13,7 @@ export class Rule20 extends GenericRule {
     componentDidMount() {
         if (!this.getClass().hasFireAlreadyStarted) {
             this.getClass().hasFireAlreadyStarted = true;
-            TextController.startFire();
+            this.textController.startFire();
         }
     }
 
@@ -23,6 +22,7 @@ export class Rule20 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().fulfilled = !this.text.includes('🔥') && this.getClass().hasFireAlreadyStarted;
+        const text = this.textController.getClear();
+        this.getClass().fulfilled = !text.includes('🔥') && this.getClass().hasFireAlreadyStarted;
     }
 }
