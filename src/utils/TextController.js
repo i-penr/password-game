@@ -46,12 +46,6 @@ export class TextController {
         const fireInterval = setInterval(() => {
             text = this.clearText;
 
-            if ((prev === 0 && isNextFinished) || stringHasNoFire(text)) {
-                console.log("Burn finished!")
-                clearInterval(fireInterval);
-                return;
-            }
-
             prev = text.indexOf('🔥');
 
             if (prev > 0) {
@@ -69,6 +63,12 @@ export class TextController {
             }
 
             this.updateText(text);
+
+            if ((prev === 0 && isNextFinished) || stringHasNoFire(text)) {
+                console.log("Burn finished!")
+                clearInterval(fireInterval);
+                return;
+            }
         }, 1000);
     }
 
