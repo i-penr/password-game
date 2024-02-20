@@ -6,7 +6,6 @@ import { Rule11 } from '../utils/rules/Rule11';
 import HighlightedText from './HighlightedText';
 import { TextController } from '../utils/TextController';
 import ContentEditable from './ContentEditable.tsx'; 
-/* import ContentEditable from 'react-contenteditable'; */
 
 function GameZone() {
     const [htmlText, setHtmlText] = useState('');
@@ -15,10 +14,11 @@ function GameZone() {
     const [hiddenRules, setHiddenRules] = useState(new Ruleset());
     const [highlight, setHighlight] = useState('');
 
-    const tc = new TextController(updateTextStates);
+    const tc = TextController.getInstance();
+    tc.setTextUpdateFunction(updateTextStates);
 
     function handleOnChange(e) {
-        TextController.updateText(e);   
+        tc.updateText(e);  
 
         updateTextStates();
         recheckRules();
@@ -51,9 +51,6 @@ function GameZone() {
     }
 
     function updateTextStates() {
-        displayedRules.setText(tc.getClear());
-        hiddenRules.setText(tc.getClear());
-
         setClearText(tc.getClear());
         setHtmlText(tc.getHtml());
     }
@@ -82,7 +79,6 @@ function GameZone() {
                 </div>
                 <div className='password-box-inner'>
                     <HighlightedText rawText={clearText} highlight={highlight} />
-                    {/* <ContentEditable text={htmlText} onChange={handleOnChange} /> */}
                     <ContentEditable html={htmlText} onChange={(e) => handleOnChange(e.target.value)} className='ProseMirror' />
                     <div className='password-length show-password-length' style={{ opacity: clearText.length === 0 ? 0 : 1 }} >
                         {clearText.length}

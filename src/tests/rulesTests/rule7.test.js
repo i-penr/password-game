@@ -10,7 +10,7 @@ test.each([
     ['sadXxa', true]
 ])('checkRule7(%s)', (s, expected) => {
     const rule = Rule7.getInstance();
-    rule.text = s;
+    rule.textController.updateText(s);
     rule.checkRule();
 
     expect(Rule7.fulfilled).toBe(expected);

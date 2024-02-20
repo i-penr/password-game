@@ -13,7 +13,7 @@ test.each([
     ["352024", true],
 ])("checkRule15(%s)", (s, expected) => {
     const rule = Rule15.getInstance();
-    rule.text = s;
+    rule.textController.updateText(s);
     rule.checkRule();
     
     expect(Rule15.fulfilled).toBe(expected);

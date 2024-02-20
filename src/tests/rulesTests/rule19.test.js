@@ -10,7 +10,7 @@ test.each([
     ["h<b>o</b>l<b>a</b> q<b>ue</b> t<b>a</b>l", true],
 ])("checkRule19(%s)", (s, expected) => {
     const rule = Rule19.getInstance();
-    rule.htmlText = s;
+    rule.textController.updateText(s);
     rule.checkRule();
     
     expect(Rule19.fulfilled).toBe(expected);

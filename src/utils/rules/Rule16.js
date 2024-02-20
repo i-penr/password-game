@@ -3,12 +3,12 @@ import solutions from '../chess-solutions.json';
 import { getAllRegexMatches } from '../functions';
 
 export class Rule16 extends GenericRule {
-    static instance = new Rule16(this.text);
+    static instance = new Rule16();
     static randomPuzzleNumber = Math.floor(Math.random() * 192 + 1);
     static foundChessNotations;
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 16;
         this.desc = 'Your password must include the best move in ';
     }
@@ -24,9 +24,11 @@ export class Rule16 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().foundChessNotations = getAllRegexMatches(this.text, /[NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?[+#]?/g);
+        const text = this.textController.getClear();
 
-        this.getClass().fulfilled = this.text.includes(solutions[this.getClass().randomPuzzleNumber].move);
+        this.getClass().foundChessNotations = getAllRegexMatches(text, /[NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?[+#]?/g);
+
+        this.getClass().fulfilled = text.includes(solutions[this.getClass().randomPuzzleNumber].move);
     }
 
     render() {

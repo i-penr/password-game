@@ -2,10 +2,10 @@ import { GenericRule } from '../GenericRule';
 import { Moon } from "lunarphase-js";
 
 export class Rule13 extends GenericRule {
-    static instance = new Rule13(this.text);
+    static instance = new Rule13();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 13;
         this.desc = 'Your password must include the current phase of the moon as an emoji.';
     }
@@ -15,8 +15,9 @@ export class Rule13 extends GenericRule {
     }
 
     checkRule() {
+        const text = this.textController.getClear();
         const phase = Moon.lunarPhaseEmoji();
 
-        this.getClass().fulfilled = this.text.includes(phase);
+        this.getClass().fulfilled = text.includes(phase);
     }
 }

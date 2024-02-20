@@ -12,7 +12,7 @@ test.each([
     [`aa${phase}aa`, true]
 ])("checkRule13(%s)", (s, expected) => {
     const rule = Rule13.getInstance();
-    rule.text = s;
+    rule.textController.updateText(s);
     rule.checkRule();
     
     expect(Rule13.fulfilled).toBe(expected);

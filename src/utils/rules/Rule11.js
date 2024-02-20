@@ -1,15 +1,14 @@
 import { GenericRule } from '../GenericRule'
 
 export class Rule11 extends GenericRule {
-    static instance = new Rule11(this.text);
+    static instance = new Rule11();
     static isPending = true;
     static wordleAnswer = null;
 
-    constructor(text) {
+    constructor() {
         super();
         this.number = 11;
         this.desc = 'Your password must include today\'s Wordle answer.';
-        this.text = text;
     }
 
     static async getWordleAnswer() {
@@ -37,6 +36,8 @@ export class Rule11 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().fulfilled = !this.getClass().isPending && this.getClass().getInstance().text.includes(this.getClass().wordleAnswer);
+        const text = this.textController.getClear();
+
+        this.getClass().fulfilled = !this.getClass().isPending && text.includes(this.getClass().wordleAnswer);
     }
 }

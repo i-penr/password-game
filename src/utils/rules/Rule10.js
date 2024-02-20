@@ -4,10 +4,10 @@ import captchas from '../captchas.json';
 
 export class Rule10 extends GenericRule {
 
-    static instance = new Rule10(this.text);
+    static instance = new Rule10();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 10;
         this.desc = 'Your password must include this CAPTCHA:';
         this.state = {
@@ -20,8 +20,10 @@ export class Rule10 extends GenericRule {
     }
 
     checkRule() {
+        const text = this.textController.getClear();
         const answer = this.state.randomCaptcha.substring(0, this.state.randomCaptcha.indexOf("."));
-        this.getClass().fulfilled = this.text.includes(answer);
+        
+        this.getClass().fulfilled = text.includes(answer);
     }
 
     render() {

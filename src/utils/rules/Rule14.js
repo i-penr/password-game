@@ -4,12 +4,12 @@ import places from '../geo.json';
 import countries from '../countries.json';
 
 export class Rule14 extends GenericRule {
-    static instance = new Rule14(this.text);
+    static instance = new Rule14();
     static randomPlace = places[Math.floor(Math.random() * places.length)];
     static foundCountries;
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 14;
         this.desc = 'Your password must include the name of this country.';
     }
@@ -19,15 +19,12 @@ export class Rule14 extends GenericRule {
     }
 
     checkRule() {
-        this.findCountryInText();
-        const lowercase = this.text.toLowerCase();
+        const text = this.textController.getClear();
+        const lowercase = text.toLowerCase();
         const lowercaseCountry = this.getClass().randomPlace.title.toLowerCase();
-
+        
+        this.getClass().foundCountries = findCountryInText(lowercase);
         this.getClass().fulfilled = lowercase.includes(lowercaseCountry);
-    }
-
-    findCountryInText() {
-        this.getClass().foundCountries = countries.filter((elem) => this.text.toLowerCase().includes(elem.toLowerCase()));
     }
 
     render() {
@@ -62,3 +59,6 @@ export class Rule14 extends GenericRule {
 
 }
 
+function findCountryInText(text) {
+    return countries.filter((elem) => text.includes(elem.toLowerCase()));
+}

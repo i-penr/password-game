@@ -102,6 +102,18 @@ export default class ContentEditable extends React.Component<Props> {
             !deepEqual(props.style, nextProps.style);
     }
 
+    componentDidMount(): void {
+        const el = this.getEl();
+
+        el.onpaste = function preventPastingMultipleEggs(e: ClipboardEvent) {
+            const el = document.getElementsByClassName('ProseMirror')[0];
+            const pastedText = e.clipboardData!.getData('text');
+        
+            // Allowing pasting more than one egg will be cheating (you can just paste a bunch of eggs and Paul does not die)
+            if (el.innerHTML.includes('🥚') && pastedText.includes('🥚')) e.preventDefault();
+        }
+    }
+
     componentDidUpdate() {
         const el = this.getEl();
         if (!el) return;

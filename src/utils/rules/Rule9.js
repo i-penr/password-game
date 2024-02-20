@@ -11,10 +11,10 @@ const romanNumerals = {
 };
 
 export class Rule9 extends GenericRule {
-    static instance = new Rule9(this.text);
+    static instance = new Rule9();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 9;
         this.desc = "The roman numerals in your password should multiply to 35.";
     }
@@ -38,12 +38,14 @@ export class Rule9 extends GenericRule {
     }
     
     findNumeralsInText() {
+        const text = this.textController.getClear();
+
         let foundNumeral = "";
         let numeralList = [];
         let i = 0;
 
-        while (i < this.text.length || foundNumeral.length > 0) {
-            const c = this.text.charAt(i);
+        while (i < text.length || foundNumeral.length > 0) {
+            const c = text.charAt(i);
 
             if (checkValidNumeral(c)) {
                 if (consecutiveRomanNumeralsAreInvalid(foundNumeral, c) || substractionCaseIsInvalid(foundNumeral, c) || alreadyHasSubstractionCase(foundNumeral)) {

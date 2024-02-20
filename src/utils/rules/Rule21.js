@@ -2,11 +2,11 @@ import { GenericRule } from '../GenericRule'
 import { getAllRegexMatches } from '../functions';
 
 export class Rule21 extends GenericRule {
-    static instance = new Rule21(this.text);
+    static instance = new Rule21();
     static strength;
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 21;
         this.desc = 'Your password is not strong enough 🏋️‍♂️';
     }
@@ -16,7 +16,9 @@ export class Rule21 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().strength = getAllRegexMatches(this.text, /🏋️‍♂️/g).length;
+        const text = this.textController.getClear();
+
+        this.getClass().strength = getAllRegexMatches(text, /🏋️‍♂️/g).length;
         this.getClass().fulfilled = this.getClass().strength === 3;
     }
 

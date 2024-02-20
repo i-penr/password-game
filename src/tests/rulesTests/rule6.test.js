@@ -12,7 +12,7 @@ test.each([
     ['dec321ember', false]
 ])('checkRule6(%s)', (s, expected) => {
     const rule = Rule6.getInstance();
-    rule.text = s;
+    rule.textController.updateText(s);
     rule.checkRule();
 
     expect(Rule6.fulfilled).toBe(expected);

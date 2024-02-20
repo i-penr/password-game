@@ -4,10 +4,10 @@ import elements from '../atomic-numbers.json';
 const elementsWithTwoChars = getElementsWithTwoChars();
 
 export class Rule12 extends GenericRule {
-    static instance = new Rule12(this.text);
+    static instance = new Rule12();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 12;
         this.desc = 'Your password must include a two letter symbol from the periodic table.';
     }
@@ -17,7 +17,9 @@ export class Rule12 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().fulfilled = elementsWithTwoChars.some((elem) => this.text.includes(elem) );
+        const text = this.textController.getClear();
+
+        this.getClass().fulfilled = elementsWithTwoChars.some((elem) => text.includes(elem) );
     }
 }
 

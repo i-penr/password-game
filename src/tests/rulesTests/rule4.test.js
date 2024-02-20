@@ -10,7 +10,7 @@ test.each([
     ['@@@', true],
 ])('checkRule4(%s)', (s, expected) => {
     const rule = Rule4.getInstance();
-    rule.text = s;
+    rule.textController.updateText(s);
     rule.checkRule();
 
     expect(Rule4.fulfilled).toBe(expected);

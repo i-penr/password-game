@@ -1,10 +1,10 @@
 import { GenericRule } from '../GenericRule'
 
 export class Rule8 extends GenericRule {
-    static instance = new Rule8(this.text);
+    static instance = new Rule8();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 8;
         this.desc = "Your password must include one of our sponsors:";
     }
@@ -14,7 +14,9 @@ export class Rule8 extends GenericRule {
     }
 
     checkRule() {
-        const lowercase = this.text.toLowerCase();
+        const text = this.textController.getClear();
+        const lowercase = text.toLowerCase();
+        
         this.getClass().fulfilled = lowercase.includes('pepsi') || lowercase.includes('starbucks') || lowercase.includes('shell');
     }
 

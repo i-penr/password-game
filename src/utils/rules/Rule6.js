@@ -1,10 +1,10 @@
 import { GenericRule } from "../GenericRule";
 
 export class Rule6 extends GenericRule {
-    static instance = new Rule6(this.text);
+    static instance = new Rule6();
 
-    constructor(text) {
-        super(text);
+    constructor() {
+        super();
         this.number = 6;
         this.desc = "Your password must include a month of the year.";
     }
@@ -14,6 +14,8 @@ export class Rule6 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().fulfilled = this.text.search(/january|february|march|april|may|june|july|august|september|october|november|december/i) !== -1;
+        const text = this.textController.getClear();
+
+        this.getClass().fulfilled = text.search(/january|february|march|april|may|june|july|august|september|october|november|december/i) !== -1;
     }
 }

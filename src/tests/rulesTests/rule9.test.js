@@ -21,7 +21,7 @@ test.each([
     ['VaaaaVIII', false],
 ])('checkRule9(%s)', (s, expected) => {
     const rule = Rule9.getInstance();
-    rule.text = s;
+    rule.textController.updateText(s);
     rule.checkRule();
 
     expect(Rule9.fulfilled).toBe(expected);

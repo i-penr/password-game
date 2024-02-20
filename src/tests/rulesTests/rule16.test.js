@@ -13,7 +13,7 @@ test.each([
     [`${solutions[randomPuzzleNumber].move}`, true],
     [`${solutions[randomPuzzleNumber].move} ${solutions[randomPuzzleNumber+1].move}`, true]
 ])("checkRule16(%s)", (s, expected) => {
-    rule.text = s;
+    rule.textController.updateText(s);
     rule.checkRule();
     
     expect(Rule16.fulfilled).toBe(expected);

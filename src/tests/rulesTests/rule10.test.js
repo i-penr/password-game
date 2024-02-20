@@ -10,7 +10,7 @@ test.each([
     ['a', false],
     ['a', false],
 ])('checkRule10(%s)', (s, expected) => {
-    rule.text = s;
+    rule.textController.updateText(s);
     rule.checkRule();
 
     expect(Rule10.fulfilled).toBe(expected);

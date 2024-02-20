@@ -11,7 +11,7 @@ test.each([
     ['AAAAAAAAAA', true],
 ])('checkRule3(%s)', (s, expected) => {
     const rule = Rule3.getInstance();
-    rule.text = s;
+    rule.textController.updateText(s);
     rule.checkRule();
 
     expect(Rule3.fulfilled).toBe(expected);
