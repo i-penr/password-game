@@ -80,8 +80,8 @@ function GameZone() {
                 <div className='password-box-inner'>
                     <HighlightedText rawText={clearText} highlight={highlight} />
                     <ContentEditable html={htmlText} onChange={(e) => handleOnChange(e.target.value)} className='ProseMirror' />
-                    <div className='password-length show-password-length' style={{ opacity: clearText.length === 0 ? 0 : 1 }} >
-                        {clearText.length}
+                    <div className='password-length show-password-length' style={{ opacity: tc.getTrueClearLength() === 0 ? 0 : 1 }} >
+                        {tc.getTrueClearLength()}
                     </div>
                 </div>
             </div>

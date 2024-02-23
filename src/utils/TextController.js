@@ -78,7 +78,16 @@ export class TextController {
 
     getHtml() {
         return this.htmlText;
-    }   
+    }
+    
+    // Emojis take up two characters. When showing the length, it would be nice to count them as only one.
+    getTrueClearLength() {
+        const rawLength = this.clearText.length;
+        const emojisInText = this.clearText.match(/\p{Emoji}/gu);
+        const numOfEmojisInText = emojisInText ? emojisInText.length : 0;
+
+        return rawLength - numOfEmojisInText;
+    }
 }
 
 function stringReplaceAtWithFire(s, index) {
