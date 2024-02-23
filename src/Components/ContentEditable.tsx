@@ -1,6 +1,7 @@
 import * as React from 'react';
 import deepEqual from 'fast-deep-equal';
 import * as PropTypes from 'prop-types';
+import { Paul } from '../utils/Paul';
 
 /*
  * Code edited and repurposed from react-content-editable: https://github.com/lovasoa/react-contenteditable
@@ -98,7 +99,6 @@ export default class ContentEditable extends React.Component<Props> {
             props.tagName !== nextProps.tagName ||
             props.className !== nextProps.className ||
             props.innerRef !== nextProps.innerRef ||
-            props.placeholder !== nextProps.placeholder ||
             !deepEqual(props.style, nextProps.style);
     }
 
@@ -108,9 +108,10 @@ export default class ContentEditable extends React.Component<Props> {
         el.onpaste = function preventPastingMultipleEggs(e: ClipboardEvent) {
             const el = document.getElementsByClassName('ProseMirror')[0];
             const pastedText = e.clipboardData!.getData('text');
+            const paul = Paul.getInstance();
         
             // Allowing pasting more than one egg will be cheating (you can just paste a bunch of eggs and Paul does not die)
-            if (el.innerHTML.includes('🥚') && pastedText.includes('🥚')) e.preventDefault();
+            if (paul && el.innerHTML.includes(paul.state) && pastedText.includes(paul.state)) e.preventDefault();
         }
     }
 

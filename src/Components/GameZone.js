@@ -5,7 +5,8 @@ import Rule from './Rule';
 import { Rule11 } from '../utils/rules/Rule11';
 import HighlightedText from './HighlightedText';
 import { TextController } from '../utils/TextController';
-import ContentEditable from './ContentEditable.tsx'; 
+import ContentEditable from './ContentEditable.tsx';
+import { Paul } from '../utils/Paul.js';
 
 function GameZone() {
     const [htmlText, setHtmlText] = useState('');
@@ -14,12 +15,15 @@ function GameZone() {
     const [hiddenRules, setHiddenRules] = useState(new Ruleset());
     const [highlight, setHighlight] = useState('');
 
+    const paul = Paul.getInstance();
     const tc = TextController.getInstance();
-    tc.setTextUpdateFunction(updateTextStates);
+    tc.setTextUpdateFunction(applyTextChanges);
 
     function handleOnChange(e) {
         tc.updateText(e);  
+    }
 
+    function applyTextChanges() {
         updateTextStates();
         recheckRules();
 
@@ -67,9 +71,9 @@ function GameZone() {
     return (
         <div className={`password-wrapper ${displayedRules.includesRuleNum(19) ? 'has-toolbar' : ''}`}>
             {
-                displayedRules.includesRuleNum(18) && !clearText.includes("🥚") && <div className='death-screen'>
+                paul.isDead && <div className='death-screen'>
                     <div className='death-screen-strip'>
-                        Paul has been slain
+                        { paul.deathReason }
                     </div>
                 </div>
             }

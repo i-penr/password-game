@@ -1,4 +1,7 @@
-import { GenericRule } from '../GenericRule'
+import { GenericRule } from '../GenericRule';
+import { Paul } from '../Paul';
+
+const paul = Paul.getInstance();
 
 export class Rule17 extends GenericRule {
     static instance = new Rule17();
@@ -16,6 +19,14 @@ export class Rule17 extends GenericRule {
     checkRule() {
         const text = this.textController.getClear();
 
-        this.getClass().fulfilled =  text.includes("🥚");
+        this.getClass().fulfilled = this.getClass().fulfilled || text.includes("🥚");
+
+        this.checkIfPaulIsStillThere(text);
+    }
+
+    checkIfPaulIsStillThere(text) {
+        if (!paul.isDead && this.getClass().fulfilled && !text.includes(paul.state)) {
+            paul.killPaul("Paul has been slain");
+        }
     }
 }
