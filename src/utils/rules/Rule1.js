@@ -14,8 +14,6 @@ export class Rule1 extends GenericRule {
     }
 
     checkRule() {
-        const text = this.textController.getClear();
-
-        this.getClass().fulfilled =  text.length >= 5;
+        this.getClass().fulfilled =  this.textController.getTrueClearLength() >= 5;
     }
 }
