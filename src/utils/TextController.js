@@ -1,4 +1,5 @@
 import sanitizeHtml from 'sanitize-html';
+import _ from "lodash";
 
 export class TextController {
     static instance = new TextController();
@@ -80,13 +81,9 @@ export class TextController {
         return this.htmlText;
     }
     
-    // Emojis take up two characters. When showing the length, it would be nice to count them as only one.
+    // Emojis take up two characters. When showing the length, it is necessary to count them as only one.
     getTrueClearLength() {
-        const rawLength = this.clearText.length;
-        const emojisInText = this.clearText.match(/\p{Emoji}/gu);
-        const numOfEmojisInText = emojisInText ? emojisInText.length : 0;
-
-        return rawLength - numOfEmojisInText;
+        return _.toArray(this.clearText).length;
     }
 }
 
