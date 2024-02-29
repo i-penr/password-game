@@ -23,19 +23,19 @@ function GameZone() {
         tc.updateText(e);  
     }
 
-    function applyTextChanges() {
+    async function applyTextChanges() {
         updateTextStates();
-        recheckRules();
+        await recheckRules();
 
         displayedRules.sort();
         setHighlight(displayedRules.rules[0].getHighlightRule());
     }
 
-    function recheckRules() {
+    async function recheckRules() {
         let newDisplayed = new Ruleset(displayedRules.rules);
         let newHidden = new Ruleset(hiddenRules.rules);
 
-        while (newDisplayed.checkAllRules() && newHidden.rules.length > 0) {
+        while (await newDisplayed.checkAllRules() && newHidden.rules.length > 0) {
             const rule = newHidden.rules[0];
             newDisplayed.addRule(rule);
             newHidden.removeRule(rule);

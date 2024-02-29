@@ -6,4 +6,4 @@ COPY ./src/proxy/ ./
 
 EXPOSE 3001
 
-CMD ["bun", "/usr/src/app/server.js"]
+CMD ["bun", "--watch", "/usr/src/app/server.js"]

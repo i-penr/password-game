@@ -1,0 +1,9 @@
+#youtube-player-wrapper iframe {
+    width: 100%;
+    height: 250px;
+    border-radius: 15px;
+}
+
+#youtube-player-wrapper {
+    margin-top: 15px;
+}
