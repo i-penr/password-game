@@ -1,4 +1,4 @@
-import { GenericRule } from '../GenericRule'
+import { GenericRule } from '../GenericRule';
 
 export class Rule1 extends GenericRule {
     static instance = new Rule1();
