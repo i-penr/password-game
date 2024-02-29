@@ -16,5 +16,7 @@ services:
     build:
       context: .
       dockerfile: ./src/proxy/Dockerfile
+    volumes:
+      - './src/proxy:/usr/src/app'
     ports:
       - '3001:3001'
