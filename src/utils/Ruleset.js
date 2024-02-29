@@ -23,6 +23,7 @@ import { Rule22 } from './rules/Rule22';
 import { Rule23 } from './rules/Rule23';
 import { Rule32 } from './rules/Rule32';
 import { Rule33 } from './rules/Rule33';
+import { Rule24 } from './rules/Rule24';
 
 export class Ruleset {
     constructor(rules) {
@@ -30,15 +31,15 @@ export class Ruleset {
             this.rules = rules;
         } else {
             this.rules = [
-                /* Rule1.getInstance(), Rule2.getInstance(), Rule3.getInstance(),
+                Rule1.getInstance(), Rule2.getInstance(), Rule3.getInstance(),
                 Rule4.getInstance(), Rule5.getInstance(), Rule6.getInstance(),
                 Rule7.getInstance(), Rule8.getInstance(), Rule9.getInstance(),
                 Rule10.getInstance(), Rule11.getInstance(), Rule12.getInstance(),
                 Rule13.getInstance(), Rule14.getInstance(), Rule15.getInstance(),
                 Rule16.getInstance(), Rule17.getInstance(), Rule18.getInstance(),
                 Rule19.getInstance(), Rule20.getInstance(), Rule21.getInstance(),
-                Rule22.getInstance(), Rule23.getInstance(), Rule32.getInstance(), */
-                Rule33.getInstance(),
+                Rule22.getInstance(), Rule23.getInstance(),Rule24.getInstance(),
+                Rule32.getInstance(), Rule33.getInstance(),
             ];
         }
     }
@@ -55,12 +56,15 @@ export class Ruleset {
         this.rules = this.rules.filter((rule) => rule.number !== removedRule.number);
     }
 
-    checkAllRules() {
+    async checkAllRules() {
         if (this.rules.length === 0) {
             return true;
         }
-
-        this.rules.forEach((rule) => rule.checkRule())
+    
+        for (const rule of this.rules) {
+            await rule.checkRule();
+        }
+        
         return this.rules.every((rule) => rule.getClass().fulfilled);
     }
 
