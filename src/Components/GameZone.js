@@ -96,7 +96,7 @@ function GameZone() {
             </div>
             {htmlText}
             <div className='Rules'>
-                <Flipper flipKey={htmlText}>
+                <Flipper flipKey={displayedRules.rules[0]}>
                     {displayedRules.rules.map((rule) => (
                         <Flipped key={rule.number} flipId={rule.number}>
                             {flippedProps => <Rule rule={rule} flippedProps={flippedProps} />}
