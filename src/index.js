@@ -6,6 +6,7 @@ import './css/geo.css';
 import './css/geo-hide.css';
 import './css/chess.css';
 import './css/strength.css';
+import './css/youtube-player.css';
 import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
