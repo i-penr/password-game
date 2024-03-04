@@ -49,7 +49,7 @@ export class Ruleset {
     }
 
     addRule(newRule) {
-        this.rules.push(newRule);
+        this.rules.unshift(newRule);
     }
 
     removeRule(removedRule) {
