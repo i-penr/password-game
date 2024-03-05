@@ -20,7 +20,8 @@ function replaceCaret(el: HTMLElement, cursorPosition: number) {
 
         if (sel !== null) {
             const range = document.createRange();
-            range.setStart(target, cursorPosition);
+            const position = Math.min(cursorPosition, target.nodeValue.length);
+            range.setStart(target, position);
             range.collapse(true);
             const currentRange = sel.getRangeAt(0);
             if (
@@ -40,6 +41,7 @@ function replaceCaret(el: HTMLElement, cursorPosition: number) {
  * A simple component for an html element with editable contents.
  */
 export default class ContentEditable extends React.Component<Props> {
+    [x: string]: any;
     lastHtml: string = this.props.html;
     el: any = typeof this.props.innerRef === 'function' ? { current: null } : React.createRef<HTMLElement>();
     cursorPosition: any = React.createRef<number>();
