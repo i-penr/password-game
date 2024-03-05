@@ -71,7 +71,6 @@ export default class ContentEditable extends React.Component<Props> {
                 onInput: this.emitChange,
                 onBlur: this.props.onBlur || this.emitChange,
                 onKeyUp: this.props.onKeyUp || this.emitChange,
-                onKeyDown: this.props.onKeyDown || this.emitChange,
                 contentEditable: !this.props.disabled,
                 dangerouslySetInnerHTML: { __html: html }
             },
@@ -111,10 +110,26 @@ export default class ContentEditable extends React.Component<Props> {
             const el = document.getElementsByClassName('ProseMirror')[0];
             const pastedText = e.clipboardData!.getData('text');
             const paul = Paul.getInstance();
-        
+
             // Allowing pasting more than one egg will be cheating (you can just paste a bunch of eggs and Paul does not die)
             if (paul && el.innerHTML.includes(paul.state) && pastedText.includes(paul.state)) e.preventDefault();
         }
+
+        // Allow Keyboard shorcuts (specially in Firefox)
+        el.onkeydown = (event: KeyboardEvent) => {
+            if ((event.ctrlKey || event.metaKey)) {
+                event.preventDefault(); 
+
+                switch (event.key) {
+                    case "b":
+                        document.execCommand('bold', false, undefined);
+                        break;
+                    case "i":
+                        document.execCommand('italic', false, undefined);
+                        break;
+                }
+            }
+        };
     }
 
     componentDidUpdate() {
