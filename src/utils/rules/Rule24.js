@@ -32,7 +32,7 @@ export class Rule24 extends GenericRule {
             }
             return data.duration;
         } catch (err) {
-            /* console.error(`There was an error with videoLength: ${err}`); */
+            console.error(`There was an error with videoLength: ${err}`);
         }
     }
 
@@ -56,7 +56,10 @@ export class Rule24 extends GenericRule {
         return new Promise(async (resolve, reject) => {
             const foundId = findYTIdInText(this.textController.clearText);
 
-            if (this.vidId && this.vidId === foundId) return;
+            if (this.vidId && this.vidId === foundId) {
+                resolve();
+                return;
+            }
 
             this.vidId = foundId;
 
@@ -77,19 +80,22 @@ export class Rule24 extends GenericRule {
                 }
             } else {
                 this.getClass().fulfilled = false;
+                this.refreshEmbed(null);
                 resolve();
             }
         });
     }
 
     render() {
+        const vidEmbed = this.getClass().getInstance().state.vidEmbed;
+
         return (
-            this.getClass().getInstance().state.vidEmbed &&
+            vidEmbed &&
             React.createElement('div',
                 {
                     id: 'youtube-player-wrapper',
                     dangerouslySetInnerHTML: {
-                        __html: this.getClass().getInstance().state.vidEmbed
+                        __html: vidEmbed
                     }
                 }
             )
