@@ -1,0 +1,95 @@
+.letters {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    grid-gap:5px
+  }
+  .sacrifice-area {
+    margin-top:13px;
+    max-width:400px;
+    margin-left:auto;
+    margin-right:auto
+  }
+  .letter {
+    width:38px;
+    height:38px;
+    border-radius:5px;
+    cursor:pointer;
+    transition:background .2s ease-in-out,opacity .2s ease-in-out;
+    border:1px solid #b3b3b3;
+    background:#fff;
+    color:#000;
+    font-family:Arial;
+    font-size:13px
+  }
+  .letter,
+  .sacrifice-btn {
+    box-shadow:2px 2px 2px 0 rgba(0,0,0,.05)
+  }
+  .letter:hover {
+    transform:scale(1.05)
+  }
+  .letter:disabled {
+    cursor:auto
+  }
+  .letter:disabled:hover {
+    transform:none
+  }
+  .letter-selected {
+    background:#000;
+    color:#fff;
+    border-color:#000;
+    box-shadow:none;
+    position:relative
+  }
+  .sacrifice-btn {
+    text-align:center;
+    font-size:18px;
+    border-radius:5px;
+    padding:10px 20px;
+    cursor:pointer;
+    display:block;
+    margin:18px auto 5px;
+    transition:background .3s ease-in-out,opacity .3s ease-in-out;
+    background:#000;
+    color:#fff;
+    border:1px solid #000
+  }
+  .sacrifice-btn:hover {
+    transform:scale(1.04)
+  }
+  .sacrifice-btn:disabled {
+    border-color:#000;
+    color:#fff;
+    pointer-events:none;
+    opacity:.5
+  }
+  .sacrifice-made .letter-selected {
+    animation:sacrifice-5ed0912a .5s ease-in-out forwards
+  }
+  .sacrifice-icon {
+    height:17px;
+    position:relative;
+    top:2px;
+    margin-right:2px
+  }
+  .sacrifice-made .sacrifice-icon {
+    filter:invert(100%)
+  }
+  @keyframes sacrifice-5ed0912a {
+    0% {
+      opacity:1
+    }
+    to {
+      opacity:0;
+      transform:translateY(-20px)
+    }
+  }
+  .sacrifice-made .sacrifice-btn {
+    background:#fff;
+    color:#000;
+    border:1px solid #000;
+    box-shadow:none
+  }
+  
