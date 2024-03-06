@@ -118,13 +118,14 @@ export default class ContentEditable extends React.Component<Props> {
         // Allow Keyboard shorcuts (specially in Firefox)
         el.onkeydown = (event: KeyboardEvent) => {
             if ((event.ctrlKey || event.metaKey)) {
-                event.preventDefault(); 
-
+                
                 switch (event.key) {
                     case "b":
+                        event.preventDefault(); 
                         document.execCommand('bold', false, undefined);
                         break;
                     case "i":
+                        event.preventDefault(); 
                         document.execCommand('italic', false, undefined);
                         break;
                 }
