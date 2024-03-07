@@ -16,8 +16,8 @@ export class Rule32 extends GenericRule {
 
     checkRule() {
         const text = this.textController.getClear();
-        console.log(getAllRegexMatches(text, /\d+/g))
+        const numsInText = getAllRegexMatches(text, /\d+/g);
 
-        this.getClass().fulfilled =  getAllRegexMatches(text, /\d+/).includes(this.textController.getTrueClearLength().toString());
+        this.getClass().fulfilled = numsInText.includes(this.textController.getTrueClearLength().toString());
     }
 }

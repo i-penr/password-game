@@ -16,7 +16,6 @@ export class Rule25 extends GenericRule {
     }
 
     checkRule() {
-        console.log(this.getClass().sacrificedLetters)
         this.getClass().fulfilled = this.getClass().sacrificedLetters.length > 0 && this.getClass().sacrificedLetters.every((letter) => !this.textController.clearText.includes(letter));
     }
 
