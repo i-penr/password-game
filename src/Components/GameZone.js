@@ -20,7 +20,7 @@ function GameZone() {
     tc.setTextUpdateFunction(applyTextChanges);
 
     function handleOnChange(e) {
-        tc.updateText(e);  
+        tc.updateText(e);
     }
 
     async function applyTextChanges() {
@@ -50,8 +50,8 @@ function GameZone() {
     }
 
     // Temporary solution, I know this is deprecated...
-    function boldSelected() {
-        document.execCommand('bold', false, null);
+    function formatText(format) {
+        document.execCommand(format, false, null);
     }
 
     function updateTextStates() {
@@ -73,7 +73,7 @@ function GameZone() {
             {
                 paul.isDead && <div className='death-screen'>
                     <div className='death-screen-strip'>
-                        { paul.deathReason }
+                        {paul.deathReason}
                     </div>
                 </div>
             }
@@ -89,10 +89,26 @@ function GameZone() {
                     </div>
                 </div>
             </div>
-            <div className='toolbar' style={{ display: displayedRules.includesRuleNum(19) ? 'inherit' : 'none' }}>
-                <button onClick={boldSelected} >
+            <div className='toolbar' style={{ display: displayedRules.includesRuleNum(19) ? 'flex' : 'none' }}>
+                <button onClick={() => formatText('bold')} >
                     Bold
                 </button>
+                {
+                    displayedRules.includesRuleNum(26) && <button onClick={() => formatText('italic')}>
+                        Italic
+                    </button>
+                }
+                {
+                    displayedRules.includesRuleNum(27) && <select>
+                        <option value="Monospace">
+                            Monospace
+                        </option><option value="Comic Sans">
+                            Comic Sans
+                        </option><option value="Wingdings">
+                            Wingdings
+                        </option>
+                    </select>
+                }
             </div>
             {htmlText}
             <div className='Rules'>
