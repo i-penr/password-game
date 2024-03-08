@@ -25,7 +25,6 @@ export class Rule26 extends GenericRule {
 
 function countFormatedLetters(str, formatTag) {
     let boldZones = str.split(`<${formatTag}>`).filter((elem) => elem.includes(`</${formatTag}>`));
-    console.log(boldZones)
     let sum = 0;
 
     boldZones.forEach((bold) => {
