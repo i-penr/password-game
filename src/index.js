@@ -8,6 +8,7 @@ import './css/chess.css';
 import './css/strength.css';
 import './css/youtube-player.css';
 import './css/sacrifice.css';
+import './css/rand-color.css';
 import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

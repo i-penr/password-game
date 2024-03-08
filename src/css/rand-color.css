@@ -1,0 +1,32 @@
+.rand-color {
+    width:100%;
+    height:150px;
+    pointer-events:none;
+    margin-top:15px;
+    border-radius:15px;
+    position:relative
+  }
+  .rand-color,
+  .refresh {
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    user-select:none
+  }
+  .refresh {
+    position:absolute;
+    bottom:5px;
+    right:5px;
+    background:#fff;
+    padding:5px;
+    border-radius:15px;
+    width:36px;
+    cursor:pointer;
+    z-index:3;
+    pointer-events:auto;
+    box-shadow:2px 2px 2px 0 rgba(0,0,0,.05);
+    border:1px solid #b3b3b3
+  }
+  .refresh:hover {
+    transform:scale(1.04)
+  }
+  
