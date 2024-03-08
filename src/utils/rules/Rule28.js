@@ -15,6 +15,7 @@ export class Rule28 extends GenericRule {
     }
 
     checkRule() {
+        console.log(Rule28.randomColor)
         this.getClass().fulfilled = this.textController.clearText.toLowerCase().includes(this.getClass().randomColor);
     }
 
@@ -34,10 +35,17 @@ export class Rule28 extends GenericRule {
 }
 
 function getRandomColor() {
-    var letters = '0123456789abcdef';
-    var color = '#';
+    let letters = '0123456789abcdef';
+    let color = '#';
+    // To nerf this a little bit, i am going to add a 10% chance that the color generated does not contain letters, so it does not conflict with other rules.
+    const forceOnlyLetterColor = Math.floor(Math.random()*10) === 0;
+
+    if (forceOnlyLetterColor) {
+        letters = letters.slice(-6);
+    }
+
     for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
+        color += letters[Math.floor(Math.random() * letters.length)];
     }
     return color;
 }
