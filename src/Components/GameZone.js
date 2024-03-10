@@ -14,6 +14,7 @@ function GameZone() {
     const [displayedRules, setDisplayedRules] = useState(new Ruleset([]));
     const [hiddenRules, setHiddenRules] = useState(new Ruleset());
     const [highlight, setHighlight] = useState('');
+    const [selectedFont, setSelectedFont] = useState('Monospace');
 
     const paul = Paul.getInstance();
     const tc = TextController.getInstance();
@@ -59,6 +60,28 @@ function GameZone() {
         setHtmlText(tc.getHtml());
     }
 
+    function handleFontChange(e) {
+        setSelectedFont(e.target.value);
+        applyFont(tc.getHtml(), e.target.value);
+    }
+
+    function applyFont(text, font) {
+        const selectionStart = window.getSelection().getRangeAt(0).startOffset;
+        const selectionEnd = window.getSelection().getRangeAt(0).endOffset;
+    
+        const selectedText = text.substring(selectionStart, selectionEnd);
+        const newText =
+            text.substring(0, selectionStart) +
+            `<span style="font-family: ${font}">${selectedText}</span>` +
+            text.substring(selectionEnd);
+
+            console.log(newText)
+    
+        handleOnChange(newText);
+    }
+    
+
+
     useEffect(() => {
         preLoadNecessaryAssets();
 
@@ -99,7 +122,7 @@ function GameZone() {
                     </button>
                 }
                 {
-                    displayedRules.includesRuleNum(27) && <select>
+                    displayedRules.includesRuleNum(27) && <select value={selectedFont} onChange={handleFontChange}>
                         <option value="Monospace">
                             Monospace
                         </option><option value="Comic Sans">

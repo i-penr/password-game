@@ -7,6 +7,16 @@ body {
   background-color: #fffae9 !important;
 }
 
+@font-face {
+  font-family: "Wingdings";
+  src: url(../../public/fonts/Wingdings-Regular.ttf);
+}
+
+@font-face {
+  font-family: "Comic Sans";
+  src: url(../../public/fonts/Comic-Sans.ttf)
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -293,23 +303,23 @@ body {
 
 @keyframes fadeInDeath-56b284df {
   to {
-    opacity:1
+    opacity: 1
   }
 }
 
 .death-screen {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,.8);
-  -webkit-backdrop-filter:saturate(0);
-  backdrop-filter:saturate(0);
-  z-index:100;
-  animation:fadeInDeath-56b284df .5s ease-in-out forwards;
-  opacity:0;
-  text-align:center
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .8);
+  -webkit-backdrop-filter: saturate(0);
+  backdrop-filter: saturate(0);
+  z-index: 100;
+  animation: fadeInDeath-56b284df .5s ease-in-out forwards;
+  opacity: 0;
+  text-align: center
 }
 
 .death-screen-strip {
