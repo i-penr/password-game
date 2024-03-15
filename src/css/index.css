@@ -224,7 +224,7 @@ body {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  /*   background-image:url(/password-game/chevron.svg); */
+   background-image:url(/public/chevron.svg);
   background-size: 12px 12px;
   background-repeat: no-repeat;
   background-position: calc(100% - 10px) 9px
