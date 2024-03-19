@@ -6,6 +6,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import HighlightedText from "./HighlightedText";
 import { TextController } from "../utils/TextController";
 import { Paul } from "../utils/Paul";
+import FontSize from "tiptap-extension-font-size";
 
 export default function Tiptap({ html, onChange, displayedRules, highlight }) {
     const tc = TextController.getInstance();
@@ -21,6 +22,9 @@ export default function Tiptap({ html, onChange, displayedRules, highlight }) {
         }),
         TextStyle.configure(),
         FontFamily.configure({
+            types: ['textStyle']
+        }), 
+        FontSize.configure({
             types: ['textStyle']
         })],
         content: html,

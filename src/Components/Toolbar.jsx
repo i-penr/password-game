@@ -5,6 +5,10 @@ export function Toolbar({ editor, displayedRules }) {
         editor.chain().focus().setFontFamily(font).run();
     }
 
+    function handleSizeChange(size) {
+        editor.chain().focus().setFontSize(`${size}px`).run();
+    }
+
     return (
         <div className='toolbar' style={{ display: displayedRules.includesRuleNum(19) ? 'flex' : 'none' }} >
             <button onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'is-active' : ''}>
@@ -18,7 +22,7 @@ export function Toolbar({ editor, displayedRules }) {
             }
             {
                 displayedRules.includesRuleNum(30) &&
-                <select value={""}>
+                <select value={editor.getAttributes('textStyle').fontSize ?? 28} onChange={(e) => handleSizeChange(e.target.value)}>
                     <option value={0}>0px</option>
                     <option value={1}>1px</option>
                     <option value={4}>4px</option>
