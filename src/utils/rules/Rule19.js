@@ -24,7 +24,7 @@ export class Rule19 extends GenericRule {
     }
 
     getHighlightRule() {
-        return new RegExp(/[aeiouAEIOU]/, 'g');
+        return new RegExp(/[aeiou]/gi);
     }
 
     checkRule() {
@@ -47,7 +47,7 @@ function countBoldVowelsInText(text) {
     let sum = 0;
 
     boldText.forEach((str) => {
-        const totalNumOfVowels = getAllRegexMatches(str,  /[aeiouAEIOU]/g).length;
+        const totalNumOfVowels = getAllRegexMatches(str, /[aeiouAEIOU]/g).length;
 
         sum += totalNumOfVowels;
     });

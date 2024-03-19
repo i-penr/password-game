@@ -1,4 +1,3 @@
-import { forEach } from "lodash";
 import React, { useEffect, useState, useRef } from "react";
 
 function HighlightedText({ highlight, rawText }) {
@@ -17,13 +16,13 @@ function HighlightedText({ highlight, rawText }) {
         let text = "";
 
         markupSplit.forEach((part) => {
-            if (part.startsWith("<") && part.endsWith(">")) {
+            if (part.match(regexSimpleMarkup)) {
                 text += part;
             } else {
-                text += part.replace(highlight, (match) => `<span class="error-highlight">${match}</span>`);
+                text += part.replace(highlight, '<span class="error-highlight">$&</span>');
             }
         })
-
+        
         setHighlightedText(text);
     }, [rawText, highlight]);
 

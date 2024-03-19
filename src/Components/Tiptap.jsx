@@ -1,4 +1,4 @@
-import { useEditor, EditorContent, markInputRule, Mark } from "@tiptap/react";
+import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Toolbar } from "./Toolbar";
 import FontFamily from "@tiptap/extension-font-family";

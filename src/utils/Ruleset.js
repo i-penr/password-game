@@ -42,10 +42,10 @@ export class Ruleset {
                 Rule10.getInstance(), Rule11.getInstance(), Rule12.getInstance(),
                 Rule13.getInstance(), Rule14.getInstance(), Rule15.getInstance(),
                 Rule16.getInstance(), Rule17.getInstance(), Rule18.getInstance(),
-                */Rule19.getInstance(), /*Rule20.getInstance(), Rule21.getInstance(),
+                Rule19.getInstance(), Rule20.getInstance(), Rule21.getInstance(),
                 Rule22.getInstance(), Rule23.getInstance(), Rule24.getInstance(), 
-                Rule25.getInstance(), Rule26.getInstance(), */Rule27.getInstance(),
-                Rule28.getInstance(), Rule29.getInstance()
+                Rule25.getInstance(), Rule26.getInstance(), ule27.getInstance(),
+                Rule28.getInstance(),*/ Rule29.getInstance()
                 /* Rule32.getInstance(), Rule33.getInstance(), */
             ];
         }
@@ -87,6 +87,6 @@ export class Ruleset {
     }
 
     includesRuleNum(num) {
-        return this.rules.some((rule) => rule.number === num);
+        return this.rules.some((rule) => rule.number >= num);
     }
 }

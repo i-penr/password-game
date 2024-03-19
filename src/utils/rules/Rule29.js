@@ -20,17 +20,14 @@ export class Rule29 extends GenericRule {
 
     checkRule() {
         const numRomanNumerals = getAllRegexMatches(this.textController.getClear(), /I|V|X|L|C|D|M/g).length;
-        const numFormatedNumerals = getNumeralsInTimesNewRoman(this.textController.getClear());
-
-        console.log("normal", numRomanNumerals)
-        console.log("aaa", numFormatedNumerals)
+        const numFormatedNumerals = getNumeralsInTimesNewRoman(this.textController.getHtml());
 
         this.getClass().fulfilled =  numRomanNumerals === numFormatedNumerals;
     }
 }
 
 function getNumeralsInTimesNewRoman(text) {
-    const textInTNR = getFormattedStringsInText('span style="font-family: Times\ New\ Roman', text);
+    const textInTNR = getFormattedStringsInText('span style="font-family: Times\\ New\\ Roman"', text);
     let sum = 0;
 
     textInTNR.forEach((str) => {
