@@ -28,6 +28,7 @@ import { Rule25 } from './rules/Rule25';
 import { Rule26 } from './rules/Rule26';
 import { Rule27 } from './rules/Rule27';
 import { Rule28 } from './rules/Rule28';
+import { Rule29 } from './rules/Rule29';
 
 export class Ruleset {
     constructor(rules) {
@@ -43,8 +44,8 @@ export class Ruleset {
                 Rule16.getInstance(), Rule17.getInstance(), Rule18.getInstance(),
                 */Rule19.getInstance(), /*Rule20.getInstance(), Rule21.getInstance(),
                 Rule22.getInstance(), Rule23.getInstance(), Rule24.getInstance(), 
-                Rule25.getInstance(), Rule26.getInstance(), Rule27.getInstance,*/
-                Rule27.getInstance()
+                Rule25.getInstance(), Rule26.getInstance(), */Rule27.getInstance(),
+                Rule28.getInstance(), Rule29.getInstance()
                 /* Rule32.getInstance(), Rule33.getInstance(), */
             ];
         }

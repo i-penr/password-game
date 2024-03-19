@@ -3,18 +3,15 @@ import { Ruleset } from '../utils/Ruleset';
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import Rule from './Rule';
 import { Rule11 } from '../utils/rules/Rule11';
-import HighlightedText from './HighlightedText';
 import { TextController } from '../utils/TextController';
-import ContentEditable from './ContentEditable.tsx';
 import { Paul } from '../utils/Paul.js';
+import Tiptap from './Tiptap.jsx';
 
 function GameZone() {
     const [htmlText, setHtmlText] = useState('');
-    const [clearText, setClearText] = useState('');
     const [displayedRules, setDisplayedRules] = useState(new Ruleset([]));
     const [hiddenRules, setHiddenRules] = useState(new Ruleset());
     const [highlight, setHighlight] = useState('');
-    const [selectedFont, setSelectedFont] = useState('Monospace');
 
     const paul = Paul.getInstance();
     const tc = TextController.getInstance();
@@ -50,44 +47,15 @@ function GameZone() {
         Rule11.getWordleAnswer();
     }
 
-    // Temporary solution, I know this is deprecated...
-    function formatText(format) {
-        document.execCommand(format, false, null);
-    }
-
     function updateTextStates() {
-        setClearText(tc.getClear());
         setHtmlText(tc.getHtml());
     }
-
-    function handleFontChange(e) {
-        setSelectedFont(e.target.value);
-        applyFont(tc.getHtml(), e.target.value);
-    }
-
-    function applyFont(text, font) {
-        const selectionStart = window.getSelection().getRangeAt(0).startOffset;
-        const selectionEnd = window.getSelection().getRangeAt(0).endOffset;
-    
-        const selectedText = text.substring(selectionStart, selectionEnd);
-        const newText =
-            text.substring(0, selectionStart) +
-            `<span style="font-family: ${font}">${selectedText}</span>` +
-            text.substring(selectionEnd);
-
-            console.log(newText)
-    
-        handleOnChange(newText);
-    }
-    
-
 
     useEffect(() => {
         preLoadNecessaryAssets();
 
         return () => {
             setHtmlText('');
-            setClearText('');
         };
     }, []);
 
@@ -100,39 +68,7 @@ function GameZone() {
                     </div>
                 </div>
             }
-            <div className='password-box'>
-                <div className='password-label'>
-                    Please choose a password
-                </div>
-                <div className='password-box-inner'>
-                    <HighlightedText rawText={clearText} highlight={highlight} />
-                    <ContentEditable html={htmlText} onChange={(e) => handleOnChange(e.target.value)} className='ProseMirror' />
-                    <div className='password-length show-password-length' style={{ opacity: tc.getTrueClearLength() === 0 ? 0 : 1 }} >
-                        {tc.getTrueClearLength()}
-                    </div>
-                </div>
-            </div>
-            <div className='toolbar' style={{ display: displayedRules.includesRuleNum(19) ? 'flex' : 'none' }}>
-                <button onClick={() => formatText('bold')} >
-                    Bold
-                </button>
-                {
-                    displayedRules.includesRuleNum(26) && <button onClick={() => formatText('italic')}>
-                        Italic
-                    </button>
-                }
-                {
-                    displayedRules.includesRuleNum(27) && <select value={selectedFont} onChange={handleFontChange}>
-                        <option value="Monospace">
-                            Monospace
-                        </option><option value="Comic Sans">
-                            Comic Sans
-                        </option><option value="Wingdings">
-                            Wingdings
-                        </option>
-                    </select>
-                }
-            </div>
+            <Tiptap html={htmlText} onChange={handleOnChange} displayedRules={displayedRules} highlight={highlight} />
             {htmlText}
             <div className='Rules'>
                 <Flipper flipKey={displayedRules.rules[0]}>
