@@ -1,5 +1,5 @@
 import { GenericRule } from '../GenericRule';
-import { getFormattedStringsInText } from '../functions';
+import { getSubstringsWithFont } from '../functions';
 
 export class Rule27 extends GenericRule {
     static instance = new Rule27();
@@ -16,8 +16,8 @@ export class Rule27 extends GenericRule {
 
     checkRule() {
         const length = this.getClass().getInstance().textController.getTrueClearLength();
-        const windings = getFormattedStringsInText('span style="font-family: Wingdings"', this.textController.getHtml());
-        const numWindings = countLettersInArray(windings);
+        const wingdings = getSubstringsWithFont('Wingdings', this.textController.getHtml());
+        const numWindings = countLettersInArray(wingdings);
 
         this.getClass().fulfilled = numWindings >= length * 0.3;
     }

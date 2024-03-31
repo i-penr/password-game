@@ -8,7 +8,7 @@ export function getAllRegexMatches(text, regex) {
 
 export function getFormattedStringsInText(format, text) {
     const formatClose = format.split(' ')[0];
-    let zones = text.split(`<${format}>`).slice(1).filter((elem) => elem.includes(`</${formatClose}>`));
+    let zones = text.split(new RegExp(`<[^/]*?${format}.*?>`)).slice(1).filter((elem) => elem.includes(`</${formatClose}>`));
     let formated = [];
 
     zones.forEach((rawArea) => {
@@ -16,4 +16,12 @@ export function getFormattedStringsInText(format, text) {
     });
 
     return formated;
+}
+
+export function getSubstringsWithFont(font, text) {
+    return getFormattedStringsInText(`span style="[^"]*font-family: ${font}.*?"`, text);
+}
+
+export function getSubstringsWithFontSize(size, text) {
+    return getFormattedStringsInText(`span style="[^"]*font-size: ${size}px.*?"`, text);
 }

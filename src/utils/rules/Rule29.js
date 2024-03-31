@@ -1,5 +1,5 @@
 import { GenericRule } from '../GenericRule';
-import { getAllRegexMatches, getFormattedStringsInText } from '../functions';
+import { getAllRegexMatches, getSubstringsWithFont } from '../functions';
 
 export class Rule29 extends GenericRule {
     static instance = new Rule29();
@@ -27,11 +27,10 @@ export class Rule29 extends GenericRule {
 }
 
 function getNumeralsInTimesNewRoman(text) {
-    const textInTNR = getFormattedStringsInText('span style="font-family: Times\\ New\\ Roman"', text);
+    const textInTNR = getSubstringsWithFont('Times\\\\ New\\\\ Roman', text);
     let sum = 0;
 
     textInTNR.forEach((str) => {
-        console.log(str)
         sum += getAllRegexMatches(str, /I|V|X|L|C|D|M/g).length;
     });
 
