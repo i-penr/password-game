@@ -21,7 +21,3 @@ export function getFormattedStringsInText(format, text) {
 export function getSubstringsWithFont(font, text) {
     return getFormattedStringsInText(`span style="[^"]*font-family: ${font}.*?"`, text);
 }
-
-export function getSubstringsWithFontSize(size, text) {
-    return getFormattedStringsInText(`span style="[^"]*font-size: ${size}px.*?"`, text);
-}

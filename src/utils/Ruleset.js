@@ -45,8 +45,8 @@ export class Ruleset {
                 Rule16.getInstance(), Rule17.getInstance(), Rule18.getInstance(),
                 Rule19.getInstance(), Rule20.getInstance(), Rule21.getInstance(),
                 Rule22.getInstance(), Rule23.getInstance(), Rule24.getInstance(), 
-                Rule25.getInstance(),*/ Rule26.getInstance(), Rule27.getInstance(),
-                Rule28.getInstance(), Rule29.getInstance()/*  Rule30.getInstance() */
+                Rule25.getInstance(),Rule26.getInstance(), Rule27.getInstance(),
+                Rule28.getInstance(), Rule29.getInstance()*/  Rule30.getInstance()
                 /* Rule32.getInstance(), Rule33.getInstance(), */
             ];
         }
