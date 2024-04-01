@@ -22,7 +22,7 @@ export function Toolbar({ editor, displayedRules }) {
             }
             {
                 displayedRules.includesRuleNum(30) &&
-                <select value={editor.getAttributes('textStyle').fontSize ?? 28} onChange={(e) => handleSizeChange(e.target.value)}>
+                <select value={editor.getAttributes('textStyle').fontSize?.replace('px', '') ?? 28} onChange={(e) => handleSizeChange(e.target.value)}>
                     <option value={0}>0px</option>
                     <option value={1}>1px</option>
                     <option value={4}>4px</option>
