@@ -21,11 +21,18 @@ import { Rule20 } from './rules/Rule20';
 import { Rule21 } from './rules/Rule21';
 import { Rule22 } from './rules/Rule22';
 import { Rule23 } from './rules/Rule23';
-import { Rule32 } from './rules/Rule32';
-import { Rule33 } from './rules/Rule33';
 import { Rule24 } from './rules/Rule24';
 import { Rule25 } from './rules/Rule25';
 import { Rule26 } from './rules/Rule26';
+import { Rule27 } from './rules/Rule27';
+import { Rule28 } from './rules/Rule28';
+import { Rule29 } from './rules/Rule29';
+import { Rule30 } from './rules/Rule30';
+import { Rule31 } from './rules/Rule31';
+import { Rule32 } from './rules/Rule32';
+import { Rule33 } from './rules/Rule33';
+import { Rule34 } from './rules/Rule34';
+import { Rule35 } from './rules/Rule35';
 
 export class Ruleset {
     constructor(rules) {
@@ -33,16 +40,13 @@ export class Ruleset {
             this.rules = rules;
         } else {
             this.rules = [
-                /* Rule1.getInstance(), Rule2.getInstance(), Rule3.getInstance(),
-                Rule4.getInstance(), Rule5.getInstance(), Rule6.getInstance(),
-                Rule7.getInstance(), Rule8.getInstance(), Rule9.getInstance(),
-                Rule10.getInstance(), Rule11.getInstance(), Rule12.getInstance(),
-                Rule13.getInstance(), Rule14.getInstance(), Rule15.getInstance(),
-                Rule16.getInstance(), Rule17.getInstance(), Rule18.getInstance(),
-                */Rule19.getInstance(), /*Rule20.getInstance(), Rule21.getInstance(),
-                Rule22.getInstance(), Rule23.getInstance(), Rule24.getInstance(), 
-                Rule25.getInstance(),*/ Rule26.getInstance(),
-                /* Rule32.getInstance(), Rule33.getInstance(), */
+                Rule1.getInstance(), Rule2.getInstance(), Rule3.getInstance(), Rule4.getInstance(), Rule5.getInstance(), 
+                Rule6.getInstance(), Rule7.getInstance(), Rule8.getInstance(), Rule9.getInstance(), Rule10.getInstance(), 
+                Rule11.getInstance(), Rule12.getInstance(), Rule13.getInstance(), Rule14.getInstance(), Rule15.getInstance(),
+                Rule16.getInstance(), Rule17.getInstance(), Rule18.getInstance(), Rule19.getInstance(), Rule20.getInstance(),
+                Rule21.getInstance(), Rule22.getInstance(), Rule23.getInstance(), Rule24.getInstance(), Rule25.getInstance(), 
+                Rule26.getInstance(), Rule27.getInstance(), Rule28.getInstance(), Rule29.getInstance(), Rule30.getInstance(),
+                Rule31.getInstance(), Rule32.getInstance(), Rule33.getInstance(), Rule34.getInstance(), Rule35.getInstance()
             ];
         }
     }
@@ -83,6 +87,6 @@ export class Ruleset {
     }
 
     includesRuleNum(num) {
-        return this.rules.some((rule) => rule.number === num);
+        return this.rules.some((rule) => rule.number >= num);
     }
 }

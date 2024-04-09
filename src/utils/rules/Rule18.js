@@ -16,7 +16,6 @@ export class Rule18 extends GenericRule {
     }
 
     getHighlightRule() {
-        // Look, if you are better than this, show me, please.
         return new RegExp(Object.keys(elements).join("|"), "g");
     }
 

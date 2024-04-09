@@ -1,4 +1,5 @@
 import { GenericRule } from '../GenericRule';
+import { getSubstringsWithFont } from '../functions';
 
 export class Rule27 extends GenericRule {
     static instance = new Rule27();
@@ -14,6 +15,18 @@ export class Rule27 extends GenericRule {
     }
 
     checkRule() {
-        this.getClass().fulfilled =  this.textController.getTrueClearLength() >= 5;
+        const length = this.getClass().getInstance().textController.getTrueClearLength();
+        const wingdings = getSubstringsWithFont('Wingdings', this.textController.getHtml());
+        const numWindings = countLettersInArray(wingdings);
+
+        this.getClass().fulfilled = numWindings >= length * 0.3;
     }
 }
+
+function countLettersInArray(arr) {
+    let sum = 0;
+
+    arr.forEach((elem) => sum += elem.length);
+
+    return sum
+} 

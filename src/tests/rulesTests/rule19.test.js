@@ -3,11 +3,11 @@ import { Rule19 } from "../../utils/rules/Rule19";
 
 test.each([
     ["a", false],
-    ["<b>aaaaa</b>", true],
-    ["<b>a</b><b>a</b><b>afdsafkj</b>", true],
-    ["<b>a</b><b>a</b><b>afdsafkj</b>a", false],
+    ["<strong>aaaaa</strong>", true],
+    ["<strong>a</strong><strong>a</strong><strong>afdsafkj</strong>", true],
+    ["<strong>a</strong><strong>a</strong><strong>afdsafkj</strong>a", false],
     ["hola que tal", false],
-    ["h<b>o</b>l<b>a</b> q<b>ue</b> t<b>a</b>l", true],
+    ["h<strong>o</strong>l<strong>a</strong> q<strong>ue</strong> t<strong>a</strong>l", true],
 ])("checkRule19(%s)", (s, expected) => {
     const rule = Rule19.getInstance();
     rule.textController.updateText(s);

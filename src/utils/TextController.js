@@ -28,7 +28,7 @@ export class TextController {
     updateText(text) {
         this.rawText = text;
         this.clearText = decodeHTML(sanitizeHtml(this.rawText, { allowedTags: [] }));
-        this.htmlText = sanitizeHtml(this.rawText, { allowedTags: ['b', 'i', 'em', 'strong', 'a', 'p', 'h1', 'br', 'div'], allowedAttributes: { a: ['href'] }});
+        this.htmlText = sanitizeHtml(this.rawText, { allowedTags: ['b', 'i', 'em', 'strong', 'p', 'br', 'div', 'span'], allowedAttributes: { 'span': ['style', 'font-family', 'font-size'] }, parseStyleAttributes: false });
         if (this.textUpdateFunction) this.textUpdateFunction();
     }
 

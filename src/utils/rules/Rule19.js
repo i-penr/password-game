@@ -1,5 +1,5 @@
 import { GenericRule } from '../GenericRule';
-import { getAllRegexMatches } from '../functions';
+import { getFormattedStringsInText, getAllRegexMatches } from '../functions';
 import sanitizeHtml from 'sanitize-html';
 
 /*
@@ -24,27 +24,33 @@ export class Rule19 extends GenericRule {
     }
 
     getHighlightRule() {
-        return new RegExp(/[aeiouAEIOU]/, 'g');
+        return new RegExp(/[aeiou]/gi);
     }
 
     checkRule() {
         // Tags like <div> include vowels, which messes up the fulfill condition
-        const text = sanitizeHtml(this.textController.getHtml(), { allowedTags: ['b'] });
+        const text = sanitizeHtml(this.textController.getHtml(), { allowedTags: ['strong'] })
 
         this.getClass().fulfilled = checkIfAllVowelsAreBolded(text);
     }
 }
 
 function checkIfAllVowelsAreBolded(str) {
-    let boldZones = str.split("<b>").filter((elem) => elem.includes("</b>"));
-    const totalNumOfVowels = getAllRegexMatches(str, Rule19.getInstance().getHighlightRule()).length;
+    const totalNumOfBoldVowels = countBoldVowelsInText(str);
+    const totalNumOfVowels = getAllRegexMatches(str.replace(/<strong>|<\/strong>/g, ''), /[aeiouAEIOU]/g).length;
+
+    return totalNumOfBoldVowels === totalNumOfVowels;
+}
+
+function countBoldVowelsInText(text) {
+    const boldText = getFormattedStringsInText("strong", text);
     let sum = 0;
 
-    boldZones.forEach((bold) => {
-        const boldedArea = bold.split("</b>")[0]; // left part of </b>
+    boldText.forEach((str) => {
+        const totalNumOfVowels = getAllRegexMatches(str, /[aeiouAEIOU]/g).length;
 
-        sum += getAllRegexMatches(boldedArea, Rule19.getInstance().getHighlightRule()).length;
+        sum += totalNumOfVowels;
     });
 
-    return sum === totalNumOfVowels;
+    return sum;
 }
