@@ -11,18 +11,15 @@ function HighlightedText({ highlight, rawText }) {
          * 
          * See https://stackoverflow.com/a/62843574/22851578
          */
-        const regexSimpleMarkup = (/(<[^>]+>)/g);
-        const markupSplit = rawText.split(regexSimpleMarkup);
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = rawText;
+        const spans = tempDiv.querySelectorAll('span') ?? rawText;
         let text = "";
 
-        markupSplit.forEach((part) => {
-            if (part.match(regexSimpleMarkup)) {
-                text += part;
-            } else {
-                text += part.replace(highlight, '<span class="error-highlight">$&</span>');
-            }
-        })
-        
+        spans.forEach((part) => {
+            text += part.innerText.replace(highlight, '<span class="error-highlight">$&</span>');
+        });
+
         setHighlightedText(text);
     }, [rawText, highlight]);
 

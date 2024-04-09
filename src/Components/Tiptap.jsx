@@ -7,6 +7,7 @@ import HighlightedText from "./HighlightedText";
 import { TextController } from "../utils/TextController";
 import { Paul } from "../utils/Paul";
 import FontSize from "tiptap-extension-font-size";
+import { useEffect } from "react";
 
 export default function Tiptap({ html, onChange, displayedRules, highlight }) {
     const tc = TextController.getInstance();
@@ -42,6 +43,14 @@ export default function Tiptap({ html, onChange, displayedRules, highlight }) {
             onChange(editor.getHTML());
         }
     });
+
+    useEffect(() => {
+        if (!editor) return;
+
+        editor.chain().focus().setFontFamily('Monospace').run();
+        editor.chain().focus().setFontSize('28px').run();
+
+    }, [editor]);
 
     return (
         <>

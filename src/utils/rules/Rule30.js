@@ -22,32 +22,19 @@ export class Rule30 extends GenericRule {
     }
 }
 
-// This is very sketchy
 function numbersHaveRightSize(text) {
-    // Similar case as with HiglightedText
-    const tagSplit = text.split(/(<[^>]+>)/g);
-    let currentFontSize;
-    let insideSpan = false;
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = text;
+    const spans = tempDiv.querySelectorAll('span') ?? text;
 
-    for (const elem of tagSplit) {
-        if (elem.match(/(<span.*?>)/)) {
-            currentFontSize = parseInt(/font-size:\s*([\d.]+)px/.exec(elem)[1]) ?? 28;
-            insideSpan = true;
-        } else if (insideSpan) {
-            const numsInSegment = elem.match(/\d/g);
-            insideSpan = false;
+    return [...spans].some((section) => {
+        const currentFontSize = parseInt(section.style.fontSize.replace('px', ''));
+        const numsInSegment = section.innerText.match(/\d/g);
 
-            if (numsInSegmentHaveSizeEqualToTheirSquares(numsInSegment, currentFontSize)) {
-                return false;
-            }
-        } else if (elem.match(/\d/)) {
-            return false;
-        }
-    }
-
-    return true;
+        return numsInSegmentHaveSizeEqualToTheirSquares(numsInSegment, currentFontSize);
+    });
 }
 
 function numsInSegmentHaveSizeEqualToTheirSquares(numsInSegment, currentFontSize) {
-    return numsInSegment !== null && numsInSegment.every((num) => parseInt(num) !== Math.sqrt(currentFontSize));
+    return numsInSegment === null || numsInSegment.every((num) => parseInt(num) === Math.sqrt(currentFontSize));
 }
