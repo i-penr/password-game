@@ -11,13 +11,12 @@ function HighlightedText({ highlight, rawText }) {
          * 
          * See https://stackoverflow.com/a/62843574/22851578
          */
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = rawText;
-        const spans = tempDiv.querySelectorAll('span') ?? rawText;
+        const tagRegex = /<[^>]*?>/g;
+        const tagSplit = rawText.split(tagRegex).filter((part) => part.length > 0);
         let text = "";
 
-        spans.forEach((part) => {
-            text += part.innerText.replace(highlight, '<span class="error-highlight">$&</span>');
+        tagSplit.forEach((part) => {
+            text += part.replace(highlight, '<span class="error-highlight">$&</span>');
         });
 
         setHighlightedText(text);

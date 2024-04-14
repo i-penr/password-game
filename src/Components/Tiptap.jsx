@@ -24,33 +24,36 @@ export default function Tiptap({ html, onChange, displayedRules, highlight }) {
         TextStyle.configure(),
         FontFamily.configure({
             types: ['textStyle']
-        }), 
+        }),
         FontSize.configure({
             types: ['textStyle']
         })],
         content: html,
         editorProps: {
-            transformPastedText: (pastedText, plain, view) => {
+            transformPasted: (pastedText, view) => {
                 const paul = Paul.getInstance();
 
                 // Allowing pasting more than one egg will be cheating (you can just paste a bunch of eggs and Paul does not die)
-                if (paul && view.dom.innerHTML.includes(paul.state) && pastedText.includes(paul.state)) return '';
+                if (paul && view.dom.innerHTML.includes(paul.state) && pastedText.content.toString().includes(paul.state)) return '';
 
                 return pastedText;
-            }
+            },
         },
         onUpdate({ editor }) {
-            onChange(editor.getHTML());
+            tc.updateText(editor.getHTML());
         }
     });
+
 
     useEffect(() => {
         if (!editor) return;
 
-        editor.chain().focus().setFontFamily('Monospace').run();
-        editor.chain().focus().setFontSize('28px').run();
+        editor.chain().focus().selectAll().setFontFamily('Monospace').run();
+        editor.chain().focus().selectAll().setFontSize('28px').run();
 
-    }, [editor]);
+        tc.editor = editor;
+
+    }, [editor, tc]);
 
     return (
         <>
