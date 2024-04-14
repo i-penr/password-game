@@ -8,7 +8,6 @@ import { Paul } from '../utils/Paul.js';
 import Tiptap from './Tiptap.jsx';
 
 function GameZone() {
-    const [htmlText, setHtmlText] = useState('');
     const [displayedRules, setDisplayedRules] = useState(new Ruleset([]));
     const [hiddenRules, setHiddenRules] = useState(new Ruleset());
     const [highlight, setHighlight] = useState('');
@@ -17,12 +16,7 @@ function GameZone() {
     const tc = TextController.getInstance();
     tc.setTextUpdateFunction(applyTextChanges);
 
-    function handleOnChange(e) {
-        tc.updateText(e);
-    }
-
     async function applyTextChanges() {
-        updateTextStates();
         await recheckRules();
 
         displayedRules.sort();
@@ -47,16 +41,8 @@ function GameZone() {
         Rule11.getWordleAnswer();
     }
 
-    function updateTextStates() {
-        setHtmlText(tc.getHtml());
-    }
-
     useEffect(() => {
         preLoadNecessaryAssets();
-
-        return () => {
-            setHtmlText('');
-        };
     }, []);
 
     return (
@@ -68,8 +54,8 @@ function GameZone() {
                     </div>
                 </div>
             }
-            <Tiptap html={htmlText} onChange={handleOnChange} displayedRules={displayedRules} highlight={highlight} />
-            {htmlText}
+            <Tiptap displayedRules={displayedRules} highlight={highlight} />
+            {tc.getHtml()}
             <div className='Rules'>
                 <Flipper flipKey={displayedRules.rules[0]}>
                     {displayedRules.rules.map((rule) => (
