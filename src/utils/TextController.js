@@ -31,8 +31,6 @@ export class TextController {
         this.clearText = decodeHTML(sanitizeHtml(this.rawText, { allowedTags: [] }));
         this.htmlText = sanitizeHtml(this.rawText, { allowedTags: ['b', 'i', 'em', 'strong', 'p', 'br', 'div', 'span'], allowedAttributes: { 'span': ['style', 'font-family', 'font-size'] }, parseStyleAttributes: false });
 
-        if (this.editor) this.updateEditorContent();
-
         if (this.textUpdateFunction) this.textUpdateFunction();
     }
 
@@ -51,6 +49,7 @@ export class TextController {
         const fireStartingIndex = Math.ceil(Math.random() * this.clearText.length);
         let text = stringReplaceAtWithFire(this.clearText, fireStartingIndex);
         this.updateText(text);
+        if (this.editor) this.updateEditorContent();
         let prev = fireStartingIndex-1;
         let next = fireStartingIndex+3;
         let isNextFinished = false; 
@@ -81,6 +80,7 @@ export class TextController {
             }
 
             this.updateText(text);
+            if (this.editor) this.updateEditorContent();
         }, 1000);
     }
 
