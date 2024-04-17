@@ -57,7 +57,7 @@ function GameZone() {
             <Tiptap displayedRules={displayedRules} highlight={highlight} />
             {tc.getHtml()}
             <div className='Rules'>
-                <Flipper flipKey={displayedRules.rules[0]}>
+                <Flipper flipKey={[...displayedRules.rules]}>
                     {displayedRules.rules.map((rule) => (
                         <Flipped key={rule.number} flipId={rule.number}>
                             {flippedProps => <Rule rule={rule} flippedProps={flippedProps} />}
