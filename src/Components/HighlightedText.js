@@ -11,14 +11,17 @@ function HighlightedText({ highlight, rawText }) {
          * 
          * See https://stackoverflow.com/a/62843574/22851578
          */
-        const tagRegex = /<[^>]*?>/g;
-        const tagSplit = rawText.split(tagRegex).filter((part) => part.length > 0);
+        const regexSimpleMarkup = (/(<[^>]+>)/g);
+        const markupSplit = rawText.split(regexSimpleMarkup).filter((elem) => elem.length > 0);
         let text = "";
 
-        tagSplit.forEach((part) => {
-            text += part.replace(highlight, '<span class="error-highlight">$&</span>');
+        markupSplit.forEach((part) => {
+            if (part.startsWith("<") && part.endsWith(">")) {
+                text += part;
+            } else {
+                text += part.replace(highlight, '<span class="error-highlight">$&</span>');
+            }
         });
-
         setHighlightedText(text);
     }, [rawText, highlight]);
 
