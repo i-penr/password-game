@@ -23,7 +23,7 @@ export class Rule19 extends GenericRule {
         return Rule19;
     }
 
-    getHighlightRule() {
+    getHighlight() {
         return new RegExp(/[aeiou]/gi);
     }
 

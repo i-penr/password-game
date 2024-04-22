@@ -22,7 +22,7 @@ export class Rule5 extends GenericRule {
         this.getClass().fulfilled = sum === 25;
     }
 
-    getHighlightRule() {
+    getHighlight() {
         return new RegExp(/\d/, "g");
     }
 }

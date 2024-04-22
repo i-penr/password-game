@@ -23,7 +23,7 @@ export class Rule9 extends GenericRule {
         return Rule9;
     }
 
-    getHighlightRule() {
+    getHighlight() {
         return new RegExp(/I|V|X|L|C|D|M/, "g");
     }
 

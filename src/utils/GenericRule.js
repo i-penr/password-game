@@ -16,7 +16,7 @@ export class GenericRule extends React.Component {
         this.text = this.textController.getClear();
     }
 
-    getHighlightRule() {
+    getHighlight() {
         return new RegExp(/^$/);
     }
 

@@ -19,7 +19,7 @@ export class Rule25 extends GenericRule {
         this.getClass().fulfilled = this.getClass().sacrificedLetters.length > 0 && this.getClass().sacrificedLetters.every((letter) => !this.textController.clearText.includes(letter));
     }
 
-    getHighlightRule() {
+    getHighlight() {
         return this.getClass().sacrificedLetters.length > 0 ? new RegExp(this.getClass().sacrificedLetters.join("|"), "g") : /^$/;
     }
 

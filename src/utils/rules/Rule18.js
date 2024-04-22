@@ -15,14 +15,14 @@ export class Rule18 extends GenericRule {
         return Rule18;
     }
 
-    getHighlightRule() {
+    getHighlight() {
         return new RegExp(Object.keys(elements).join("|"), "g");
     }
 
 
     checkRule() {
         const text = this.textController.getClear();
-        const elementsOnText = getAllRegexMatches(text, this.getHighlightRule());
+        const elementsOnText = getAllRegexMatches(text, this.getHighlight());
         const sum = sumElems(elementsOnText);
 
         this.getClass().fulfilled = sum === 200;

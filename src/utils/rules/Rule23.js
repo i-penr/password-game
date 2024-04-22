@@ -65,5 +65,6 @@ export class Rule23 extends GenericRule {
         const newText = oldText.slice(0, lastCatterpillar) + '' + oldText.slice(lastCatterpillar + 2);
 
         this.textController.updateText(newText);
+        this.textController.updateEditorContent();
     }
 }

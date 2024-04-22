@@ -14,7 +14,7 @@ export class Rule29 extends GenericRule {
         return Rule29;
     }
 
-    getHighlightRule() {
+    getHighlight() {
         return /I|V|X|L|C|D|M/g;
     }
 

@@ -13,7 +13,7 @@ export class Rule30 extends GenericRule {
         return Rule30;
     }
 
-    getHighlightRule() {
+    getHighlight() {
         return /\d/g;
     }
 

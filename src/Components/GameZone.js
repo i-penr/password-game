@@ -20,7 +20,7 @@ function GameZone() {
         await recheckRules();
 
         displayedRules.sort();
-        setHighlight(displayedRules.rules[0].getHighlightRule());
+        setHighlight(displayedRules.rules[0].getHighlight());
     }
 
     async function recheckRules() {
