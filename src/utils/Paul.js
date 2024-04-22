@@ -29,5 +29,6 @@ export class Paul {
         
         this.state = emoji;
         tc.updateText(newText);
+        tc.updateEditorContent();
     }
 }
