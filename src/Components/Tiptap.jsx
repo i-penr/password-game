@@ -9,7 +9,7 @@ import { Paul } from "../utils/Paul";
 import FontSize from "tiptap-extension-font-size";
 import { useEffect } from "react";
 
-export default function Tiptap({ html, onChange, displayedRules, highlight }) {
+export default function Tiptap({ html, displayedRules, highlightString }) {
     const tc = TextController.getInstance();
 
     const editor = useEditor({
@@ -38,6 +38,14 @@ export default function Tiptap({ html, onChange, displayedRules, highlight }) {
 
                 return pastedText;
             },
+            transformPastedHTML: (html) => {
+                const elementHtml = document.createElement('span');
+                elementHtml.style.fontFamily = 'Monospace';
+                elementHtml.style.fontSize = '28px';
+                elementHtml.innerHTML = html;
+
+                return elementHtml.outerHTML;
+            }
         },
         onUpdate({ editor }) {
             tc.updateText(editor.getHTML());
@@ -62,7 +70,7 @@ export default function Tiptap({ html, onChange, displayedRules, highlight }) {
                     Please choose a password
                 </div>
                 <div className='password-box-inner' spellCheck="false">
-                    <HighlightedText rawText={tc.getHtml()} highlight={highlight} />
+                    <HighlightedText highlightedText={highlightString} />
                     <EditorContent editor={editor} />
                     <div className='password-length show-password-length' style={{ opacity: tc.getTrueClearLength() === 0 ? 0 : 1 }} >
                         {tc.getTrueClearLength()}
