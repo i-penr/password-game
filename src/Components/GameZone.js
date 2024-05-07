@@ -10,7 +10,7 @@ import Tiptap from './Tiptap.jsx';
 function GameZone() {
     const [displayedRules, setDisplayedRules] = useState(new Ruleset([]));
     const [hiddenRules, setHiddenRules] = useState(new Ruleset());
-    const [highlight, setHighlight] = useState('');
+    const [highlightString, setHighlightString] = useState('');
 
     const paul = Paul.getInstance();
     const tc = TextController.getInstance();
@@ -20,7 +20,7 @@ function GameZone() {
         await recheckRules();
 
         displayedRules.sort();
-        setHighlight(displayedRules.rules[0].getHighlight());
+        setHighlightString(displayedRules.rules[0].getHighlightString());
     }
 
     async function recheckRules() {
@@ -54,7 +54,7 @@ function GameZone() {
                     </div>
                 </div>
             }
-            <Tiptap displayedRules={displayedRules} highlight={highlight} />
+            <Tiptap displayedRules={displayedRules} highlightString={highlightString} />
             {tc.getHtml()}
             <div className='Rules'>
                 <Flipper flipKey={[...displayedRules.rules]}>

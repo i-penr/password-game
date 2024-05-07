@@ -1,4 +1,5 @@
 import { GenericRule } from '../GenericRule'
+import { generateHighlightString } from '../functions';
 
 const romanNumerals = {
     I: 1,
@@ -23,8 +24,8 @@ export class Rule9 extends GenericRule {
         return Rule9;
     }
 
-    getHighlight() {
-        return new RegExp(/I|V|X|L|C|D|M/, "g");
+    getHighlightString() {
+        return generateHighlightString(this.textController.getHtml(), /[IVXLCDM]/g);
     }
 
     /*

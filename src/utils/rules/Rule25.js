@@ -1,4 +1,5 @@
 import { GenericRule } from '../GenericRule';
+import { generateHighlightString } from '../functions';
 
 export class Rule25 extends GenericRule {
     static instance = new Rule25();
@@ -19,8 +20,10 @@ export class Rule25 extends GenericRule {
         this.getClass().fulfilled = this.getClass().sacrificedLetters.length > 0 && this.getClass().sacrificedLetters.every((letter) => !this.textController.clearText.includes(letter));
     }
 
-    getHighlight() {
-        return this.getClass().sacrificedLetters.length > 0 ? new RegExp(this.getClass().sacrificedLetters.join("|"), "g") : /^$/;
+    getHighlightString() {
+        const highlight = this.getClass().sacrificedLetters.length > 0 ? new RegExp(this.getClass().sacrificedLetters.join("|"), "g") : /^$/;
+
+        return generateHighlightString(this.textController.getHtml(), highlight);
     }
 
     handleClick = (index) => {

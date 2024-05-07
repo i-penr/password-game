@@ -1,5 +1,5 @@
 import { GenericRule } from '../GenericRule';
-import { getFormattedStringsInText, getAllRegexMatches } from '../functions';
+import { getFormattedStringsInText, getAllRegexMatches, generateHighlightString } from '../functions';
 import sanitizeHtml from 'sanitize-html';
 
 /*
@@ -23,8 +23,8 @@ export class Rule19 extends GenericRule {
         return Rule19;
     }
 
-    getHighlight() {
-        return new RegExp(/[aeiou]/gi);
+    getHighlightString() {
+        return generateHighlightString(this.textController.getHtml(), /[aeiou]/gi, 'strong');
     }
 
     checkRule() {

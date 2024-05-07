@@ -31,12 +31,16 @@ export class TextController {
         this.clearText = decodeHTML(sanitizeHtml(this.rawText, { allowedTags: [] }));
         this.htmlText = sanitizeHtml(this.rawText, { allowedTags: ['b', 'i', 'em', 'strong', 'p', 'br', 'div', 'span'], allowedAttributes: { 'span': ['style', 'font-family', 'font-size'] }, parseStyleAttributes: false });
 
+
+        console.log(this.rawText)
         if (this.textUpdateFunction) this.textUpdateFunction();
     }
 
     updateEditorContent() {
+        if (!this.editor) return;
+
         const cursorPosition = this.editor.state.selection.from;
-        
+
         this.editor.chain().setContent(this.htmlText).run();
         this.editor.chain().focus().setTextSelection(cursorPosition).run();
     }
@@ -44,15 +48,17 @@ export class TextController {
     /*
      *  This fire simulates the real effect. Of course, it probably does not behave the same way, but it is close enough
      *  and it serves its purpose.
-     */ 
+     */
     startFire() {
-        const fireStartingIndex = Math.ceil(Math.random() * this.clearText.length);
-        let text = stringReplaceAtWithFire(this.clearText, fireStartingIndex);
+        let text = this.clearText;
+        const fireStartingIndex = Math.ceil(Math.random() * text.length);
+        text = stringReplaceAtWithFire(text, fireStartingIndex);
         this.updateText(text);
         if (this.editor) this.updateEditorContent();
-        let prev = fireStartingIndex-1;
-        let next = fireStartingIndex+3;
-        let isNextFinished = false; 
+
+        let prev = fireStartingIndex - 1;
+        let next = fireStartingIndex + 3;
+        let isNextFinished = false;
 
         const fireInterval = setInterval(() => {
             text = this.clearText;
@@ -66,15 +72,15 @@ export class TextController {
             prev = text.indexOf('🔥');
 
             if (prev > 0) {
-                text = stringReplaceAtWithFire(text, prev-1);
+                text = stringReplaceAtWithFire(text, prev - 1);
             }
 
             next = text.lastIndexOf('🔥');
-            isNextFinished = next === text.length-2;
+            isNextFinished = next === text.length - 2;
 
-            if (next <= text.length-1 && !isNextFinished) {
+            if (next <= text.length - 1 && !isNextFinished) {
                 // prev is still going? Then next +3, 2 (fire emoji size) + 1 (fire emoji inserted by prev)
-                prev === -1 ? next+=1 : next+=2;
+                prev === -1 ? next += 1 : next += 2;
 
                 text = stringReplaceAtWithFire(text, next);
             }
@@ -91,7 +97,7 @@ export class TextController {
     getHtml() {
         return this.htmlText;
     }
-    
+
     // Emojis take up two characters. When showing the length, it is necessary to count them as only one.
     getTrueClearLength() {
         return _.toArray(this.clearText).length;

@@ -1,5 +1,5 @@
 import { GenericRule } from '../GenericRule';
-import { getAllRegexMatches, getSubstringsWithFont } from '../functions';
+import { generateHighlightString, getAllRegexMatches, getSubstringsWithFont } from '../functions';
 
 export class Rule29 extends GenericRule {
     static instance = new Rule29();
@@ -14,8 +14,8 @@ export class Rule29 extends GenericRule {
         return Rule29;
     }
 
-    getHighlight() {
-        return /I|V|X|L|C|D|M/g;
+    getHighlightString() {
+        return generateHighlightString(this.textController.getHtml(), /[IVXLCDM]/g, 'span style="[^"]*font-family: Times\\\\ New\\\\ Roman.*?"');
     }
 
     checkRule() {

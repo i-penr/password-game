@@ -21,3 +21,67 @@ export function getFormattedStringsInText(format, text) {
 export function getSubstringsWithFont(font, text) {
     return getFormattedStringsInText(`span style="[^"]*font-family: ${font}.*?"`, text);
 }
+
+export function getSpanListFromHtmlText(htmlText) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlText;
+    return tempDiv.querySelectorAll('span');
+}
+
+/**
+ * These two following funcions are use for highlighting.
+ * The highlighted string is generated from each rules, as a dynamic behaviour is necessary.
+ * 
+ * There is an "antihighlight" defined, which is a html tag name that nullifies the highlight.
+ * For example, if a vowel is bolded in rule 19, the condition is fulfilled for that letter, so it souln't be highlighted.
+ * This is only necessary in some rules (19, 29, 30 and 31).
+ * 
+ * Rule 30 and 31 uses a different function inside their own classes, as the fullfillment of a letter is determined by the 
+ * value of the letter itself.
+ * In rule 30's case, a number 3 is only fullfilled if its size is 9, but a number 2 only works with the size 4.
+ * 
+ * Rule 31 is so specific, it needs first its own function.
+ */
+export function generateHighlightString(text, highlight, antihighlight='') {
+    /**
+     * The problem here is that we need to apply the highlight only to clearText, but we also need to process the htmlText
+     * (for font sizes and families). To solve this, we need to separate the html tags from the rest of the text with the regex below.
+     * 
+     * See https://stackoverflow.com/a/62843574/22851578
+     */
+    const regexSimpleMarkup = /(<[^>]+>)/g;
+    const markupSplit = text.split(regexSimpleMarkup).filter((elem) => elem.length > 0);
+    const antihighlightCloseTag = antihighlight.split(' ')[0];
+    let dontHighlight = false;
+    let resultText = "";
+
+    markupSplit.forEach((part) => {
+        const matchesAntiHighlight = new RegExp(`<${antihighlight}>`).test(part);
+
+        if (matchesAntiHighlight || (dontHighlight && part === `</${antihighlightCloseTag}>`)) {
+            dontHighlight = !dontHighlight;
+        }
+
+        if ((part.startsWith("<") && part.endsWith(">")) || dontHighlight) {
+            resultText += part;
+        } else {
+            resultText += part.replace(highlight, '<span class="error-highlight">$&</span>');
+        }
+    });
+
+    return resultText;
+}
+
+export function generateHighlightStringForRule31(text, size, letter) {
+    const antihighlight = `span style=".*?font-size: [⁽${size}')]"`;
+    let spans = getSpanListFromHtmlText(text);
+    spans = [...spans].filter((section) => section.style.fontSize === size );
+    let resultText = text;
+
+    spans.forEach((section) => {
+        const spanHighlight = generateHighlightString(section.outerHTML, new RegExp(`${letter}`, 'gi'), antihighlight);
+        resultText = resultText.replace(section.outerHTML, spanHighlight);
+    });
+    
+    return resultText;
+}

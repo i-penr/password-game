@@ -67,7 +67,7 @@ body {
   padding: 15px;
   font-size: 28px;
   border-radius: 10px;
-  font-family: monospace;
+  font-family: Monospace;
   color: transparent;
   border: 1px solid transparent;
   pointer-events: none;
@@ -93,7 +93,7 @@ body {
   resize: none;
   overflow: hidden;
   word-break: break-all;
-  font-family: monospace;
+  font-family: Monospace;
   min-height: 64px;
   outline: 0;
   background: 0 0;

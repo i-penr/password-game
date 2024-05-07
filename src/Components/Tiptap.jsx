@@ -7,7 +7,6 @@ import HighlightedText from "./HighlightedText";
 import { TextController } from "../utils/TextController";
 import { Paul } from "../utils/Paul";
 import FontSize from "tiptap-extension-font-size";
-import Paragraph from "@tiptap/extension-paragraph";
 import React, { useEffect } from "react";
 
 
@@ -25,9 +24,7 @@ export default function Tiptap({ html, displayedRules, highlightString }) {
                 bulletList: false,
                 orderedList: false,
                 horizontalRule: false,
-                paragraph: false,
             }),
-            Paragraph,
             TextStyle.configure({
                 types: ['paragraph']
             }),

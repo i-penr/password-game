@@ -1,5 +1,5 @@
 import { GenericRule } from "../GenericRule";
-import { getAllRegexMatches } from "../functions";
+import { generateHighlightString, getAllRegexMatches } from "../functions";
 
 export class Rule5 extends GenericRule {
     static instance = new Rule5();
@@ -22,7 +22,7 @@ export class Rule5 extends GenericRule {
         this.getClass().fulfilled = sum === 25;
     }
 
-    getHighlight() {
-        return new RegExp(/\d/, "g");
+    getHighlightString() {
+        return generateHighlightString(this.textController.getHtml(), /\d/g);
     }
 }

@@ -1,4 +1,5 @@
 import { GenericRule } from '../GenericRule';
+import { generateHighlightString, getSpanListFromHtmlText } from '../functions';
 
 export class Rule30 extends GenericRule {
     static instance = new Rule30();
@@ -13,8 +14,18 @@ export class Rule30 extends GenericRule {
         return Rule30;
     }
 
-    getHighlight() {
-        return /\d/g;
+    getHighlightString() {
+        const spans = getSpanListFromHtmlText(this.textController.getHtml());
+        let highlightString = '';
+
+        [...spans].forEach((section) => {
+            const targetNumber = Math.sqrt(parseInt(section.style.fontSize.replace('px', '')));
+            const highlight = targetNumber % 1 === 0 ? new RegExp(`[^${targetNumber}]`, 'g') : /.*/;
+
+            highlightString += generateHighlightString(section.outerHTML, highlight);
+        });
+
+        return highlightString;
     }
 
     checkRule() {
@@ -23,18 +34,16 @@ export class Rule30 extends GenericRule {
 }
 
 function numbersHaveRightSize(text) {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = text;
-    const spans = tempDiv.querySelectorAll('span') ?? text;
+    const spans = getSpanListFromHtmlText(text);
 
-    return [...spans].some((section) => {
-        const currentFontSize = parseInt(section.style.fontSize.replace('px', ''));
-        const numsInSegment = section.innerText.match(/\d/g);
-
-        return numsInSegmentHaveSizeEqualToTheirSquares(numsInSegment, currentFontSize);
+    return ![...spans].some((section) => {
+        return !numsInSegmentHaveSizeEqualToTheirSquares(section);
     });
 }
 
-function numsInSegmentHaveSizeEqualToTheirSquares(numsInSegment, currentFontSize) {
+function numsInSegmentHaveSizeEqualToTheirSquares(section) {
+    const currentFontSize = parseInt(section.style.fontSize.replace('px', ''));
+    const numsInSegment = section.innerText.match(/\d/g);
+
     return numsInSegment === null || numsInSegment.every((num) => parseInt(num) === Math.sqrt(currentFontSize));
 }
