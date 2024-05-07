@@ -47,6 +47,14 @@ export default function Tiptap({ html, displayedRules, highlightString }) {
 
                 return pastedText;
             },
+            transformPastedHTML: (html) => {
+                const elementHtml = document.createElement('span');
+                elementHtml.style.fontFamily = 'Monospace';
+                elementHtml.style.fontSize = '28px';
+                elementHtml.innerHTML = html;
+
+                return elementHtml.outerHTML;
+            }
         },
         onUpdate({ editor }) {
             tc.updateText(editor.getHTML());
