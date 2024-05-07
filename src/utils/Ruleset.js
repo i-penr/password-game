@@ -40,12 +40,12 @@ export class Ruleset {
             this.rules = rules;
         } else {
             this.rules = [
-                /*Rule1.getInstance(), Rule2.getInstance(), Rule3.getInstance(), Rule4.getInstance(), Rule5.getInstance(), 
+                Rule1.getInstance(), Rule2.getInstance(), Rule3.getInstance(), Rule4.getInstance(), Rule5.getInstance(), 
                 Rule6.getInstance(), Rule7.getInstance(), Rule8.getInstance(), Rule9.getInstance(), Rule10.getInstance(), 
                 Rule11.getInstance(), Rule12.getInstance(), Rule13.getInstance(), Rule14.getInstance(), Rule15.getInstance(),
                 Rule16.getInstance(), Rule17.getInstance(), Rule18.getInstance(), Rule19.getInstance(), Rule20.getInstance(),
-                Rule21.getInstance(), Rule22.getInstance(), Rule23.getInstance(), Rule24.getInstance(), Rule25.getInstance(), 
-                Rule26.getInstance(), Rule27.getInstance(), Rule28.getInstance(), Rule29.getInstance(), Rule30.getInstance(),*/
+                Rule21.getInstance(), Rule22.getInstance(), Rule23.getInstance(), Rule24.getInstance(), Rule25.getInstance(),
+                Rule26.getInstance(), Rule27.getInstance(), Rule28.getInstance(), Rule29.getInstance(), Rule30.getInstance(),
                 Rule31.getInstance(), Rule32.getInstance(), Rule33.getInstance(), Rule34.getInstance(), Rule35.getInstance()
             ];
         }
@@ -64,15 +64,21 @@ export class Ruleset {
     }
 
     async checkAllRules() {
-        if (this.rules.length === 0) {
-            return true;
+        try {
+            if (this.rules.length === 0) {
+                return true;
+            }
+
+            for (const rule of this.rules) {
+                await rule.checkRule();
+            }
+
+            return this.rules.every((rule) => rule.getClass().fulfilled);
+        } catch (err) {
+            console.error(err);
+
+            return false;
         }
-    
-        for (const rule of this.rules) {
-            await rule.checkRule();
-        }
-        
-        return this.rules.every((rule) => rule.getClass().fulfilled);
     }
 
     // Order: non fulfilled first, highest rule first
