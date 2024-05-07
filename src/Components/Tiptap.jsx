@@ -1,4 +1,4 @@
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, mergeAttributes, Node, Mark, NodeViewWrapper } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Toolbar } from "./Toolbar";
 import FontFamily from "@tiptap/extension-font-family";
@@ -7,27 +7,36 @@ import HighlightedText from "./HighlightedText";
 import { TextController } from "../utils/TextController";
 import { Paul } from "../utils/Paul";
 import FontSize from "tiptap-extension-font-size";
-import { useEffect } from "react";
+import Paragraph from "@tiptap/extension-paragraph";
+import React, { useEffect } from "react";
+
 
 export default function Tiptap({ html, displayedRules, highlightString }) {
     const tc = TextController.getInstance();
 
     const editor = useEditor({
-        extensions: [StarterKit.configure({
-            blockquote: false,
-            code: false,
-            codeBlock: false,
-            heading: false,
-            strike: false,
-            bulletList: false,
-        }),
-        TextStyle.configure(),
-        FontFamily.configure({
-            types: ['textStyle']
-        }),
-        FontSize.configure({
-            types: ['textStyle']
-        })],
+        extensions: [
+            StarterKit.configure({
+                blockquote: false,
+                code: false,
+                codeBlock: false,
+                heading: false,
+                strike: false,
+                bulletList: false,
+                orderedList: false,
+                horizontalRule: false,
+                paragraph: false,
+            }),
+            Paragraph,
+            TextStyle.configure({
+                types: ['paragraph']
+            }),
+            FontFamily.configure({
+                types: ['textStyle']
+            }),
+            FontSize.configure({
+                types: ['textStyle']
+            })],
         content: html,
         editorProps: {
             transformPasted: (pastedText, view) => {
@@ -38,30 +47,29 @@ export default function Tiptap({ html, displayedRules, highlightString }) {
 
                 return pastedText;
             },
-            transformPastedHTML: (html) => {
-                const elementHtml = document.createElement('span');
-                elementHtml.style.fontFamily = 'Monospace';
-                elementHtml.style.fontSize = '28px';
-                elementHtml.innerHTML = html;
-
-                return elementHtml.outerHTML;
-            }
         },
         onUpdate({ editor }) {
             tc.updateText(editor.getHTML());
+            tc.editor = editor;
         }
     });
 
-
+    // Apply deafault fontFamily Monospace and fontSize 28px to inputted text
     useEffect(() => {
         if (!editor) return;
 
-        editor.chain().focus().selectAll().setFontFamily('Monospace').run();
-        editor.chain().focus().selectAll().setFontSize('28px').run();
+        editor.chain().focus().selectAll().setFontFamily('Monospace').setFontSize('28px').run();
 
-        tc.editor = editor;
+        editor.on('paste', (event) => {
+            event.preventDefault();
 
-    }, [editor, tc]);
+            const pastedText = event.clipboardData.getData('text/plain');
+
+            editor.chain().focus().selectAll().setFontFamily('Monospace').setFontSize('28px').run();
+            editor.chain().focus().insertContent(pastedText).run();
+        });
+
+    }, [editor])
 
     return (
         <>
