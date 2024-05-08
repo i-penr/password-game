@@ -6,11 +6,13 @@ import { Rule11 } from '../utils/rules/Rule11';
 import { TextController } from '../utils/TextController';
 import { Paul } from '../utils/Paul.js';
 import Tiptap from './Tiptap.jsx';
+import FinalEditor from './FinalEditor.jsx';
 
 function GameZone() {
     const [displayedRules, setDisplayedRules] = useState(new Ruleset([]));
     const [hiddenRules, setHiddenRules] = useState(new Ruleset());
     const [highlightString, setHighlightString] = useState('');
+    const [isPasswordFinal, setIsPasswordFinal] = useState(false);
 
     const paul = Paul.getInstance();
     const tc = TextController.getInstance();
@@ -21,6 +23,8 @@ function GameZone() {
 
         displayedRules.sort();
         setHighlightString(displayedRules.rules[0].getHighlightString());
+
+        setIsPasswordFinal(await displayedRules.fulfillsAll36Rules());
     }
 
     async function recheckRules() {
@@ -54,9 +58,10 @@ function GameZone() {
                     </div>
                 </div>
             }
-            <Tiptap displayedRules={displayedRules} highlightString={highlightString} />
+            <Tiptap displayedRules={displayedRules} highlightString={highlightString} isPasswordFinal={isPasswordFinal} />
             {tc.getHtml()}
-            <div className='Rules'>
+            { isPasswordFinal && <FinalEditor /> }
+            <div className={`Rules ${isPasswordFinal ? 'final-hide' : ''}`}>
                 <Flipper flipKey={[...displayedRules.rules]}>
                     {displayedRules.rules.map((rule) => (
                         <Flipped key={rule.number} flipId={rule.number}>

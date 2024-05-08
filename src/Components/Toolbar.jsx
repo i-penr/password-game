@@ -10,18 +10,18 @@ export function Toolbar({ editor, displayedRules }) {
     }
 
     return (
-        <div className='toolbar' style={{ display: displayedRules.includesRuleNum(19) ? 'flex' : 'none' }} >
+        <div className='toolbar' style={{ display: !displayedRules || displayedRules.includesRuleNum(19) ? 'flex' : 'none' }} >
             <button onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'is-active' : ''}>
                 Bold
             </button>
             {
-                displayedRules.includesRuleNum(26) &&
+                (!displayedRules || displayedRules.includesRuleNum(26)) &&
                 <button onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'is-active' : ''}>
                     Italic
                 </button>
             }
             {
-                displayedRules.includesRuleNum(30) &&
+                (!displayedRules ||  displayedRules.includesRuleNum(30)) &&
                 <select value={editor.getAttributes('textStyle').fontSize?.replace('px', '') ?? 28} onChange={(e) => handleSizeChange(e.target.value)}>
                     <option value={0}>0px</option>
                     <option value={1}>1px</option>
@@ -40,12 +40,12 @@ export function Toolbar({ editor, displayedRules }) {
                 </select>
             }
             {
-                displayedRules.includesRuleNum(27) &&
+                (!displayedRules || displayedRules.includesRuleNum(27)) &&
                 <select value={editor.getAttributes('textStyle').fontFamily ?? 'Monospace'} onChange={(e) => handleFontChange(e.target.value)}>
                     <option value="Monospace">Monospace</option>
                     <option value="Comic Sans">Comic Sans</option>
                     <option value="Wingdings">Wingdings</option>
-                    {displayedRules.includesRuleNum(29) && <option value="Times New Roman">Times New Roman</option>}
+                    {(!displayedRules || displayedRules.includesRuleNum(29)) && <option value="Times New Roman">Times New Roman</option>}
                 </select>
             }
         </div>

@@ -10,13 +10,13 @@ const paul = Paul.getInstance();
  */
 export class Rule23 extends GenericRule {
     static instance = new Rule23();
+    static feedingInterval = null
 
     constructor() {
         super();
         this.number = 23;
         this.desc = 'Paul has hatched! Please don\'t forget to feed him, he eats three 🐛 every minute.';
         this.hasFeedingStarted = false;
-        this.feedingInterval = null;
     }
 
     componentDidMount() {
@@ -34,24 +34,24 @@ export class Rule23 extends GenericRule {
 
         this.getClass().fulfilled = this.hasFeedingStarted;
         
-        if (!this.feedingInterval && this.hasFeedingStarted) {
+        if (!this.getClass().feedingInterval && this.hasFeedingStarted) {
             this.startFeedingInterval();
         }
     }
 
     startFeedingInterval() {
-        this.feedingInterval = setInterval(() => {
+        this.getClass().feedingInterval = setInterval(() => {
             const numCaterpillars = getAllRegexMatches(this.textController.clearText, /🐛/g).length;
             
             if (numCaterpillars === 0) {
                 paul.killPaul("Paul has starved");
-                clearInterval(this.feedingInterval);
+                clearInterval(this.getClass().feedingInterval);
                 return;
             }
 
             if (numCaterpillars > 8) {
                 paul.killPaul("Paul was overfed");
-                clearInterval(this.feedingInterval);
+                clearInterval(this.getClass().feedingInterval);
                 return;
             }
 

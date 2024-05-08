@@ -7,11 +7,14 @@ import HighlightedText from "./HighlightedText";
 import { TextController } from "../utils/TextController";
 import { Paul } from "../utils/Paul";
 import FontSize from "tiptap-extension-font-size";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
+// This component is basically the same as Tiptap.jsx. I know, its bad
 
-export default function Tiptap({ displayedRules, highlightString, isPasswordFinal }) {
+export default function FinalEditor() {
+    const [arePasswordsEqual, setArePasswordsEqual] = useState(false);
     const tc = TextController.getInstance();
+    const finalTc = useMemo(() => new TextController(), []);
 
     const editor = useEditor({
         extensions: [
@@ -34,7 +37,7 @@ export default function Tiptap({ displayedRules, highlightString, isPasswordFina
             FontSize.configure({
                 types: ['textStyle']
             })],
-        content: tc.getHtml(),
+        content: finalTc.getHtml(),
         editorProps: {
             transformPasted: (pastedText, view) => {
                 const paul = Paul.getInstance();
@@ -54,10 +57,14 @@ export default function Tiptap({ displayedRules, highlightString, isPasswordFina
             }
         },
         onUpdate({ editor }) {
-            tc.updateText(editor.getHTML());
-            tc.editor = editor;
+            finalTc.updateText(editor.getHTML());
+            finalTc.editor = editor;
         }
     });
+
+    useEffect(() => {
+        setArePasswordsEqual(finalTc.htmlText === tc.htmlText);
+    }, [tc.htmlText, finalTc.htmlText])
 
     // Apply deafault fontFamily Monospace and fontSize 28px to inputted text
     useEffect(() => {
@@ -77,28 +84,30 @@ export default function Tiptap({ displayedRules, highlightString, isPasswordFina
     }, [editor]);
 
     useEffect(() => {
-        if (isPasswordFinal && editor) {
-            const editorElement = document.getElementsByClassName('tiptap ProseMirror')[0];
+        if (arePasswordsEqual && editor) {
+            const editorElement = document.getElementsByClassName('tiptap ProseMirror')[1];
             editorElement.classList.add('password-final');
             editor.setEditable(false);
         }
-    }, [isPasswordFinal]);
+    }, [arePasswordsEqual, editor]);
 
     return (
         <>
             <div className='password-box'>
                 <div className='password-label'>
-                    { !isPasswordFinal ? 'Please choose a password' : 'Your Password' } 
+                    Please re-type your password
                 </div>
                 <div className='password-box-inner' spellCheck="false">
-                    <HighlightedText highlightedText={highlightString} />
+                    <HighlightedText highlightedText={'./*'} />
                     <EditorContent editor={editor} />
-                    <div className='password-length show-password-length' style={{ opacity: tc.getTrueClearLength() === 0 || isPasswordFinal ? 0 : 1 }} >
-                        {tc.getTrueClearLength()}
+                    <div className='password-length show-password-length' style={{ opacity: finalTc.getTrueClearLength() === 0 ? 0 : 1 }} >
+                        {finalTc.getTrueClearLength()}
                     </div>
                 </div>
             </div>
-            { !isPasswordFinal && <Toolbar editor={editor} displayedRules={displayedRules} /> }
+            { !arePasswordsEqual && <Toolbar editor={editor} /> }
+            { !arePasswordsEqual && <div className="error-match">Your passwords must match.</div> }
+            { arePasswordsEqual && <div className="end-screen"><strong>Congratulations!</strong> You have sucessfully chosen a password in {tc.getTrueClearLength()} characters. </div> }
         </>
     )
 }

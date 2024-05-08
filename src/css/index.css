@@ -224,7 +224,7 @@ body {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-   background-image:url(/public/chevron.svg);
+  background-image: url(/public/chevron.svg);
   background-size: 12px 12px;
   background-repeat: no-repeat;
   background-position: calc(100% - 10px) 9px
@@ -338,4 +338,87 @@ body {
   font-family: Georgia, Times, serif;
   text-transform: uppercase;
   box-shadow: 0 0 80px 50px rgba(0, 0, 0, .7)
+}
+
+final .rule-top {
+  display: none
+}
+
+.final.rule {
+  padding-top: 3px
+}
+
+.affirmation-list {
+  margin-top: 7px
+}
+
+.password-final {
+  background: #fff;
+  opacity: .8;
+  border-radius: 10px !important;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  margin-bottom: 40px;
+  margin-bottom: 40px;
+  border-radius: 10px !important;
+}
+
+.final-password {
+  margin-top: 10px;
+  display: flex;
+  grid-gap: 8px;
+}
+
+.final-password button {
+  background: #fff;
+  font-size: 16px;
+  padding: 5px 11px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #b3b3b3;
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .05);
+  color: #000
+}
+
+.final-password button:hover {
+  transform: scale(1.05)
+}
+
+.final-hide {
+  display: none
+}
+
+@media screen and (max-width:600px) {
+  .rule {
+    margin: 20px 0
+  }
+}
+
+.error-match {
+  margin:15px 0;
+  background-color:#ffecec;
+  border:1px solid red;
+  box-shadow:2px 2px 5px 2px rgba(255,0,0,.12);
+  padding:15px;
+  width:100%;
+  border-radius:10px
+}
+.end-screen,
+.error-match {
+  text-align:center;
+  color:#000;
+  line-height:1.5em
+}
+
+.end-screen {
+  margin-top:15px;
+  font-size:18px;
+  background-color:#daffda;
+  border:1px solid #267b30;
+  box-shadow:3px 3px 5px 2px rgba(60,155,71,.2);
+  padding:14px 20px;
+  border-radius:10px;
+  animation:endPopup-56b284df .4s ease-in-out forwards
 }

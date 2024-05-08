@@ -33,6 +33,7 @@ import { Rule32 } from './rules/Rule32';
 import { Rule33 } from './rules/Rule33';
 import { Rule34 } from './rules/Rule34';
 import { Rule35 } from './rules/Rule35';
+import { Rule36 } from './rules/Rule36';
 
 export class Ruleset {
     constructor(rules) {
@@ -46,7 +47,8 @@ export class Ruleset {
                 Rule16.getInstance(), Rule17.getInstance(), Rule18.getInstance(), Rule19.getInstance(), Rule20.getInstance(),
                 Rule21.getInstance(), Rule22.getInstance(), Rule23.getInstance(), Rule24.getInstance(), Rule25.getInstance(),
                 Rule26.getInstance(), Rule27.getInstance(), Rule28.getInstance(), Rule29.getInstance(), Rule30.getInstance(),
-                Rule31.getInstance(), Rule32.getInstance(), Rule33.getInstance(), Rule34.getInstance(), Rule35.getInstance()
+                Rule31.getInstance(), Rule32.getInstance(), Rule33.getInstance(), Rule34.getInstance(), Rule35.getInstance(),
+                Rule36.getInstance()
             ];
         }
     }
@@ -94,5 +96,9 @@ export class Ruleset {
 
     includesRuleNum(num) {
         return this.rules.some((rule) => rule.number >= num);
+    }
+
+    async fulfillsAll36Rules() {
+        return this.includesRuleNum(36) && this.rules[this.rules.length-1].getClass().fulfilled && await this.checkAllRules();
     }
 }

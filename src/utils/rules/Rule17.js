@@ -19,7 +19,7 @@ export class Rule17 extends GenericRule {
     checkRule() {
         const text = this.textController.getClear();
 
-        this.getClass().fulfilled = this.getClass().fulfilled || text.includes("🥚");
+        this.getClass().fulfilled = this.getClass().fulfilled || text.includes(paul.state);
 
         this.checkIfPaulIsStillThere(text);
     }
