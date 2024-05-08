@@ -20,7 +20,7 @@ export class Rule30 extends GenericRule {
 
         [...spans].forEach((section) => {
             const targetNumber = Math.sqrt(parseInt(section.style.fontSize.replace('px', '')));
-            const highlight = targetNumber % 1 === 0 ? new RegExp(`[^${targetNumber}]`, 'g') : /.*/;
+            const highlight = targetNumber % 1 === 0 ? new RegExp(`[^${targetNumber}\\D]`, 'gi') : /\d/g;
 
             highlightString += generateHighlightString(section.outerHTML, highlight);
         });
