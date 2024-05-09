@@ -26,6 +26,9 @@ app.get('/videoLength', async (req, res) => {
   try {
     const vid = req.query.vid;
     const data = await makeRequest(`https://www.googleapis.com/youtube/v3/videos?id=${vid}&part=contentDetails&key=${process.env.YOUTUBE_API_KEY}`);
+
+    if (data.pageInfo.totalResults === 0) return res.status(404).send({ duration: -1 })
+
     res.status(200).send({ duration: data.items[0].contentDetails.duration });
   } catch (err) {
     console.error('Error:', err);
