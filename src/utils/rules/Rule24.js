@@ -67,12 +67,13 @@ export class Rule24 extends GenericRule {
                 try {
                     const embed = await this.getEmbed(this.vidId);
                     const rawDuration = await this.fetchVideoDuration(this.vidId);
-
+                    
                     if (!rawDuration) throw new Error("Unable to fetch duration (maybe the video does not exist?).");
-
+                    
                     const durations = YTDurationToSeconds(rawDuration);
+                    console.log(durations)
                     this.refreshEmbed(embed);
-                    this.getClass().fulfilled = durations[1] === this.minute && durations[2] === this.second;
+                    this.getClass().fulfilled = durations[1] === this.minute && (durations[2] === this.second || durations[2] === this.second+1 || durations[2] === this.second-1);
                     resolve();
                 } catch (error) {
                     this.getClass().fulfilled = false;
