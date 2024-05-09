@@ -18,6 +18,6 @@ export class Rule32 extends GenericRule {
         const text = this.textController.getClear();
         const numsInText = getAllRegexMatches(text, /\d+/g);
 
-        this.getClass().fulfilled = numsInText.includes(this.textController.getTrueClearLength().toString());
+        this.getClass().fulfilled = numsInText.join('').includes(this.textController.getTrueClearLength().toString());
     }
 }
