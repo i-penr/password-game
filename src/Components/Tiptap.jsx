@@ -8,6 +8,7 @@ import { TextController } from "../utils/TextController";
 import { Paul } from "../utils/Paul";
 import FontSize from "tiptap-extension-font-size";
 import React, { useEffect } from "react";
+import Paragraph from "@tiptap/extension-paragraph";
 
 
 export default function Tiptap({ displayedRules, highlightString, isPasswordFinal }) {
@@ -24,6 +25,12 @@ export default function Tiptap({ displayedRules, highlightString, isPasswordFina
                 bulletList: false,
                 orderedList: false,
                 horizontalRule: false,
+                paragraph: false,
+            }),
+            Paragraph.extend({
+                onCreate({ editor }) {
+                    editor.chain().focus().selectAll().setFontFamily('Monospace').setFontSize('28px').run();
+                },
             }),
             TextStyle.configure({
                 types: ['paragraph']
@@ -45,36 +52,27 @@ export default function Tiptap({ displayedRules, highlightString, isPasswordFina
                 return pastedText;
             },
             transformPastedHTML: (html) => {
-                const elementHtml = document.createElement('span');
-                elementHtml.style.fontFamily = 'Monospace';
-                elementHtml.style.fontSize = '28px';
-                elementHtml.innerHTML = html;
-
-                return elementHtml.outerHTML;
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = html;
+            
+                // Apply font family and font size to all elements inside the wrapper
+                Array.from(wrapper.querySelectorAll('*')).forEach(element => {
+                    if (!element.style.fontFamily) element.style.fontFamily = 'Monospace';
+                    if (!element.style.fontSize) element.style.fontSize = '28px';
+                });
+            
+                // Wrap the entire pasted content in a span with the desired font family and font size
+                const styledContent = `<span style="font-family: Monospace; font-size: 28px;">${wrapper.innerHTML}</span>`;
+                
+                return styledContent;
             }
+            
         },
         onUpdate({ editor }) {
             tc.updateText(editor.getHTML());
             tc.editor = editor;
-        }
+        },
     });
-
-    // Apply deafault fontFamily Monospace and fontSize 28px to inputted text
-    useEffect(() => {
-        if (!editor) return;
-
-        editor.chain().focus().selectAll().setFontFamily('Monospace').setFontSize('28px').run();
-
-        editor.on('paste', (event) => {
-            event.preventDefault();
-
-            const pastedText = event.clipboardData.getData('text/plain');
-
-            editor.chain().focus().selectAll().setFontFamily('Monospace').setFontSize('28px').run();
-            editor.chain().focus().insertContent(pastedText).run();
-        });
-
-    }, [editor]);
 
     useEffect(() => {
         if (isPasswordFinal && editor) {
@@ -82,13 +80,13 @@ export default function Tiptap({ displayedRules, highlightString, isPasswordFina
             editorElement.classList.add('password-final');
             editor.setEditable(false);
         }
-    }, [isPasswordFinal]);
+    }, [isPasswordFinal, editor]);
 
     return (
         <>
             <div className='password-box'>
                 <div className='password-label'>
-                    { !isPasswordFinal ? 'Please choose a password' : 'Your Password' } 
+                    {!isPasswordFinal ? 'Please choose a password' : 'Your Password'}
                 </div>
                 <div className='password-box-inner' spellCheck="false">
                     <HighlightedText highlightedText={highlightString} />
@@ -98,7 +96,7 @@ export default function Tiptap({ displayedRules, highlightString, isPasswordFina
                     </div>
                 </div>
             </div>
-            { !isPasswordFinal && <Toolbar editor={editor} displayedRules={displayedRules} /> }
+            {!isPasswordFinal && <Toolbar editor={editor} displayedRules={displayedRules} />}
         </>
     )
 }
