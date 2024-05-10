@@ -26,10 +26,10 @@ export class Rule24 extends GenericRule {
     async fetchVideoDuration(id) {
         try {
             const res = await fetch(`http://localhost:3001/videoLength?vid=${id}`);
-            const data = await res.json();
             if (!res.ok) {
-                throw Error(data.error);
+                throw Error(res.statusText);
             }
+            const data = await res.json();
             return data.duration;
         } catch (err) {
             console.error(`There was an error with videoLength: ${err}`);
@@ -71,7 +71,6 @@ export class Rule24 extends GenericRule {
                     if (!rawDuration) throw new Error("Unable to fetch duration (maybe the video does not exist?).");
                     
                     const durations = YTDurationToSeconds(rawDuration);
-                    console.log(durations)
                     this.refreshEmbed(embed);
                     this.getClass().fulfilled = durations[1] === this.minute && (durations[2] === this.second || durations[2] === this.second+1 || durations[2] === this.second-1);
                     resolve();
