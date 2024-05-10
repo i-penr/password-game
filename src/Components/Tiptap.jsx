@@ -31,6 +31,11 @@ export default function Tiptap({ displayedRules, highlightString, isPasswordFina
                 onCreate({ editor }) {
                     editor.chain().focus().selectAll().setFontFamily('Monospace').setFontSize('28px').run();
                 },
+                onUpdate({ editor, transaction}) {
+                    if (transaction.meta.uiEvent === "paste") {
+                        editor.chain().focus().setFontFamily('Monospace').setFontSize('28px').run();
+                    }
+                },
             }),
             TextStyle.configure({
                 types: ['paragraph']
@@ -54,19 +59,18 @@ export default function Tiptap({ displayedRules, highlightString, isPasswordFina
             transformPastedHTML: (html) => {
                 const wrapper = document.createElement('div');
                 wrapper.innerHTML = html;
-            
+
                 // Apply font family and font size to all elements inside the wrapper
                 Array.from(wrapper.querySelectorAll('*')).forEach(element => {
                     if (!element.style.fontFamily) element.style.fontFamily = 'Monospace';
                     if (!element.style.fontSize) element.style.fontSize = '28px';
                 });
-            
+
                 // Wrap the entire pasted content in a span with the desired font family and font size
                 const styledContent = `<span style="font-family: Monospace; font-size: 28px;">${wrapper.innerHTML}</span>`;
-                
+
                 return styledContent;
-            }
-            
+            },
         },
         onUpdate({ editor }) {
             tc.updateText(editor.getHTML());

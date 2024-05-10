@@ -34,6 +34,11 @@ export default function FinalEditor() {
                 onCreate({ editor }) {
                     editor.chain().focus().selectAll().setFontFamily('Monospace').setFontSize('28px').run();
                 },
+                onUpdate({ editor, transaction}) {
+                    if (transaction.meta.uiEvent === "paste") {
+                        editor.chain().focus().setFontFamily('Monospace').setFontSize('28px').run();
+                    }
+                },
             }),
             TextStyle.configure({
                 types: ['paragraph']
@@ -78,7 +83,12 @@ export default function FinalEditor() {
     });
 
     useEffect(() => {
-        setArePasswordsEqual(finalTc.htmlText === tc.htmlText);
+        /**
+         * Due to problems with font families being capitalized or not capitalized sometimes when pasting (and more),
+         * I have consiered that is better to calculate likeness and check if the strgings at least a 95% similar.
+         */
+        setArePasswordsEqual(finalTc.htmlText === tc.htmlText || 
+                            (similarityPercentage(tc.htmlText, finalTc.htmlText) > 95 && tc.clearText === finalTc.clearText));
     }, [tc.htmlText, finalTc.htmlText])
 
     useEffect(() => {
@@ -108,4 +118,41 @@ export default function FinalEditor() {
             { arePasswordsEqual && <div className="end-screen"><strong>Congratulations!</strong> You have sucessfully chosen a password in {tc.getTrueClearLength()} characters. </div> }
         </>
     )
+}
+
+function levenshteinDistance(str1, str2) {
+    const matrix = [];
+
+    // Initialize the matrix with the values of the first row and column
+    for (let i = 0; i <= str2.length; i++) {
+        matrix[i] = [i];
+    }
+    for (let j = 0; j <= str1.length; j++) {
+        matrix[0][j] = j;
+    }
+
+    // Fill in the rest of the matrix
+    for (let i = 1; i <= str2.length; i++) {
+        for (let j = 1; j <= str1.length; j++) {
+            if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = Math.min(
+                    matrix[i - 1][j - 1] + 1, // substitution
+                    matrix[i][j - 1] + 1,     // insertion
+                    matrix[i - 1][j] + 1      // deletion
+                );
+            }
+        }
+    }
+
+    // Return the Levenshtein distance
+    return matrix[str2.length][str1.length];
+}
+
+function similarityPercentage(str1, str2) {
+    const distance = levenshteinDistance(str1, str2);
+    const maxLength = Math.max(str1.length, str2.length);
+    const similarity = ((maxLength - distance) / maxLength) * 100;
+    return similarity.toFixed(2); // Round to 2 decimal places
 }
