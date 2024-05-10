@@ -59,7 +59,6 @@ function GameZone() {
                 </div>
             }
             <Tiptap displayedRules={displayedRules} highlightString={highlightString} isPasswordFinal={isPasswordFinal} />
-            {tc.getHtml()}
             { isPasswordFinal && <FinalEditor /> }
             <div className={`Rules ${isPasswordFinal ? 'final-hide' : ''}`}>
                 <Flipper flipKey={[...displayedRules.rules]}>
