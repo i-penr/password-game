@@ -19,7 +19,6 @@ export class Rule18 extends GenericRule {
         return generateHighlightString(this.textController.getHtml(), new RegExp(Object.keys(elements).map((elem) => {
             if (elem.length === 2) {
                 const elemArr = elem.split('');
-                console.log(this.textController.htmlText.match(new RegExp(`${elemArr[0]}((<.*?>)*)?${elemArr[1]}`, 'g')))
                 return `${elemArr[0]}((<.*?>)*)?${elemArr[1]}`;
             }
 
