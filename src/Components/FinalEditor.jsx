@@ -3,9 +3,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { Toolbar } from "./Toolbar";
 import FontFamily from "@tiptap/extension-font-family";
 import TextStyle from "@tiptap/extension-text-style";
-import HighlightedText from "./HighlightedText";
 import { TextController } from "../utils/TextController";
-import { Paul } from "../utils/Paul";
 import FontSize from "tiptap-extension-font-size";
 import React, { useEffect, useMemo, useState } from "react";
 import Paragraph from "@tiptap/extension-paragraph";
@@ -34,7 +32,7 @@ export default function FinalEditor() {
                 onCreate({ editor }) {
                     editor.chain().focus().selectAll().setFontFamily('Monospace').setFontSize('28px').run();
                 },
-                onUpdate({ editor, transaction}) {
+                onUpdate({ editor, transaction }) {
                     if (transaction.meta.uiEvent === "paste") {
                         editor.chain().focus().setFontFamily('Monospace').setFontSize('28px').run();
                     }
@@ -51,45 +49,41 @@ export default function FinalEditor() {
             })],
         content: finalTc.getHtml(),
         editorProps: {
-            transformPasted: (pastedText, view) => {
-                const paul = Paul.getInstance();
-
-                // Allowing pasting more than one egg will be cheating (you can just paste a bunch of eggs and Paul does not die)
-                if (paul && view.dom.innerHTML.includes(paul.state) && pastedText.content.toString().includes(paul.state)) return '';
-
-                return pastedText;
-            },
             transformPastedHTML: (html) => {
                 const wrapper = document.createElement('div');
                 wrapper.innerHTML = html;
-            
+
                 // Apply font family and font size to all elements inside the wrapper
                 Array.from(wrapper.querySelectorAll('*')).forEach(element => {
                     if (!element.style.fontFamily) element.style.fontFamily = 'Monospace';
                     if (!element.style.fontSize) element.style.fontSize = '28px';
                 });
-            
+
                 // Wrap the entire pasted content in a span with the desired font family and font size
                 const styledContent = `<span style="font-family: Monospace; font-size: 28px;">${wrapper.innerHTML}</span>`;
-                
+
                 return styledContent;
             }
-            
+
         },
         onUpdate({ editor }) {
             finalTc.updateText(editor.getHTML());
-            finalTc.editor = editor;
-        },
+            finalTc.editor = editor;        },
     });
+
+    const finalHtml = finalTc.getHtml();
+    const originalHtml = tc.getHtml();
+    const finalText = finalTc.getClear();
+    const originalText = tc.getClear();
 
     useEffect(() => {
         /**
          * Due to problems with font families being capitalized or not capitalized sometimes when pasting (and more),
          * I have consiered that is better to calculate likeness and check if the strgings at least a 95% similar.
          */
-        setArePasswordsEqual(finalTc.htmlText === tc.htmlText || 
-                            (similarityPercentage(tc.htmlText, finalTc.htmlText) > 95 && tc.clearText === finalTc.clearText));
-    }, [tc.htmlText, finalTc.htmlText])
+        console.log("Similarity: " + similarityPercentage(originalHtml, finalHtml));
+        setArePasswordsEqual(similarityPercentage(originalHtml, finalHtml) > 80 && originalText === finalText);
+    }, [originalHtml, originalText, finalHtml, finalText])
 
     useEffect(() => {
         if (arePasswordsEqual && editor) {
@@ -106,16 +100,18 @@ export default function FinalEditor() {
                     Please re-type your password
                 </div>
                 <div className='password-box-inner' spellCheck="false">
-                    <HighlightedText highlightedText={'./*'} />
                     <EditorContent editor={editor} />
                     <div className='password-length show-password-length' style={{ opacity: finalTc.getTrueClearLength() === 0 ? 0 : 1 }} >
                         {finalTc.getTrueClearLength()}
                     </div>
                 </div>
             </div>
-            { !arePasswordsEqual && <Toolbar editor={editor} /> }
-            { !arePasswordsEqual && <div className="error-match">Your passwords must match.</div> }
-            { arePasswordsEqual && <div className="end-screen"><strong>Congratulations!</strong> You have sucessfully chosen a password in {tc.getTrueClearLength()} characters. </div> }
+            {!arePasswordsEqual && <Toolbar editor={editor} />}
+            {!arePasswordsEqual && <div className="error-match">Your passwords must match.</div>}
+            {arePasswordsEqual &&
+                <div className="end-screen">
+                    <strong>Congratulations!</strong> You have sucessfully chosen a password in {tc.getTrueClearLength()} characters.
+                </div>}
         </>
     )
 }

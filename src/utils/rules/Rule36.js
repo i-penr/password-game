@@ -41,7 +41,6 @@ function makePasswordFinal() {
     const rules = new Ruleset();
 
     rules.rules.forEach((rule) => { rule.getClass().fulfilled = true });
-    rules.passwordIsFinished = true;
 
     rules.rules[0].textController.textUpdateFunction();
 }

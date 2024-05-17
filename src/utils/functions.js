@@ -28,6 +28,42 @@ export function getSpanListFromHtmlText(htmlText) {
     return tempDiv.querySelectorAll('span');
 }
 
+export function extractAndMergeTextWithFontSizes(content) {
+    const textWithFontSizes = {};
+
+    function traverse(node) {
+        if (node.type === "text") {
+            if (!node.text.length) return;
+
+            let fontSize = "28";
+
+            if (node.marks) {
+                node.marks.forEach(mark => {
+                    if (mark.type === "textStyle" && mark.attrs.fontSize) {
+                        fontSize = mark.attrs.fontSize.replace("px", "");
+                    }
+                });
+            }
+
+            if (!textWithFontSizes[fontSize]) {
+                textWithFontSizes[fontSize] = '';
+            }
+
+            // Ensure node.text is a string
+            const textToAdd = typeof node.text === 'string' ? node.text : '';
+
+            textWithFontSizes[fontSize] += textToAdd;
+        } else if (node.content) {
+            node.content.forEach(traverse);
+        }
+    }
+
+    traverse(content);
+
+    return textWithFontSizes;
+}
+
+
 /**
  * These two following funcions are use for highlighting.
  * The highlighted string is generated from each rules, as a dynamic behaviour is necessary.
@@ -39,10 +75,8 @@ export function getSpanListFromHtmlText(htmlText) {
  * Rule 30 and 31 uses a different function inside their own classes, as the fullfillment of a letter is determined by the 
  * value of the letter itself.
  * In rule 30's case, a number 3 is only fullfilled if its size is 9, but a number 2 only works with the size 4.
- * 
- * Rule 31 is so specific, it needs first its own function.
  */
-export function generateHighlightString(text, highlight, antihighlight='') {
+export function generateHighlightString(text, highlight, antihighlight = '') {
     /**
      * The problem here is that we need to apply the highlight only to clearText, but we also need to process the htmlText
      * (for font sizes and families). To solve this, we need to separate the html tags from the rest of the text with the regex below.
@@ -69,19 +103,5 @@ export function generateHighlightString(text, highlight, antihighlight='') {
         }
     });
 
-    return resultText;
-}
-
-export function generateHighlightStringForRule31(text, size, letter) {
-    const antihighlight = `span style=".*?font-size: [⁽${size}')]"`;
-    let spans = getSpanListFromHtmlText(text);
-    spans = [...spans].filter((section) => section.style.fontSize === size );
-    let resultText = text;
-
-    spans.forEach((section) => {
-        const spanHighlight = generateHighlightString(section.outerHTML, new RegExp(`${letter}`, 'gi'), antihighlight);
-        resultText = resultText.replace(section.outerHTML, spanHighlight);
-    });
-    
     return resultText;
 }

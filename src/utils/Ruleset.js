@@ -41,8 +41,8 @@ export class Ruleset {
             this.rules = rules;
         } else {
             this.rules = [
-                Rule1.getInstance(), Rule2.getInstance(), Rule3.getInstance(), Rule4.getInstance(), Rule5.getInstance(), 
-                Rule6.getInstance(), Rule7.getInstance(), Rule8.getInstance(), Rule9.getInstance(), Rule10.getInstance(), 
+                Rule1.getInstance(), Rule2.getInstance(), Rule3.getInstance(), Rule4.getInstance(), Rule5.getInstance(),
+                Rule6.getInstance(), Rule7.getInstance(), Rule8.getInstance(), Rule9.getInstance(), Rule10.getInstance(),
                 Rule11.getInstance(), Rule12.getInstance(), Rule13.getInstance(), Rule14.getInstance(), Rule15.getInstance(),
                 Rule16.getInstance(), Rule17.getInstance(), Rule18.getInstance(), Rule19.getInstance(), Rule20.getInstance(),
                 Rule21.getInstance(), Rule22.getInstance(), Rule23.getInstance(), Rule24.getInstance(), Rule25.getInstance(),
@@ -98,7 +98,8 @@ export class Ruleset {
         return this.rules.some((rule) => rule.number >= num);
     }
 
-    async fulfillsAll36Rules() {
-        return this.includesRuleNum(36) && this.rules[this.rules.length-1].getClass().fulfilled && await this.checkAllRules();
+    getRule(num) {
+        return this.rules.find((rule) => rule.number === num);
     }
+
 }

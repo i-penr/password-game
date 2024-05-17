@@ -14,7 +14,7 @@ export class Rule11 extends GenericRule {
     static async getWordleAnswer() {
         const now = new Date();
 
-        await fetch(`http://localhost:3001/wordle?date=${now.toISOString().substring(0, now.toISOString().indexOf("T"))}`)
+        await fetch(`http://${process.env.REACT_APP_BACKEND_HOST}:${process.env.REACT_APP_BACKEND_PORT}/wordle?date=${now.toISOString().substring(0, now.toISOString().indexOf("T"))}`)
             .then(res => {
                 if (!res.ok) {
                     throw Error('could not fetch the data for that resource');

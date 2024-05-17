@@ -1,5 +1,5 @@
 import { GenericRule } from '../GenericRule';
-import { generateHighlightStringForRule31, getSpanListFromHtmlText } from '../functions';
+import { extractAndMergeTextWithFontSizes, generateHighlightString } from '../functions';
 
 export class Rule31 extends GenericRule {
     static instance = new Rule31();
@@ -15,17 +15,23 @@ export class Rule31 extends GenericRule {
     }
 
     getHighlightString() {
-        const htmlText = this.textController.getHtml();
-        const spans = getSpanListFromHtmlText(htmlText);
-        const sectionsBySize = groupSectionsBySize(spans);
-        const resultString = highlightStringBySections(sectionsBySize, htmlText);
+        const sectionsBySize = extractAndMergeTextWithFontSizes(this.textController.editor.getJSON());
+        let highlightedLetters = [];
 
-        return resultString;
+        Object.values(sectionsBySize).forEach((section) => {
+            highlightedLetters = highlightedLetters.concat(findRepeatedLetters(section.toLowerCase()));
+        });
+
+        highlightedLetters = highlightedLetters.filter((letter) => letter.match(/[a-z]/gi));
+
+        const highlightedString = generateHighlightString(this.textController.getHtml(), new RegExp(`${highlightedLetters.join('|')}`, 'gi'));
+
+        return highlightedString;
     }
 
     checkRule() {
-        const repeated = repeatedLettersHaveSameSize(this.textController.getHtml());
-
+        const repeated = repeatedLettersHaveSameSize(this.textController.editor.getJSON());
+        
         this.getClass().fulfilled = repeated;
     }
 }
@@ -36,60 +42,37 @@ export class Rule31 extends GenericRule {
  * represents the union of sections of the same size in the 
  * text.
  **/
-function repeatedLettersHaveSameSize(htmlText) {
-    const spans = getSpanListFromHtmlText(htmlText);
+function repeatedLettersHaveSameSize(json) {
+    const sectionsBySize = extractAndMergeTextWithFontSizes(json);
 
-    const sectionsBySize = groupSectionsBySize(spans);
 
     return Object.values(sectionsBySize).every((section) => {
-        return !hasRepeats(section);
+        const letters = section.match(/[a-z]/gi);
+
+        return !letters ? true : !hasRepeats(letters.join(''));
     });
 }
 
-function groupSectionsBySize(sections) {
-    const groupped = Object.groupBy(sections, ({ style }) => style.fontSize);
-
-    Object.keys(groupped).forEach((key) => {
-        groupped[key] = groupped[key].map((obj) => obj.innerText).join('');
-    });
-
-    return groupped;
-}
-
-function highlightStringBySections(group, htmlText) {
-    Object.keys(group).forEach((size) => {
-        const section = group[size];
-        let repeated = {};
-
-        for (const char of section) {
-            if (!/[a-z]/i.test(char)) continue;
-
-            if (Object.keys(repeated).includes(char)) {
-                repeated[char] += 1;
-            } else {
-                repeated[char] = 1;
-            }
+function findRepeatedLetters(inputString) {
+    const repeatedLetters = [];
+    const uniqueChars = new Set();
+  
+    // Iterate through each character in the string
+    for (let char of inputString) {
+      // If the character is already in the uniqueChars set, it's a repeat
+      if (uniqueChars.has(char)) {
+        // If the character is not already in the repeatedLetters array, add it
+        if (!repeatedLetters.includes(char)) {
+          repeatedLetters.push(char);
         }
-
-        repeated = removeNonRepeated(repeated);
-
-        Object.keys(repeated).forEach((letter) => {
-            htmlText = generateHighlightStringForRule31(htmlText, size, letter);
-        });
-    });
-
-    return htmlText; 
-}
-
-function removeNonRepeated(repeated) {
-    Object.keys(repeated).forEach((key) => {
-        if (repeated[key] === 1)
-            delete repeated[key];
-    });
-
-    return repeated;
-}
-
+      } else {
+        // If the character is not in the uniqueChars set, add it
+        uniqueChars.add(char);
+      }
+    }
+  
+    return repeatedLetters;
+  }
 function hasRepeats(str) {
     return /([a-z]).*\1/i.test(str);
 }

@@ -24,7 +24,7 @@ function GameZone() {
         displayedRules.sort();
         setHighlightString(displayedRules.rules[0].getHighlightString());
 
-        setIsPasswordFinal(await displayedRules.fulfillsAll36Rules());
+        setIsPasswordFinal(hiddenRules.rules.length === 0 && displayedRules.getRule(36)?.getClass().fulfilled === true);
     }
 
     async function recheckRules() {

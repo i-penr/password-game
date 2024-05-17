@@ -1,0 +1,19 @@
+version: '3'
+services:
+  front:
+    build: 
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - '8080:80'
+    depends_on:
+      - back-proxy
+
+  back-proxy:
+    build:
+      context: .
+      dockerfile: ./src/proxy/Dockerfile
+    volumes:
+      - './src/proxy:/usr/src/app'
+    ports:
+      - '3001:3001'

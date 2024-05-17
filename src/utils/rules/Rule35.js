@@ -19,6 +19,8 @@ export class Rule35 extends GenericRule {
         const hour12 = (hour24 ? hour24 : 12).toString().padStart(2, '0')
         const minute = date.getMinutes().toString().padStart(2, '0');
 
+        console.log(`${hour24}:${minute}`)
+
         this.getClass().fulfilled = this.textController.getClear().includes(`${hour12}:${minute}`);
     }
 }

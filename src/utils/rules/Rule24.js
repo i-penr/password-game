@@ -25,7 +25,7 @@ export class Rule24 extends GenericRule {
 
     async fetchVideoDuration(id) {
         try {
-            const res = await fetch(`http://localhost:3001/videoLength?vid=${id}`);
+            const res = await fetch(`http://${process.env.REACT_APP_BACKEND_HOST}:${process.env.REACT_APP_BACKEND_PORT}/videoLength?vid=${id}`);
             if (!res.ok) {
                 throw Error(res.statusText);
             }
@@ -37,7 +37,7 @@ export class Rule24 extends GenericRule {
     }
 
     async getEmbed(id) {
-        return await fetch('http://localhost:3001/videoEmbed?id=' + id)
+        return await fetch(`http://${process.env.REACT_APP_BACKEND_HOST}:${process.env.REACT_APP_BACKEND_PORT}/videoEmbed?id=${id}`)
             .then(res => {
                 if (!res.ok) {
                     throw Error('Could not fetch the data for that resource');

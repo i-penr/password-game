@@ -1,5 +1,5 @@
 import { GenericRule } from '../GenericRule';
-import { generateHighlightString, getSpanListFromHtmlText } from '../functions';
+import { extractAndMergeTextWithFontSizes } from '../functions';
 
 export class Rule30 extends GenericRule {
     static instance = new Rule30();
@@ -15,35 +15,38 @@ export class Rule30 extends GenericRule {
     }
 
     getHighlightString() {
-        const spans = getSpanListFromHtmlText(this.textController.getHtml());
-        let highlightString = '';
+        const regexSimpleMarkup = /(<[^>]+>)/g;
+        const markupSplit = this.textController.getHtml().split(regexSimpleMarkup).filter((elem) => elem.length > 0);
+        let resultText = "";
+        let currentFontSize = 28;
 
-        [...spans].forEach((section) => {
-            const targetNumber = Math.sqrt(parseInt(section.style.fontSize.replace('px', '')));
-            const highlight = targetNumber % 1 === 0 ? new RegExp(`[^${targetNumber}\\D]`, 'gi') : /\d/g;
-
-            highlightString += generateHighlightString(section.outerHTML, highlight);
+        markupSplit.forEach((part) => {
+            if ((part.startsWith("<") && part.endsWith(">"))) {
+                currentFontSize = /.*font-size.*/.test(part) ? parseInt(part.match(/font-size:\s*(\d+)px/i)[1]) : 28;
+                resultText += part;
+            } else {
+                const highlight = Math.sqrt(currentFontSize) % 1 === 0 ? new RegExp(`[^${Math.sqrt(currentFontSize)}\\D]`, 'gi') : /\d/g;
+                resultText += part.replace(highlight, '<span class="error-highlight">$&</span>');
+            }
         });
 
-        return highlightString;
+        return resultText;
     }
 
     checkRule() {
-        this.getClass().fulfilled = numbersHaveRightSize(this.textController.getHtml());
+        const numbersBySize = extractAndMergeTextWithFontSizes(this.textController.editor.getJSON());
+
+        this.getClass().fulfilled = checkSquareRoots(numbersBySize);
     }
 }
 
-function numbersHaveRightSize(text) {
-    const spans = getSpanListFromHtmlText(text);
-
-    return ![...spans].some((section) => {
-        return !numsInSegmentHaveSizeEqualToTheirSquares(section);
-    });
+function checkSquareRoots(textWithFontSizes) {
+    return Object.keys(textWithFontSizes).every((size) => {
+        return sizeIncludesTheRightNumbers(size, textWithFontSizes[size])
+    })
 }
+function sizeIncludesTheRightNumbers(size, numbers) {
+    const numsInSegment = numbers.match(/\d/g);
 
-function numsInSegmentHaveSizeEqualToTheirSquares(section) {
-    const currentFontSize = parseInt(section.style.fontSize.replace('px', ''));
-    const numsInSegment = section.innerText.match(/\d/g);
-
-    return numsInSegment === null || numsInSegment.every((num) => parseInt(num) === Math.sqrt(currentFontSize));
+    return numsInSegment === null || numsInSegment.every((num) => parseInt(num) === Math.sqrt(size));
 }

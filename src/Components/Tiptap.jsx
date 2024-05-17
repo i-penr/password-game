@@ -31,7 +31,7 @@ export default function Tiptap({ displayedRules, highlightString, isPasswordFina
                 onCreate({ editor }) {
                     editor.chain().focus().selectAll().setFontFamily('Monospace').setFontSize('28px').run();
                 },
-                onUpdate({ editor, transaction}) {
+                onUpdate({ editor, transaction }) {
                     if (transaction.meta.uiEvent === "paste") {
                         editor.chain().focus().setFontFamily('Monospace').setFontSize('28px').run();
                     }
