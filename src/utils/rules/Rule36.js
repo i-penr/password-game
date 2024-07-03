@@ -37,10 +37,4 @@ export class Rule36 extends GenericRule {
 
 function makePasswordFinal() {
     clearInterval(Rule23.feedingInterval);
-
-    const rules = new Ruleset();
-
-    rules.rules.forEach((rule) => { rule.getClass().fulfilled = true });
-
-    rules.rules[0].textController.textUpdateFunction();
 }
