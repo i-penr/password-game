@@ -15,7 +15,6 @@ export class Rule36 extends GenericRule {
         return Rule36;
     }
 
-
     handleYesPress() {
         Rule36.fulfilled = true;
         makePasswordFinal();
@@ -28,7 +27,7 @@ export class Rule36 extends GenericRule {
     render() {
         return (
             <div className="final-password">
-                <button onClick={this.handleYesPress}>Yes</button>
+                <button onClick={() => { this.handleYesPress() }}>Yes</button>
                 <button onClick={(e) => { e.target.style.display = "none" }}>No</button>
             </div>
         )
@@ -37,4 +36,10 @@ export class Rule36 extends GenericRule {
 
 function makePasswordFinal() {
     clearInterval(Rule23.feedingInterval);
+
+    const rules = new Ruleset();
+
+    rules.rules.forEach((rule) => { rule.getClass().fulfilled = true });
+
+    rules.rules[0].textController.textUpdateFunction();
 }
